@@ -1,0 +1,19 @@
+ <?php
+
+return [
+    'campus' => 'Campus',
+    'campus_name' => 'Campus Name',
+    'school_id' => 'School',
+    'address_id' => 'Address',
+    'is_default' => 'Default',
+    'is_active' => 'Active',
+    'default' => '1',
+    'notdefault' => '0',    
+    'active' => '1',
+    'notactive' => '0',
+    'create_campus'=>'Create New Campus',
+    'edit_campus'=>'Edit Campus',
+    'delete_campus'=>'Delete Campus',
+    'create_success'=>'You have successfully created new Campus',
+    'campus_list'=>'Campus List',
+ ]; 

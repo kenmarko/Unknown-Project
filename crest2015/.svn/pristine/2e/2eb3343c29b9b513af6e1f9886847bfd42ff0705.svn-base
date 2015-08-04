@@ -1,0 +1,258 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Instructor;
+use App\Models\Employee;
+use App\Models\Person;
+use App\Models\Prefix;
+use App\Models\Suffix;
+use App\Models\Religion;
+use App\Models\Citizenship;
+use App\Http\Requests\InstructorRequest;
+use App\Http\Requests\InstructorEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class InstructorController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Instructor::where('employee_id','LIKE','%$term%').orWhere('person_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Instructor::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('instructor.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        $prefix_list = Prefix::orderBy('prefix.prefix_name')->get();
+        $suffix_list = Suffix::orderBy('suffix.suffix_name')->get();
+        $religion_list = Religion::orderBy('religion.religion_name')->get();
+        $citizenship_list = Citizenship::orderBy('citizenship.id')->get();
+        // Show the page
+        $action = 0;
+        return view('instructor.create', compact('prefix_list','suffix_list','religion_list','citizenship_list','action'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(InstructorRequest $instructor_request) {
+
+        $person = New Person();
+        $count = Person::all()->count();
+        $person_id = Person::max('person.id');
+        if($count > 0)
+        {
+          $person_id = $person_id + 1;
+        }
+        else
+        {
+          $person_id = "1";
+        }
+        $person -> id = $person_id;
+        $person -> prefix_id = $instructor_request->prefix_id;
+        $person -> first_name = $instructor_request->first_name;
+        $person -> middle_name = $instructor_request->middle_name;
+        $person -> last_name = $instructor_request->last_name;
+        $person -> suffix_id = $instructor_request->suffix_id;
+        $person -> birthdate = $instructor_request->birthdate;
+        $person -> religion_id = $instructor_request->religion_id;
+        $person -> gender_id = $instructor_request->gender_id;
+        $person -> civil_status_id = $instructor_request->civil_status_id;
+        $person -> citizenship_id = $instructor_request->citizenship_id;
+        $person -> blood_type_id = $instructor_request->blood_type_id;
+        $person -> save();
+
+        $employee = New Employee();
+        $emp_count = Employee::all()->count();
+        $employee_id = Employee::max('employee.id');
+        if($emp_count > 0)
+        {
+          $employee_id = $employee_id + 1;
+        }
+        else
+        {
+          $employee_id = "1";
+        } 
+
+        $employee -> id = $employee_id;
+
+
+        $employee_no = Employee::max('employee.employee_no');
+        if($emp_count > 0)
+        {
+          $employee_no = $employee_no + 1;
+        }
+        else
+        {
+          $employee_no = "1";
+        }
+
+        $employee -> employee_no = $employee_no;
+        $employee -> person_id = $person->id;
+        $employee -> save();
+
+        $instructor = new Instructor();
+        $instructor -> employee_id = $employee->id;
+        $instructor -> person_id = $person->id;
+        $instructor -> is_active = $instructor_request->is_active;
+
+        // $instructor -> created_by_id = Auth::id();
+        $instructor -> save();
+
+        $success = \Lang::get('instructor.create_success').' : '.$person->first_name. " " .$person->middle_name. " " .$person->last_name ; 
+        return redirect('instructor/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $instructor = Instructor::find($id);
+        $prefix_list = Prefix::orderBy('prefix.prefix_name')->get();
+        $suffix_list = Suffix::orderBy('suffix.suffix_name')->get();
+        $religion_list = Religion::orderBy('religion.religion_name')->get();
+        $citizenship_list = Citizenship::orderBy('citizenship.id')->get();
+       //var_dump($its_customs_office);
+        $action = 1;
+        return view('instructor/edit',compact('instructor','prefix_list','suffix_list','religion_list','citizenship_list','action'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(InstructorEditRequest $instructor_edit_request, $id) {
+      
+        $instructor = Instructor::find($id);
+        $instructor -> employee_id = $instructor_edit_request->employee_id;
+        $instructor -> person_id = $instructor_edit_request->person_id;
+        $instructor -> user_id = $instructor_edit_request->user_id;
+        $instructor -> is_active = $instructor_edit_request->is_active;
+        // $instructor -> updated_by_id = Auth::id();
+        $instructor -> save();
+
+        return redirect('instructor');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $instructor = Instructor::find($id);
+        // Show the page
+        return view('instructor/delete', compact('instructor'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $instructor = Instructor::find($id);
+        $instructor->delete();
+        return redirect('instructor');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $instructor_list = Instructor::join('employee','instructor.employee_id','=','employee.id')
+              ->join('person','instructor.person_id','=','person.id')
+              ->select(array('instructor.id','employee.employee_no','person.first_name','person.last_name','instructor.is_active'))
+              ->orderBy('employee.employee_no', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($instructor_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'instructor/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'instructor/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('first_name','{{ ucwords(strtolower($first_name." ".$last_name)) }}')
+            ->remove_column('last_name')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Instructor::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

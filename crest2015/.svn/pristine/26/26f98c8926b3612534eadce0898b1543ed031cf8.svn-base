@@ -1,0 +1,22 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	
+	<div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_general_procedure.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('description') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="description">{!! Lang::get('its/its_general_procedure.description') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="description" id="description" value="{{{ Input::old('description', isset($its_general_procedure) ? $its_general_procedure->description : null) }}}" />
+			{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

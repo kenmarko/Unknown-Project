@@ -1,0 +1,50 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("semester_level.semester_level")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h3> <?php echo e(Lang::get("semester_level.semester_level")); ?>
+
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="<?php echo e(URL::to('semester_level')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get("semester_level.semester_level_list")); ?></a>
+	        </div>
+		</div>
+	</h3>
+</div>
+
+<form class="form-horizontal" method="post" action="<?php echo e(URL::to('semester_level/create')); ?>" autocomplete="off">
+	<?php echo $__env->make('semester_level.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> <?php echo e(Lang::get("form.create")); ?>
+
+	            </button>	
+	            <button type="reset" class="btn btn-sm btn-default">
+	                <span class="glyphicon glyphicon-remove-circle"></span>  <?php echo e(Lang::get("form.reset")); ?>
+
+	            </button>	
+	 			<a href="<?php echo e(URL::to('semester_level')); ?>" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  <?php echo e(Lang::get("form.cancel")); ?>
+
+	       		</a>
+	        </div>
+	    </div>
+	</div>	
+</form>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+	$(function() {
+		$("#permission").select2()
+	});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

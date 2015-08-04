@@ -1,0 +1,177 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsAdditionalCode;
+use App\Http\Requests\Its\ItsAdditionalCodeRequest;
+use App\Http\Requests\Its\ItsAdditionalCodeEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ItsAdditionalCodeController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsAdditionalCode::where('code','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsAdditionalCode::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('its.its_additional_code.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_additional_code.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsAdditionalCodeRequest $its_additional_code_request) {
+
+        $its_additional_code = new ItsAdditionalCode();
+        $its_additional_code -> code = $its_additional_code_request->code;
+        $its_additional_code -> name = $its_additional_code_request->name;
+        $its_additional_code -> created_by_id = Auth::id();
+        $its_additional_code -> save();
+
+        $success = \Lang::get('its/its_additional_code.create_success').' : '.$its_additional_code->name ; 
+        return redirect('its/its_additional_code/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_additional_code = ItsAdditionalCode::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_additional_code/edit',compact('its_additional_code'));
+      
+    }
+
+  
+
+    /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsAdditionalCodeEditRequest $its_additional_code_edit_request, $id) 
+    {
+      
+        $its_additional_code = ItsAdditionalCode::find($id);
+        $its_additional_code -> code = $its_additional_code_edit_request->code;
+        $its_additional_code -> name = $its_additional_code_edit_request->name;
+        $its_additional_code -> updated_by_id = Auth::id();
+        $its_additional_code -> save();
+
+
+        return redirect('its/its_additional_code');
+    }
+
+  
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+
+    public function getDelete($id)
+     {
+        $its_additional_code = ItsAdditionalCode::find($id);
+        // Show the page
+        return view('its/its_additional_code/delete', compact('its_additional_code'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_additional_code = ItsAdditionalCode::find($id);
+        $its_additional_code->delete();
+        return redirect('its/its_additional_code');
+    }
+ /**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $its_additional_code_list = ItsAdditionalCode::select(array('its_additional_code.id','its_additional_code.code','its_additional_code.name'))
+              ->orderBy('its_additional_code.name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($its_additional_code_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'its/its_additional_code/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'its/its_additional_code/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsAdditionalCode::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

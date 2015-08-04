@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'deportment' => 'Deportment',
+    'deportment_name' => 'Deportment Name',
+    'is_active' => 'Active',
+    'pdg_sub_category_id' => 'PDG Sub-Category',
+    'create_deportment'=>'Create New Deportment',
+    'edit_deportment'=>'Edit Deportment',
+    'delete_deportment'=>'Delete Deportment',
+    'create_success'=>'You have successfully created new Deportment',
+    'deportment_list'=>'Deportment List',
+ ]; 

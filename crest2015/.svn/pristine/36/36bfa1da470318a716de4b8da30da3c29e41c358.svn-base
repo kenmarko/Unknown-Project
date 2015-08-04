@@ -1,0 +1,203 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Training;
+use App\Http\Requests\TrainingRequest;
+use App\Http\Requests\TrainingEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+use Carbon\Carbon;
+class TrainingController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Training::where('course_id','LIKE','%$term%').orWhere('batch_id','LIKE','%$term%').orWhere('instructor_id','LIKE','%$term%').orWhere('assessor_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Training::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('training.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('training.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TrainingRequest $training_request) {
+
+    }
+
+    public function postCreateJson(TrainingRequest $training_request) {
+
+       $training = Training::where('date_from', '<=', $training_request-> date_from)->where('date_to','>=',$training_request-> date_to)
+                        ->where('course_id','=',$training_request -> course_id)->orderBy('date_from','ASC')->get()->last();
+
+      if($training == NULL)
+      {
+             
+
+              $training = new Training();
+              $training -> course_id = $training_request -> course_id;
+              $training -> date_from = $training_request -> date_from;
+
+              $date = Carbon::parse($training->date_from);
+              $week = $date->weekOfMonth;
+              $year = $date->weekOfMonth;
+
+              $training -> batch_no = $week;
+              $training -> date_to = $training_request -> date_to;
+              $training -> save();
+
+              // $success = \Lang::get('training.create_success').' : '.$training->training_name ;
+      }
+     
+        return response()->json($training);
+
+         
+        // return redirect('training/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $training = Training::find($id);
+       //var_dump($its_customs_office);
+        return view('training/edit',compact('training'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TrainingEditRequest $training_edit_request, $id) {
+      
+        $training = Training::find($id);
+        $training -> course_id = $training_edit_request->course_id;
+        $training -> batch_id = $training_edit_request->batch_id;
+        $training -> instructor_id = $training_edit_request->instructor_id;
+        $training -> assessor_id = $training_edit_request->assessor_id;
+        $training -> capacity = $training_edit_request->capacity;
+        $training -> date_from = $training_edit_request->date_from;
+        $training -> date_to = $training_edit_request->date_to;
+        $training -> training_fee = $training_edit_request->training_fee;
+        $training -> is_active = $training_edit_request->is_active;
+        // $training -> updated_by_id = Auth::id();
+        $training -> save();
+
+        return redirect('training');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $training = Training::find($id);
+        // Show the page
+        return view('training/delete', compact('training'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $training = Training::find($id);
+        $training->delete();
+        return redirect('training');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $training_list = Training::select(array('training.id','training.course_id','training.batch_id','training.instructor_id','training.assessor_id','training.capacity','training.date_from','training.date_to','training.training_fee','training.is_active'))
+              ->orderBy('training.course_id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($training_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'training/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'training/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Training::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

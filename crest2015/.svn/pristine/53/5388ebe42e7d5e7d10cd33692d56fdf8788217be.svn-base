@@ -1,0 +1,97 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('program_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="program_id">{!! Lang::get('program_group.program_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="program_id" id="program_id" tabindex="4">
+			@if($action==1)
+				@foreach($program_list as $program)
+					@if($program_group->program_id == $program->id)
+					<option name="program_id" value="{{{ $program->id }}}" selected>{{{ $program->program_name  }}}</option>
+					@else
+					<option name="program_id" value="{{{ $program->id }}}" >{{{ $program->program_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($program_list as $program)
+					<option name="program_id" value="{{{ $program->id }}}" >{{{ $program->program_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('program_id', '<label class="control-label" for="program_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_level_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_level_id">{!! Lang::get('program_group.classification_level_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="classification_level_id" id="classification_level_id" tabindex="4">
+			@if($action==1)
+				@foreach($classification_level_list as $classification_level)
+					@if($classification_level_group->classification_level_id == $classification_level->id)
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" selected>{{{ $classification_level->classification_level_name  }}}</option>
+					@else
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" >{{{ $classification_level->classification_level_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($classification_level_list as $classification_level)
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" >{{{ $classification_level->classification_level_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('classification_level_id', '<label class="control-label" for="classification_level_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('semester_level_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="semester_level_id">{!! Lang::get('program_group.semester_level_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="semester_level_id" id="semester_level_id" tabindex="4">
+			@if($action==1)
+				@foreach($semester_level_list as $semester_level)
+					@if($semester_level_group->semester_level_id == $semester_level->id)
+					<option name="semester_level_id" value="{{{ $semester_level->id }}}" selected>{{{ $semester_level->semester_level_name  }}}</option>
+					@else
+					<option name="semester_level_id" value="{{{ $semester_level->id }}}" >{{{ $semester_level->semester_level_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($semester_level_list as $semester_level)
+					<option name="semester_level_id" value="{{{ $semester_level->id }}}" >{{{ $semester_level->semester_level_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('semester_level_id', '<label class="control-label" for="semester_level_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_id">{!! Lang::get('program_group.term_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="term_id" id="term_id" tabindex="4">
+			@if($action==1)
+				@foreach($term_list as $term)
+					@if($term_group->term_id == $term->id)
+					<option name="term_id" value="{{{ $term->id }}}" selected>{{{ $term->term_name  }}}</option>
+					@else
+					<option name="term_id" value="{{{ $term->id }}}" >{{{ $term->term_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($term_list as $term)
+					<option name="term_id" value="{{{ $term->id }}}" >{{{ $term->term_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('term_id', '<label class="control-label" for="term_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

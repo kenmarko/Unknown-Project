@@ -1,0 +1,11 @@
+ <?php
+
+return [
+    'tax_status_code' => 'Tax Status Code',
+    'tax_status_code_name' => 'Tax Status Code Name',
+    'create_tax_status_code'=>'Create New Tax Status Code',
+    'edit_tax_status_code'=>'Edit Tax Status Code',
+    'delete_tax_status_code'=>'Delete Tax Status Code',
+    'create_success'=>'You have successfully created new Tax Status Code',
+    'tax_status_code_list'=>'Tax Status Code List',
+ ]; 

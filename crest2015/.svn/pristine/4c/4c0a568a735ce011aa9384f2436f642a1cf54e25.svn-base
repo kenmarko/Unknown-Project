@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'enrollment_remark' => 'Enrollment Remark',
+    'enrollment_remark_name' => 'Enrollment Remark Name',
+    'is_default' => 'Default',
+    'create_enrollment_remark'=>'Create New Enrollment Remark',
+    'edit_enrollment_remark'=>'Edit Enrollment Remark',
+    'delete_enrollment_remark'=>'Delete Enrollment Remark',
+    'create_success'=>'You have successfully created a new Enrollment Remark',
+    'enrollment_remark_list'=>'Enrollment Remark List',
+ ];

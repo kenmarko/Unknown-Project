@@ -1,0 +1,105 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('semester_level_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="semester_level_no">{!! Lang::get('semester_level.semester_level_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="semester_level_no" id="semester_level_no" value="{{{ Input::old('semester_level_no', isset($semester_level) ? $semester_level->semester_level_no : null) }}}" />
+			{!! $errors->first('semester_level_no', '<label class="control-label" for="semester_level_no">:message</label>')!!}
+
+		</div>
+	</div>
+	
+	<div class="form-group {{{ $errors->has('semester_level_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="semester_level_name">{!! Lang::get('semester_level.semester_level_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="semester_level_name" id="semester_level_name" value="{{{ Input::old('semester_level_name', isset($semester_level) ? $semester_level->semester_level_name : null) }}}" />
+			{!! $errors->first('semester_level_name', '<label class="control-label" for="semester_level_name">:message</label>')!!}
+
+		</div>
+	</div>
+
+	<div class="form-group {{{ $errors->has('classification_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_id">{!! Lang::get('semester_level.classification_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="classification_id" id="classification_id" tabindex="4">
+			@if($action==1)
+				@foreach($classification_list as $classification)
+					@if($semester_level->classification_id == $classification->id)
+					<option name="classification_id" value="{{{ $classification->id }}}" selected>{{{ $classification->classification_name  }}}</option>
+					@else
+					<option name="classification_id" value="{{{ $classification->id }}}" >{{{ $classification->classification_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($classification_list as $classification)
+					<option name="classification_id" value="{{{ $classification->id }}}" >{{{ $classification->classification_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('classification_id', '<label class="control-label" for="classification_id">:message</label>')!!}
+
+		</div>
+	</div>
+
+	<div class="form-group {{{ $errors->has('classification_level_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_level_id">{!! Lang::get('semester_level.classification_level_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="classification_level_id" id="classification_level_id" tabindex="4">
+			@if($action==1)
+				@foreach($classification_level_list as $classification_level)
+					@if($semester_level->classification_level_id == $classification_level->id)
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" selected>{{{ $classification_level->classification_level_name  }}}</option>
+					@else
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" >{{{ $classification_level->classification_level_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($classification_level_list as $classification_level)
+					<option name="classification_level_id" value="{{{ $classification_level->id }}}" >{{{ $classification_level->classification_level_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('classification_level_id', '<label class="control-label" for="classification_level_id">:message</label>')!!}
+
+
+		</div>
+	</div>
+
+</div>
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#classification_id").change(function(){
+
+			 // $.ajax({
+			 //        url: '/program/dataJson',
+			 //        data: { 'is_active':1 , 'classification_id': $(this).val() },
+			 //        type: "GET", dataType: "json",async:false,
+			 //        success: function (data) {
+			 //         		$("#program_id").empty();
+			 //                $.map(data, function (item) {
+			 //                        $("#program_id").append($("<option/>").val(item.value).text(item.text));
+			                    
+			 //                });
+			 //            }
+			       
+			 //    });	
+
+			selectListChange('classification_level_id','/classification_level/dataJson',  {'classification_id': $(this).val() } ,'Please select a Classification Level')
+			
+
+		});
+	});
+</script>
+
+<script tpye = "text/javascript">
+$(document).ready(function(){
+	$("#semester_level_no").numericOnly();
+
+});
+</script>
+
+@stop
+

@@ -1,0 +1,13 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('credential_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="credential_name">{!! Lang::get('credential.credential_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="credential_name" id="credential_name" value="{{{ Input::old('credential_name', isset($credential) ? $credential->credential_name : null) }}}" />
+			{!! $errors->first('credential_name', '<label class="control-label" for="credential_name">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

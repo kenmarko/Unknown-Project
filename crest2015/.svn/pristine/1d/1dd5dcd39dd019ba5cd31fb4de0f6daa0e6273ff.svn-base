@@ -1,0 +1,37 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('student_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="student_id">{!! Lang::get('student_curriculum.student_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="student_id" id="student_id" value="{{{ Input::old('student_id', isset($student_curriculum) ? $student_curriculum->student_id : null) }}}" />
+			{!! $errors->first('student_id', '<label class="control-label" for="student_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('curriculum_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="curriculum_id">{!! Lang::get('student_curriculum.curriculum_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="curriculum_id" id="curriculum_id" value="{{{ Input::old('curriculum_id', isset($student_curriculum) ? $student_curriculum->curriculum_id : null) }}}" />
+			{!! $errors->first('curriculum_id', '<label class="control-label" for="curriculum_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('date_assigned') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="date_assigned">{!! Lang::get('student_curriculum.date_assigned') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date_assigned" id="date_assigned" value="{{{ Input::old('date_assigned', isset($student_curriculum) ? $student_curriculum->date_assigned : null) }}}" />
+			{!! $errors->first('date_assigned', '<label class="control-label" for="date_assigned">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('student_curriculum.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($student_curriculum) ? $student_curriculum->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

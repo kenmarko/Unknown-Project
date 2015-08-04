@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'country' => 'Country',
+    'country_code' => 'Code',
+    'country_name' => 'Name',
+    'country_is_default' => 'Default',
+    'create_country'=>'Create New Country',
+    'edit_country'=>'Edit Country',
+    'delete_country'=>'Delete Country',
+    'create_success'=>'You have successfully created new Country',
+    'country_list'=>'Country List',
+ ]; 

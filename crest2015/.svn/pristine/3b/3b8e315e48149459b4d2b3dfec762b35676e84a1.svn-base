@@ -1,0 +1,37 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('admin_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="admin_id">{!! Lang::get('admin_office.admin_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="admin_id" id="admin_id" value="{{{ Input::old('admin_id', isset($admin_office) ? $admin_office->admin_id : null) }}}" />
+			{!! $errors->first('admin_id', '<label class="control-label" for="admin_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('office_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="office_id">{!! Lang::get('admin_office.office_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="office_id" id="office_id" value="{{{ Input::old('office_id', isset($admin_office) ? $admin_office->office_id : null) }}}" />
+			{!! $errors->first('office_id', '<label class="control-label" for="office_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('admin_office.is_active') !!}</label>
+		<div class="col-md-10">
+			<!-- {{ $default = Input::old('is_active', isset($admin_office) ? $admin_office->is_active : null) }} -->
+			@if ($default == '1')
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" checked />
+			@elseif ($default == '0')
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1"/>
+			@else
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked/>
+			@endif
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+	
+</div>
+
+

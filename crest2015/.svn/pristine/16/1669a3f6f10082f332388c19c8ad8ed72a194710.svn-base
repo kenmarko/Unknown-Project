@@ -1,0 +1,183 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Country;
+use App\Http\Requests\CountryRequest;
+use App\Http\Requests\CountryEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class CountryController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Country::where('country_code','LIKE','%$term%').orWhere('country_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Country::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('country.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('country.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(CountryRequest $country_request) {
+
+        $country = new Country();
+        $country -> country_name = $country_request->country_name;
+        $country -> country_code = $country_request->country_code;
+        $country -> is_default = $country_request->is_default;
+        // $country -> created_by_id = Auth::id();
+        $country -> save();
+
+        $success = \Lang::get('country.create_success').' : '.$country->country_name ; 
+        return redirect('country/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $country = Country::find($id);
+       //var_dump($its_customs_office);
+        return view('country/edit',compact('country'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(CountryEditRequest $country_edit_request, $id) {
+      
+        $country = Country::find($id);
+        $country -> country_name = $country_edit_request->country_name;
+        $country -> country_code = $country_edit_request->country_code;
+        $country -> is_default = $country_edit_request->is_default;
+        // $country -> updated_by_id = Auth::id();
+        $country -> save();
+
+        return redirect('country');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $country = Country::find($id);
+        // Show the page
+        return view('country/delete', compact('country'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $country = Country::find($id);
+        $country->delete();
+        return redirect('country');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $country_list = Country::select(array('country.id','country.country_name','country.country_code','country.is_default'))
+              ->orderBy('country.id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($country_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'country/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'country/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('is_default','@if($is_default == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Country::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

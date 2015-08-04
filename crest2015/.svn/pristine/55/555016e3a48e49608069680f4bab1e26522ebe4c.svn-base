@@ -1,0 +1,178 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Assessor;
+use App\Http\Requests\AssessorRequest;
+use App\Http\Requests\AssessorEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class AssessorController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Assessor::where('employee_id','LIKE','%$term%').orWhere('person_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Assessor::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('assessor.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('assessor.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(AssessorRequest $assessor_request) {
+
+        $assessor = new Assessor();
+        $assessor -> employee_id = $assessor_request->employee_id;
+        $assessor -> person_id = $assessor_request->person_id;
+        $assessor -> user_id = $assessor_request->user_id;
+        $assessor -> is_active = $assessor_request->is_active;
+        // $assessor -> created_by_id = Auth::id();
+        $assessor -> save();
+
+        $success = \Lang::get('assessor.create_success').' : '.$assessor->assessor_name ; 
+        return redirect('assessor/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $assessor = Assessor::find($id);
+       //var_dump($its_customs_office);
+        return view('assessor/edit',compact('assessor'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(AssessorEditRequest $assessor_edit_request, $id) {
+      
+        $assessor = Assessor::find($id);
+        $assessor -> employee_id = $assessor_edit_request->employee_id;
+        $assessor -> person_id = $assessor_edit_request->person_id;
+        $assessor -> user_id = $assessor_edit_request->user_id;
+        $assessor -> is_active = $assessor_edit_request->is_active;
+        // $assessor -> updated_by_id = Auth::id();
+        $assessor -> save();
+
+        return redirect('assessor');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $assessor = Assessor::find($id);
+        // Show the page
+        return view('assessor/delete', compact('assessor'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $assessor = Assessor::find($id);
+        $assessor->delete();
+        return redirect('assessor');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $assessor_list = Assessor::select(array('assessor.id','assessor.employee_id','assessor.person_id','assessor.user_id','assessor.is_active'))
+              ->orderBy('assessor.person_id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($assessor_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'assessor/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'assessor/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Assessor::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

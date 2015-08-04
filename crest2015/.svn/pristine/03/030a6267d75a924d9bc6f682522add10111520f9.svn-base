@@ -1,0 +1,217 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Payment;
+use App\Models\Trainee;
+use App\Models\Person;
+use App\Models\PaymentType;
+use App\Models\PaymentMode;
+use App\Models\PaymentStatus;
+use App\Http\Requests\PaymentRequest;
+use App\Http\Requests\PaymentEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class PaymentController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Payment::where('payment_no','LIKE','%$term%').orWhere('payment_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Payment::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('payment.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+       
+        $trainee_list = Trainee::all();
+        $person_list = Person::all();
+        $payment_type_list = PaymentType::orderBy('payment_type.payment_type_name', 'ASC')->get();
+        $payment_mode_list = PaymentMode::orderBy('payment_mode.payment_mode_name', 'ASC')->get();
+        $payment_status_list = PaymentStatus::orderBy('payment_status.payment_status_name', 'ASC')->get();
+        $action = 0;
+        // Show the page
+        return view('payment.create', compact('trainee_list','person_list','action','payment_type_list','payment_mode_list','payment_status_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(PaymentRequest $payment_request) {
+
+        $payment = new Payment();
+        $payment -> trainee_id = $payment_request->trainee_id;
+        $payment -> receipt_no = $payment_request->receipt_no;       
+        $payment -> amount = $payment_request->amount;
+        $payment -> payment_description = $payment_request->payment_description;
+        $payment -> balance = $payment_request->balance;
+        $payment -> payment_mode_id = $payment_request->payment_mode_id;
+        $payment -> payment_type_id = $payment_request->payment_type_id;
+        $payment -> change = $payment_request->change;
+        $payment -> payment_status_id = $payment_request->payment_status_id;        
+        // $payment -> admin_id = $payment_request->admin_id;
+        $payment -> admin_id = 5;
+        // $payment -> created_by_id = Auth::id();
+        $payment -> save();
+
+        $success = \Lang::get('payment.create_success').' : for'.$payment->trainee_id ; 
+        return redirect('payment/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $payment = Payment::find($id);
+        $trainee = Trainee::find($payment->trainee_id);
+        $person = Person::find($trainee->person_id);
+        $payment_type_list = PaymentType::orderBy('payment_type.payment_type_name', 'ASC')->get();
+        $payment_mode_list = PaymentMode::orderBy('payment_mode.payment_mode_name', 'ASC')->get();
+        $payment_status_list = PaymentStatus::orderBy('payment_status.payment_status_name', 'ASC')->get();
+        $action = 1;
+       //var_dump($its_customs_office);
+        return view('payment/edit',compact('payment','person','trainee','action','payment_mode_list','payment_type_list','payment_status_list'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(PaymentEditRequest $payment_edit_request, $id) {
+      
+        $payment = Payment::find($id);
+        $payment -> trainee_id = $payment_edit_request->trainee_id;
+        $payment -> receipt_no = $payment_edit_request->receipt_no;        
+        // $payment -> admin_id = $payment_edit_request->admin_id;
+        $payment -> admin_id = 5;
+        $payment -> amount = $payment_edit_request->amount;
+        $payment -> payment_status_id = $payment_edit_request->payment_status_id;
+        $payment -> payment_mode_id = $payment_edit_request->payment_mode_id;
+        $payment -> payment_type_id = $payment_edit_request->payment_type_id;
+        $payment -> payment_description = $payment_edit_request->description;
+        $payment -> change = $payment_edit_request->change;
+        $payment -> balance = $payment_edit_request->balance;
+        // $payment -> updated_by_id = Auth::id();
+        $payment -> save();
+
+        return redirect('payment');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $payment = Payment::find($id);
+        // Show the page
+        return view('payment/delete', compact('payment'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $payment = Payment::find($id);
+        $payment->delete();
+        return redirect('payment');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $payment_list = Payment::join('trainee','payment.trainee_id','=','trainee.id')
+              ->join('person','trainee.person_id','=','person.id')
+              ->join('suffix','person.suffix_id','=','suffix.id')
+              ->join('admin','payment.admin_id','=','admin.id')
+              ->join('user','admin.user_id','=','user.id')
+              ->join('payment_status','payment.payment_status_id','=','payment_status.id')
+              ->join('payment_mode','payment.payment_mode_id','=','payment_mode.id')
+              ->join('payment_type','payment.payment_type_id','=','payment_type.id')
+              ->select(array('payment.id','payment.created_at','trainee.trainee_no','person.first_name','person.middle_name','person.last_name','suffix.suffix_name','payment.receipt_no','user.user_name','payment.amount','payment.change','payment_status.payment_status_name','payment.payment_description','payment_mode.payment_mode_name','payment_type.payment_type_name','payment.void_by_id','payment.void_remark_id','payment.date_time_void'));
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($payment_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'payment/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'payment/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->editColumn('first_name','{{ ucwords(strtolower($first_name." ".$middle_name." ".$last_name." ".$suffix_name)) }}')
+            ->remove_column('id')
+            ->make(true);
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Payment::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

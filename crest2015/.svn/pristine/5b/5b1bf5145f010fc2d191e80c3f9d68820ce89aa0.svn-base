@@ -1,0 +1,215 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Term;
+use App\Models\Classification;
+use App\Models\TermType;
+use App\Http\Requests\TermRequest;
+use App\Http\Requests\TermEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class TermController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Term::where('term_no','LIKE','%$term%').orWhere('term_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $condition = \Input::all();
+      $query = Term::orderBy('term.academic_year_from','term.academic_year_to','DESC');
+      foreach($condition as $column => $value)
+      {
+        $query->where($column, '=', $value);
+      }
+      $term =$query->select(['id as value', 'term_name as text'])->get();
+
+      return response()->json($term);
+    }
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('term.index');
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        // classification_list as variable to query classification_name from classification table
+        $classification_list = Classification::orderBy('classification.classification_name')->get();
+        // term_type_list as variable to query term_type_name from term_type table
+        $term_type_list = TermType::orderBy('term_type.term_type_name')->get();
+        // Show the page
+        $action = 0;
+        return view('term.create', compact('classification_list','term_type_list','action'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TermRequest $term_request) {
+
+        $term = new Term();
+        $term -> academic_year_from = $term_request->academic_year_from;
+        $term -> academic_year_to = $term_request->academic_year_to;
+        $term -> term_type_id = $term_request->term_type_id;
+        $term_no = date("Y", strtotime($term->academic_year_from)).date("Y", strtotime($term->academic_year_to)).$term ->term_type_id;
+        $term -> term_no = $term_no;
+        $term -> term_name = $term_request->term_name;
+        $term -> classification_id = $term_request->classification_id;
+        $term -> is_active = $term_request->is_active;
+        $term -> save();
+
+        $success = \Lang::get('term.create_success').' : '.$term->term_name ; 
+        return redirect('term/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $term = Term::find($id);
+        // classification_list as variable to query classification_name from classification table
+        $classification_list = Classification::orderBy('classification.classification_name')->get();
+        // term_type_list as variable to query term_type_name from term_type table
+        $term_type_list = TermType::orderBy('term_type.term_type_name')->get();
+        //var_dump($its_customs_office);
+        $action = 1;
+        return view('term/edit',compact('term','classification_list','term_type_list','action'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TermEditRequest $term_edit_request, $id) {
+      
+        $term = Term::find($id);
+        $term -> term_no = $term_edit_request->term_no;
+        $term -> term_name = $term_edit_request->term_name;
+        $term -> academic_year_from = $term_edit_request->academic_year_from;
+        $term -> academic_year_to = $term_edit_request->academic_year_to;
+        $term -> classification_id = $term_edit_request->classification_id;
+        $term -> term_type_id = $term_edit_request->term_type_id;
+        $term -> is_active = $term_edit_request->is_active;
+        // $term -> updated_by_id = Auth::id();
+        $term -> save();
+
+        return redirect('term');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $term = Term::find($id);
+        // classification_list as variable to query classification_name from classification table
+        $classification_list = Classification::orderBy('classification.classification_name')->get();
+        // term_type_list as variable to query term_type_name from term_type table
+        $term_type_list = TermType::orderBy('term_type.term_type_name')->get();
+        // Show the page
+        $action = 1;
+        return view('term/delete', compact('term','classification_list','term_type_list','action'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $term = Term::find($id);
+        $term->delete();
+        return redirect('term');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+           $term_list = Term::join('classification','term.classification_id','=','classification.id')
+              ->join('term_type','term.term_type_id','=','term_type.id')
+              ->select(array('term.id','term.term_no','term.term_name','term.academic_year_from' ,'term.academic_year_to','classification.classification_name','term_type.term_type_name','term.is_active'))
+              ->orderBy('term.term_no', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($term_list)
+            ->addColumn('actions', '<a href="{{{ URL::to(\'term/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'term/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->removeColumn('id')
+            ->editColumn('academic_year_from', '{{date("M d,Y", strtotime($academic_year_from)) }} ' )
+            ->editColumn('academic_year_to', '{{date("M d,Y", strtotime($academic_year_to)) }} ' )
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Term::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

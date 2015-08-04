@@ -1,0 +1,43 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("site.gakkou_dash")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+  <h2><?php echo e(Lang::get("site.dashboard")); ?></h2>
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <i class="glyphicon glyphicon-user fa-5x"></i>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <div class="huge"><?php echo e($term_count); ?></div>
+                        <div><?php echo e(Lang::get("term.term_dash")); ?>!</div>
+                    </div>
+                </div>
+            </div>
+            <a href="<?php echo e(URL::to('term')); ?>">
+                <div class="panel-footer">
+                    <span class="pull-left"><?php echo e(Lang::get("term.view_detail")); ?></span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+  
+
+    
+   
+
+</div>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

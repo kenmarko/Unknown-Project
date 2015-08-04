@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('enrollment_remark_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="enrollment_remark_name">{!! Lang::get('enrollment_remark.enrollment_remark_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="enrollment_remark_name" id="enrollment_remark_name" value="{{{ Input::old('enrollment_remark_name', isset($enrollment_remark) ? $enrollment_remark->enrollment_remark_name : null) }}}" />
+			{!! $errors->first('enrollment_remark_name', '<label class="control-label" for="enrollment_remark_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_default') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_default">{!! Lang::get('enrollment_remark.is_default') !!}</label>
+		<div class="col-md-10" style="padding-top:7px;">
+			<!-- {{ $default = Input::old('is_default', isset($enrollment_remark) ? $enrollment_remark->is_default : null) }} -->
+			@if ($default == '1')
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data"  value="1" checked />
+			@elseif ($default == '0')
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data" value="1"/>
+			@else
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data" value="1" checked/>
+			@endif
+			{!! $errors->first('is_default', '<label class="control-label" for="is_default">:message</label>')!!}
+
+		</div>
+
+ 	 </div>
+</div>
+
+

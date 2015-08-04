@@ -1,0 +1,12 @@
+<?php
+
+return [
+	'dashboard' => 'Information Dashboard',
+	'enrollment' => 'Enrollment',
+	'trainee' => 'Trainee',
+	'make_up' => 'Make-Up',
+	'reschedule' => 'Reschedule',
+	'view_details' => 'View Details',
+	
+
+];

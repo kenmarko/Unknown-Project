@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'curriculum_course_category' => 'Curriculum Course Category',
+    'program_id' => 'Program',
+    'curriculum_course_category_name' => 'Curriculum Course Category Name',
+    'create_curriculum_course_category'=>'Create New Curriculum Course Category',
+    'edit_curriculum_course_category'=>'Edit Curriculum Course Category',
+    'delete_curriculum_course_category'=>'Delete Curriculum Course Category',
+    'create_success'=>'You have successfully created new Curriculum Course Category',
+    'curriculum_course_category_list'=>'Curriculum Course Category List',
+ ]; 

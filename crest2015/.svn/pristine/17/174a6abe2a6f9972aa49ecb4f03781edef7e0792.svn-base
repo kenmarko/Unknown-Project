@@ -1,0 +1,41 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('class_component_category_name') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="class_component_category_name"><?php echo Lang::get('class_component_category.class_component_category_name'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="class_component_category_name" id="class_component_category_name" value="<?php echo e(Input::old('class_component_category_name', isset($class_component_category) ? $class_component_category->class_component_category_name : null)); ?>" />
+			<?php echo $errors->first('class_component_category_name', '<label class="control-label" for="class_component_category_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('class_component_category_code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="class_component_category_code"><?php echo Lang::get('class_component_category.class_component_category_code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="class_component_category_code" id="class_component_category_code" value="<?php echo e(Input::old('class_component_category_code', isset($class_component_category) ? $class_component_category->class_component_category_code : null)); ?>" />
+			<?php echo $errors->first('class_component_category_code', '<label class="control-label" for="class_component_category_code">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('education_category_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="education_category_id"><?php echo Lang::get('class_component_category.education_category_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="education_category_id" id="education_category_id" value="<?php echo e(Input::old('education_category_id', isset($class_component_category) ? $class_component_category->education_category_id : null)); ?>" />
+			<?php echo $errors->first('education_category_id', '<label class="control-label" for="education_category_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_active') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_active"><?php echo Lang::get('class_component_category.is_active'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="<?php echo e(Input::old('is_active', isset($class_component_category) ? $class_component_category->is_active : null)); ?>" />
+			<?php echo $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

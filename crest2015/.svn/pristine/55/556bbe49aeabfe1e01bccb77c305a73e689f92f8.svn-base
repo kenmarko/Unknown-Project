@@ -1,0 +1,45 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('tuition_fee_amount') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="tuition_fee_amount">{!! Lang::get('tuition_fee.tuition_fee_amount') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="tuition_fee_amount" id="tuition_fee_amount" value="{{{ Input::old('tuition_fee_amount', isset($tuition_fee) ? $tuition_fee->tuition_fee_amount : null) }}}" />
+			{!! $errors->first('tuition_fee_amount', '<label class="control-label" for="tuition_fee_amount">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_id">{!! Lang::get('tuition_fee.classification_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_id" id="classification_id" value="{{{ Input::old('classification_id', isset($tuition_fee) ? $tuition_fee->classification_id : null) }}}" />
+			{!! $errors->first('classification_id', '<label class="control-label" for="classification_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_id">{!! Lang::get('tuition_fee.term_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="term_id" id="term_id" value="{{{ Input::old('term_id', isset($tuition_fee) ? $tuition_fee->term_id : null) }}}" />
+			{!! $errors->first('term_id', '<label class="control-label" for="term_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('date') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="date">{!! Lang::get('tuition_fee.date') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date" id="date" value="{{{ Input::old('date', isset($tuition_fee) ? $tuition_fee->date : null) }}}" />
+			{!! $errors->first('date', '<label class="control-label" for="date">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('admin_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="admin_id">{!! Lang::get('tuition_fee.admin_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="admin_id" id="admin_id" value="{{{ Input::old('admin_id', isset($tuition_fee) ? $tuition_fee->admin_id : null) }}}" />
+			{!! $errors->first('admin_id', '<label class="control-label" for="admin_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

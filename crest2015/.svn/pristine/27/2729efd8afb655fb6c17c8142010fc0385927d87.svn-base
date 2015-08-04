@@ -1,0 +1,70 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("trainee_ledger.trainee_ledger") }}} :: @parent
+@stop
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+		<h2>
+			{{{ Lang::get("trainee_ledger.trainee_ledger") }}}
+			
+		</h2>
+	</div>
+
+	<table id="table" class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>{{ Lang::get("trainee_ledger.date") }}</th>
+				<th> {{ Lang::get("trainee_ledger.type") }}</th>
+				<th> {{ Lang::get("trainee_ledger.debit") }}</th>
+				<th> {{ Lang::get("trainee_ledger.credit") }}</th>
+				<th> {{ Lang::get("trainee_ledger.receipt_no") }}</th>
+				<th> {{ Lang::get("trainee_ledger.remark") }}</th>
+				<th> {{ Lang::get("trainee_ledger.balance") }}</th>				
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+@stop
+    
+{{-- Scripts --}}
+@section('scripts')
+	<script type="text/javascript">
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#table').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+
+				"bProcessing": true,
+		        "bServerSide": true,
+		        "sAjaxSource": "{{ URL::to('trainee_ledger/data/') }}",
+		        "fnDrawCallback": function ( oSettings ) {
+	           		
+	     		}
+			});
+			var startPosition;
+           var endPosition;
+           $("#table tbody").sortable({
+            cursor : "move",
+                start : function(event, ui) {
+                    startPosition = ui.item.prevAll().length + 1;
+               },
+               update : function(event, ui) {
+                    endPosition = ui.item.prevAll().length + 1;
+                    var navigationList = "";
+                    $('#table #row').each(function(i) {
+                        navigationList = navigationList + ',' + $(this).val();
+                    });
+                    $.getJSON("{{ URL::to('trainee_ledger/reorder') }}", {
+                        list : navigationList
+                    }, function(data) {
+                    });
+                }
+            });
+		});
+	</script>
+@stop

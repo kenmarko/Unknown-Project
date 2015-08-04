@@ -1,0 +1,53 @@
+@extends('its.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("its/its_tagging.tag_received") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+	<h3> {{{ Lang::get("its/its_tagging.tag_received") }}}
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="{{{ URL::to('its/its_tagging') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("its/its_tagging.its_tagging_list") }}</a>
+	        </div>
+		</div>
+	</h3>
+</div>
+<form class="form-horizontal" method="post" action="{{ URL::to('its/its_tagging/' . $its_tagging->id . '/tag_received') }}" autocomplete="off">
+	<input type="hidden" name="id" value="{{ $its_tagging->id }}" />
+	<div class="col-md-12">
+	<div class="form-group">
+		<label class="col-md-3 control-label" for="confirm">{{ Lang::get('its/its_tagging.tag') }}</label>
+		<div class="col-md-9">
+			<select class="form-control" name="confirmed" id="confirmed" tabindex="4">
+				<option value="1"{{{ ((isset($its_tagging) && $its_tagging->confirmed == 1)? ' selected="selected"' : '') }}}>{{{ Lang::get('its/its_tagging.yes') }}}</option>
+				<option value="0"{{{ ((isset($its_tagging) && $its_tagging->confirmed == 0) ? ' selected="selected"' : '') }}}>{{{ Lang::get('its/its_tagging.no') }}}</option>
+			</select>
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("its/form.tag") }}
+	            </button>	
+	 			<a href="{{{ URL::to('its/its_tagging') }}}" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("its/form.cancel") }}
+	       		</a>
+	        </div>
+	    </div>
+	</div>	
+</form>
+@stop
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#permission").select2()
+	});
+</script>
+@stop

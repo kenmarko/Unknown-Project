@@ -1,0 +1,187 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\ClassComponentCategory;
+use App\Http\Requests\ClassComponentCategoryRequest;
+use App\Http\Requests\ClassComponentCategoryEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ClassComponentCategoryController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ClassComponentCategory::where('class_component_category_code','LIKE','%$term%').orWhere('class_component_category_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ClassComponentCategory::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('class_component_category.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('class_component_category.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ClassComponentCategoryRequest $class_component_category_request) {
+
+        $class_component_category = new ClassComponentCategory();
+        $class_component_category -> class_component_category_name = $class_component_category_request->class_component_category_name;
+        $class_component_category -> class_component_category_code = $class_component_category_request->class_component_category_code;
+        $class_component_category -> education_category_id = $class_component_category_request->education_category_id;
+        $class_component_category -> is_active = $class_component_category_request->is_active;
+        
+        // $class_component_category -> created_by_id = Auth::id();
+        $class_component_category -> save();
+
+        $success = \Lang::get('class_component_category.create_success').' : '.$class_component_category->class_component_category_name ; 
+        return redirect('class_component_category/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $class_component_category = ClassComponentCategory::find($id);
+       //var_dump($its_customs_office);
+        return view('class_component_category/edit',compact('class_component_category'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ClassComponentCategoryEditRequest $class_component_category_edit_request, $id) {
+      
+        $class_component_category = ClassComponentCategory::find($id);
+        $class_component_category -> class_component_category_name = $class_component_category_edit_request->class_component_category_name;
+        $class_component_category -> class_component_category_code = $class_component_category_edit_request->class_component_category_code;
+        $class_component_category -> education_category_id = $class_component_category_edit_request->education_category_id;
+        $class_component_category -> is_active = $class_component_category_edit_request->is_active;
+        // $class_component_category -> updated_by_id = Auth::id();
+        $class_component_category -> save();
+
+        return redirect('class_component_category');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $class_component_category = ClassComponentCategory::find($id);
+        // Show the page
+        return view('class_component_category/delete', compact('class_component_category'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $class_component_category = ClassComponentCategory::find($id);
+        $class_component_category->delete();
+        return redirect('class_component_category');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $class_component_category_list = ClassComponentCategory::join('education_category','class_component_category.education_category_id','=','education_category.id')
+              ->select(array('class_component_category.id','class_component_category.class_component_category_code','class_component_category.class_component_category_name','education_category.education_category_name','class_component_category.is_active'))
+              ->orderBy('class_component_category.class_component_category_code', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($class_component_category_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'class_component_category/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'class_component_category/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ClassComponentCategory::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

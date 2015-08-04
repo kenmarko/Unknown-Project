@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('payment_type_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="payment_type_name">{!! Lang::get('term_type.payment_type_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="payment_type_name" id="payment_type_name" value="{{{ Input::old('payment_type_name', isset($term_type) ? $term_type->payment_type_name : null) }}}" />
+			{!! $errors->first('payment_type_name', '<label class="control-label" for="payment_type_name">:message</label>')!!}
+
+		</div>
+	</div>
+	
+</div>
+
+

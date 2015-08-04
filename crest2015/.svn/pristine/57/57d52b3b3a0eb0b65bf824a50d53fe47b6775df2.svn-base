@@ -1,0 +1,40 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("enrollment.enrollment") }}} :: @parent
+@stop
+{{-- Content --}}
+@section('content')
+
+		<form class="form-horizontal" method="post" action="{{ URL::to('dashboard/book/create') }}" autocomplete="off">
+		        <div class="page-header">
+		            <h2>
+		                {{{ Lang::get("enrollment.enrollment_form") }}}
+
+		               <!--  <div class="pull-right">
+		                    <a href="{{{ URL::to('dashboard/enrollment/create') }}}" class="btn btn-sm  btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>  {{ Lang::get('enrollment.create_enrollment') }}</a>
+		                </div> -->
+		            </h2>
+		        </div>
+			@include('information_dashboard/enrollment.form')
+			<!-- <div class="col-md-12">
+				<div class="form-group">
+					<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+					<div class="col-md-9">	
+			 			<button type="submit" class="btn btn-sm btn-success">
+			                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("form.create") }}
+			            </button>	
+			            <button type="reset" class="btn btn-sm btn-default">
+			                <span class="glyphicon glyphicon-remove-circle"></span>  {{ Lang::get("form.reset") }}
+			            </button>	
+			 			<a href="{{{ URL::to('dashboard/book') }}}" class="btn btn-sm btn-warning close_popup">
+			                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("form.cancel") }}
+			       		</a>
+			        </div>
+			    </div>
+			</div>	 -->
+		</form>
+
+@stop
+

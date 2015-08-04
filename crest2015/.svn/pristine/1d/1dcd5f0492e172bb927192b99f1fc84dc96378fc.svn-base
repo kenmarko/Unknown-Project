@@ -1,0 +1,14 @@
+ <?php
+
+return [
+    'its_location_of_goods' => 'Location of Goods',
+    'code' => 'Code',
+	// 'icon' => 'Icon',
+    'create_location_of_goods'=>'Create New Location of Goods',
+    'edit_location_of_goods'=>'Edit Location of Goods',
+    'delete_location_of_goods'=>'Delete Location of Goods',
+    'create_success'=>'You have successfully created new Location of Goods',
+     'its_location_of_goods_list'=>'Location of Goods List',
+     'name'=>'Description'
+    
+ ]; 

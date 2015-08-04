@@ -1,0 +1,14 @@
+ <?php
+
+return [
+    'student_curriculum' => 'Student Curriculum',
+    'student_id' => 'Student',
+    'curriculum_id' => 'Curriculum',
+    'date_assigned' => 'Date Assigned',
+    'is_active' => 'Active',
+    'create_student_curriculum'=>'Create a New Student Curriculum',
+    'edit_student_curriculum'=>'Edit Student Curriculum',
+    'delete_student_curriculum'=>'Delete Student Curriculum',
+    'create_success'=>'You have successfully created a new Student Curriculum',
+    'student_curriculum_list'=>'Student Curriculum List',
+ ]; 

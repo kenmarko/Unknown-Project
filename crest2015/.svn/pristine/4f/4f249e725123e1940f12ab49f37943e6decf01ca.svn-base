@@ -1,0 +1,145 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('classification_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="classification_id"><?php echo Lang::get('curriculum.classification_name'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="classification_id" id="classification_id" tabindex="4">
+				<?php if($action == 1): ?>
+					<?php foreach($classification_list as $classification): ?>
+						<?php if($classification->id == $curriculum->id): ?>
+						<option name="classification_id" value="<?php echo e($classification->id); ?>" selected><?php echo e($classification->classification_name); ?></option>
+						<?php else: ?>
+						<option name="classification_id" value="<?php echo e($classification->id); ?>"><?php echo e($classification->classification_name); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($classification_list as $classification): ?>
+						<option name="classification_id" value="<?php echo e($classification->id); ?>" ><?php echo e($classification->classification_name); ?></option>
+
+					<?php endforeach; ?>
+
+				<?php endif; ?>
+
+
+
+			<!-- <?php if($action==1): ?>
+				<?php foreach($classification_list as $classification): ?>
+					<?php if($curriculum->program_id == $classification->id): ?>
+					<option name="classification_id" value="<?php echo e($classification->id); ?>" selected><?php echo e($classification->classification.classification_name); ?></option>
+					<?php endif; ?>
+					<option name="classification_id" value="<?php echo e($classification->id); ?>" ><?php echo e($classification->classification_name); ?></option>
+				<?php endforeach; ?>	
+			<?php else: ?>
+				<?php foreach($classification_list as $classification): ?>
+					<option name="classification_id" value="<?php echo e($classification->id); ?>" ><?php echo e($classification->classification_name); ?></option>
+				<?php endforeach; ?>
+			<?php endif; ?> -->
+			</select>
+			<?php echo $errors->first('classification_id', '<label class="control-label" for="classification_id)">:message</label>'); ?>
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('program_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="program_id"><?php echo Lang::get('curriculum.program_name'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="program_id" id="program_id" tabindex="4">
+			
+				<?php if($action == 1): ?>
+					<?php foreach($program_list as $program): ?>
+						<?php if($program->id == $curriculum->id): ?>
+						<option name="program_id" value="<?php echo e($program->id); ?>" selected><?php echo e($program->program_code); ?></option>
+						<?php else: ?>
+						<option name="program_id" value="<?php echo e($program->id); ?>"><?php echo e($program->program_code); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($program_list as $program): ?>
+						<option name="program_id" value="<?php echo e($program->id); ?>" ><?php echo e($program->program_code); ?></option>
+
+					<?php endforeach; ?>
+
+	
+				<?php endif; ?>
+			</select>
+			<?php echo $errors->first('program_id', '<label class="control-label" for="program_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('term_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="term_id"><?php echo Lang::get('curriculum.term_name'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="term_id" id="term_id" tabindex="4">
+			
+				<?php if($action == 1): ?>
+					<?php foreach($term_list as $term): ?>
+						<?php if($term->id == $curriculum_term->id): ?>
+						<option name="term_id" value="<?php echo e($term->id); ?>" selected><?php echo e($term->term_name); ?></option>
+						<?php else: ?>
+						<option name="term_id" value="<?php echo e($term->id); ?>"><?php echo e($term->term_name); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+			
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($term_list as $term): ?>
+						<option name="term_id" value="<?php echo e($term->id); ?>" ><?php echo e($term->term_name); ?></option>
+
+					<?php endforeach; ?>
+
+				<?php endif; ?>
+			<?php echo $errors->first('term_id', '<label class="control-label" for="term_id">:message</label>'); ?>
+
+			</select>
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_active') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_active"><?php echo Lang::get('curriculum.is_active'); ?></label>
+		<div class="col-md-10">
+			<!-- <?php echo e($default = Input::old('is_active', isset($curriculum_list) ? $curriculum_list->is_active : null)); ?> -->
+			<?php if($default == '1'): ?>
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" checked />
+			<?php elseif($default == '0'): ?>
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1"/>
+			<?php else: ?>
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked/>
+			<?php endif; ?>
+			<?php echo $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>'); ?>
+
+
+		</div>
+	</div>
+
+</div>
+
+
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+	$(function() {
+		$("#classification_id").change(function(){
+
+			 // $.ajax({
+			 //        url: '/program/dataJson',
+			 //        data: { 'is_active':1 , 'classification_id': $(this).val() },
+			 //        type: "GET", dataType: "json",async:false,
+			 //        success: function (data) {
+			 //         		$("#program_id").empty();
+			 //                $.map(data, function (item) {
+			 //                        $("#program_id").append($("<option/>").val(item.value).text(item.text));
+			                    
+			 //                });
+			 //            }
+			       
+			 //    });	
+
+			selectListChange('program_id','/program/dataJson',  { 'is_active':1 , 'classification_id': $(this).val() } ,'Please select a Program')
+			selectListChange('term_id','/term/dataJson',  { 'is_active':1 , 'classification_id': $(this).val() } ,'Please select a Term')
+
+
+		});
+	});
+</script>
+
+<?php $__env->stopSection(); ?>

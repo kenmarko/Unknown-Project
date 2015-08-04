@@ -1,0 +1,19 @@
+ <?php
+
+return [
+    'trainee_ledger' => 'Trainee Ledger',
+    'date' => 'Date/Time',
+    'trainee_no' => 'Trainee No.',
+    'trainee' => 'Trainee',
+    'type' => 'Type',
+    'debit' => 'Debit',
+    'credit' => 'Credit',
+    'receipt_no' => 'Receipt No.',
+    'balance' => 'Balance',
+    'remark' => 'Remark',
+    'create_trainee_ledger'=>'Create New Trainee Ledger',
+    'edit_trainee_ledger'=>'Edit Trainee Ledger',
+    'delete_trainee_ledger'=>'Delete Trainee Ledger',
+    'create_success'=>'You have successfully created new Trainee Ledger',
+    'trainee_ledger_list'=>'Trainee Ledger List',
+ ]; 

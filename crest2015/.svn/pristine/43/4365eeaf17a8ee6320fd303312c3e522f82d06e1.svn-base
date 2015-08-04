@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'day' => 'Day',
+    'day_code' => 'Day Code',
+    'day_name' => 'Day',
+    'create_day'=>'Create New Day',
+    'edit_day'=>'Edit Day',
+    'delete_day'=>'Delete Day',
+    'create_success'=>'You have successfully created new Day',
+    'day_list'=>'Day List',
+ ]; 

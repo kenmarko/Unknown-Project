@@ -1,0 +1,15 @@
+ <?php
+
+return [
+    'grade_remark' => 'Grade Remark',
+    'grade_remark_name' => 'Grade Remark Name',
+    'grade_remark_code' => 'Grade Remark Code',
+    'min_range' => 'Min Range',
+    'max_range' => 'Max Range',
+    'classification_id' => 'Classification',
+    'create_grade_remark'=>'Create New Grade Remark',
+    'edit_grade_remark'=>'Edit Grade Remark',
+    'delete_grade_remark'=>'Delete Grade Remark',
+    'create_success'=>'You have successfully created new Grade Remark',
+    'grade_remark_list'=>'Grade Remark List',
+ ]; 

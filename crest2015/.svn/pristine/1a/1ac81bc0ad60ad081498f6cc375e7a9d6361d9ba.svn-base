@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'trainee' => 'Trainee',
+    'trainee_no' => 'Trainee No',
+    'name' => 'Name:',
+    'guardian' => 'Guardian Details',
+    'create_trainee'=>'Create New Trainee',
+    'edit_trainee'=>'Edit Trainee',
+    'delete_trainee'=>'Delete Trainee',
+    'create_success'=>'You have successfully created new Trainee',
+    'trainee_list'=>'Trainee List',
+ ]; 

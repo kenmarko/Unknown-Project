@@ -1,0 +1,24 @@
+<?php namespace App\Models\Its;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ItsTaggingProcedureRole extends Model {
+	 protected $guarded = array();
+
+    public static $rules = array();
+   /**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'its_tagging_procedure_role';
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = ['its_tagging_procedure_id', 'gen_role_id'];
+	
+	
+}
+

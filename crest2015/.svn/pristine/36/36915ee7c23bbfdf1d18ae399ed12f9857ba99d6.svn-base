@@ -1,0 +1,19 @@
+ <?php
+
+return [
+    'student' => 'Student',
+    'student_no' => 'Student No',
+    'last_name' => 'Last Name',
+    'first_name' => 'First Name',
+    'middle_name' => 'Middle Name',
+    'birth_date' => 'Birthdate',
+    'gender' => 'Gender',
+    'male' => 'Male',
+    'female' => 'Female',
+    'is_active' => 'Active',
+    'create_student'=>'Create New Student',
+    'edit_student'=>'Edit Student',
+    'delete_student'=>'Delete Student',
+    'create_success'=>'You have successfully created new Student',
+    'student_list'=>'Student List',
+ ]; 

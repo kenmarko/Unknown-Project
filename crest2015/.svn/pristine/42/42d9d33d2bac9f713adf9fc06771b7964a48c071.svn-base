@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'class_grade_approval_remark' => 'Class Grade Approval Remark',
+    'class_grade_approval_remark_name' => 'Class Grade Approval Remark Name',
+    'is_active' => 'Active',
+    'create_class_grade_approval_remark'=>'Create New Class Grade Approval Remark',
+    'edit_class_grade_approval_remark'=>'Edit Class Grade Approval Remark',
+    'delete_class_grade_approval_remark'=>'Delete Class Grade Approval Remark',
+    'create_success'=>'You have successfully created new Class Grade Approval Remark',
+    'class_grade_approval_remark_list'=>'Class Grade Approval Remark List',
+ ]; 

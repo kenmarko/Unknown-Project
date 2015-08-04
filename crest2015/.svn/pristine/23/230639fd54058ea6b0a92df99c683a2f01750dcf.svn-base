@@ -1,0 +1,465 @@
+<div class="row">
+<!-- <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('registry_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="registry_no">{!! Lang::get('its/its_import_entry.registry_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="registry_no" id="registry_no" value="{{{ Input::old('registry_no', isset($its_import_entry) ? $its_import_entry->registry_no : null) }}}" />
+			{!! $errors->first('registry_no', '<label class="control-label" for="registry_no">:message</label>')!!}
+		</div>
+	</div> 
+
+	<div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+			{!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+		</div>
+	</div> 
+
+	<div class="form-group {{{ $errors->has('its_customs_office_code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="its_customs_office_code">{!! Lang::get('its/its_import_entry.its_customs_office_code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="its_customs_office_code" id="its_customs_office_code" value="{{{ Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null) }}}" />
+			{!! $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>')!!}
+		</div>
+	</div> 
+
+	<div class="form-group {{{ $errors->has('its_customs_office_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="its_customs_office_name">{!! Lang::get('its/its_import_entry.its_customs_office_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="its_customs_office_name" id="its_customs_office_name" value="{{{ Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null) }}}" />
+			{!! $errors->first('its_customs_office_name', '<label class="control-label" for="its_customs_office_name">:message</label>')!!}
+		</div>
+	</div> 
+
+</div>
+
+ -->
+
+
+
+
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+                        <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <div class="form-group {{{ $errors->has('ex_company_address') ? 'has-error' : '' }}}">
+                                        <label type="text" name="ex_company_address" for="ex_company_address">{{ Lang::get('its/its_import_entry.ex_company_address') }}</label>
+                                        <textarea type="tex" class="form-control" rows="8" name="ex_company_address" id="ex_company_address" value="{{{ Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null) }}}" >{{{ Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null) }}}</textarea>
+                                        {!! $errors->first('ex_company_address', '<label class="control-label" for="ex_company_address">:message</label>')!!}
+                                    </div>
+                                <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" type="text" name="declaration" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                    <div class="form-group {{{ $errors->has('im_company_address') ? 'has-error' : '' }}}">
+                                        <label type="text" name="im_company_address" for="im_company_address">{{ Lang::get('its/its_import_entry.im_company_address') }}</label>
+                                        <textarea class="form-control" type="text" rows="8" id="im_company_address" name="im_company_address" value="{{{ Input::old('im_company_address', isset($its_import_entry) ? $its_import_entry->im_company_address : null) }}}" >{{{ Input::old('im_company_address', isset($its_import_entry) ? $its_import_entry->im_company_address : null) }}}</textarea>
+                                        {!! $errors->first('im_company_address', '<label class="control-label" for="im_company_address">:message</label>')!!}
+                                    </div>
+                                    <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" type="text" name="declaration" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group {{{ $errors->has('exporter_no') ? 'has-error' : '' }}}">
+                                        <label type="text" name="exporter_no" for="exporter_no" >{{ Lang::get('its/its_import_entry.no') }}</label>
+                                        <input type="number" class="form-control" name="exporter_no" id="exporter_no" value="{{{ Input::old('exporter_no', isset($its_import_entry) ? $its_import_entry->exporter_no : null) }}}" />
+                                        {!! $errors->first('exporter_no', '<label class="control-label" for="exporter_no">:message</label>')!!}
+                                    </div>
+                                    <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" type="text" name="declaration" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="form-group {{{ $errors->has('importer_tin') ? 'has-error' : '' }}}">
+                                        <label type="text" name="importer_tin" for="importer_tin">{{ Lang::get('its/its_import_entry.importer_tin') }}</label>
+                                        <input type="number" class="form-control" id="importer_tin" name="importer_tin" value="{{{ Input::old('importer_tin', isset($its_import_entry) ? $its_import_entry->importer_tin : null) }}}" />
+                                        {!! $errors->first('importer_tin', '<label class="control-label" for="importer_tin">:message</label>')!!}
+                                    </div>
+                                    <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" type="text" name="declaration" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                </div>
+                            </div>
+                            
+                           
+                                
+                                     <div class="col-md-1">
+                                        <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                            <label type="text" name="declaration" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                                <div class="col-md-10">
+                                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                                </div>
+                                        </div>
+                                    </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="declaration">{{ Lang::get('its/its_import_entry.declaration_blank_a') }}</label>
+                                        <input type="number" class="form-control" id="declaration">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="declaration">{{ Lang::get('its/its_import_entry.declaration_blank_b') }}</label>
+                                        <input type="number" class="form-control" id="declaration">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                                    <label for="its_customs_office_code">{{ Lang::get('its/its_import_entry.its_customs_office_code') }}</label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="{{{ Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null) }}}">
+                                                    </div>
+                                    </div>
+                                    <!-- <div class="form-group {{{ $errors->has('its_customs_office_code') ? 'has-error' : '' }}}">
+                                        <label type="text" name="its_customs_office_code" for="its_customs_office_code">{{ Lang::get('its/its_import_entry.its_customs_office_code') }}</label>
+                                        <input type="number" class="form-control" id="its_customs_office_code" name="its_customs_office_code" value="{{{ Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null) }}}" />
+                                        {!! $errors->first('importer_tin', '<label class="control-label" for="its_customs_office_code">:message</label>')!!}
+                                    </div> -->
+                                     <!-- <div id="its_customs_office_code_typeahead" class="tt-input-group form-group {{{ $errors->has('its_customs_office_code') ? 'has-error' : '' }}}">
+                                                    <label for="its_customs_office_code">{{ Lang::get('its/its_import_entry.its_customs_office_code') }}</label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="{{{ Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null) }}}">
+                                                    {!! $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>')!!}   
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="{{{ Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null) }}}">
+                                    </div> -->
+                                </div>
+                                <div class="col-md-2">
+                                   <div class="form-group">
+                                                    <label for="its_customs_office_name">{{ Lang::get('its/its_import_entry.customs_reference') }}</label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_name" name="its_customs_office_name" value="{{{ Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null) }}}">
+                                                    </div>
+                                    </div>
+                                </div>
+
+
+                                        <div class="col-md-1">
+                                            <div class="form-group {{{ $errors->has('page_no') ? 'has-error' : '' }}}">
+                                                <label for="page_no">{{ Lang::get('its/its_import_entry.page') }}</label>
+                                                <input type="text" class="form-control" id="page_no" name="page_no" value="{{{ Input::old('page_no', isset($its_import_entry) ? $its_import_entry->page_no : null) }}}">
+                                                {!! $errors->first('page_no', '<label class="control-label" for="page_no">:message</label>')!!}
+                                            </div>
+                                        </div>
+
+                                <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                    <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="page">{{ Lang::get('its/its_import_entry.page_blank_a') }}</label>
+                                                <input type="text" class="form-control" id="page">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="4">{{ Lang::get('its/its_import_entry.4') }}</label>
+                                            <input type="number" class="form-control" id="4">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-1">
+                                        <div class="form-group {{{ $errors->has('customs_reference') ? 'has-error' : '' }}}">
+                                            <label for="customs_reference">{{ Lang::get('its/its_import_entry.customs_reference') }}</label>
+                                            <input type="text" class="form-control" name="customs_reference" id="customs_reference" value="{{{ Input::old('customs_reference', isset($its_import_entry) ? $its_import_entry->customs_reference : null) }}}" />
+                                            {!! $errors->first('customs_reference', '<label class="control-label" for="customs_reference">:message</label>')!!}
+                                        </div>
+                                    </div> -->
+                                <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                    <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="customs_reference">{{ Lang::get('its/its_import_entry.customs_reference_blank_a') }}</label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="customs_reference">{{ Lang::get('its/its_import_entry.customs_reference_blank_b') }}</label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                    <div class="form-group {{{ $errors->has('registry_no') ? 'has-error' : '' }}}">
+                                        <label for="registry_no">{{ Lang::get('its/its_import_entry.registry_no') }}</label>
+                                        <input type="text" class="form-control" id="registry_no" name="registry_no" value="{{{ Input::old('registry_no', isset($its_import_entry) ? $its_import_entry->registry_no : null) }}}" />
+                                        {!! $errors->first('registry_no', '<label class="control-label" for="registry_no">:message</label>')!!}
+                                    </div>
+                                    </div>
+                                    <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                    <div class="col-md-1">
+                                        <div class="form-group {{{ $errors->has('item_count') ? 'has-error' : '' }}}">
+                                        <label type="text" name="item_count" for="item_count" >{{ Lang::get('its/its_import_entry.item') }}</label>
+                                        <input type="number" class="form-control" name="item_count" id="item_count" value="{{{ Input::old('item_count', isset($its_import_entry) ? $its_import_entry->item_count : null) }}}" />
+                                        {!! $errors->first('item_count', '<label class="control-label" for="item_count">:message</label>')!!}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group {{{ $errors->has('total_package') ? 'has-error' : '' }}}">
+                                        <label type="text" name="total_package" for="total_package" >{{ Lang::get('its/its_import_entry.tot_pack') }}</label>
+                                        <input type="number" class="form-control" name="total_package" id="total_package" value="{{{ Input::old('total_package', isset($its_import_entry) ? $its_import_entry->total_package : null) }}}" />
+                                        {!! $errors->first('total_package', '<label class="control-label" for="total_package">:message</label>')!!}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group {{{ $errors->has('reference_no') ? 'has-error' : '' }}}">
+                                        <label type="text" name="reference_no" for="reference_no" >{{ Lang::get('its/its_import_entry.reference_number') }}</label>
+                                        <input type="number" class="form-control" name="reference_no" id="reference_no" value="{{{ Input::old('reference_no', isset($its_import_entry) ? $its_import_entry->reference_no : null) }}}" />
+                                        {!! $errors->first('reference_no', '<label class="control-label" for="reference_no">:message</label>')!!}
+                                    </div>
+                                    </div>
+
+                                <!--<div class="col-md-6">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="its_customs_office_code_typeahead" class="tt-input-group form-group {{{ $errors->has('its_customs_office_code') ? 'has-error' : '' }}}">
+                                                    <label for="its_customs_office_code">{{ Lang::get('its/its_import_entry.its_customs_office_code') }}</label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="{{{ Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null) }}}">
+                                                    {!! $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>')!!}
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="{{{ Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null) }}}">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label for="its_customs_office_name">{{ Lang::get('its/its_import_entry.its_customs_office_name') }}</label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_name" name="its_customs_office_name" value="{{{ Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null) }}}">
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customs_reference">{{ Lang::get('its/its_import_entry.customs_reference') }}</label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registry_number">{{ Lang::get('its/its_import_entry.registry_number') }}</label>
+                                        <input type="text" class="form-control" id="registry_number">
+                                    </div>
+                                </div>-->
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                            <label for="reference_number">{{ Lang::get('its/its_import_entry.reference_number_blank_a') }}</label>
+                                            <input type="number" class="form-control" id="reference_number">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group {{{ $errors->has('crf') ? 'has-error' : '' }}}">
+                                        <label for="crf">{{ Lang::get('its/its_import_entry.crf') }}</label>
+                                        <textarea class="form-control" rows="3" name="crf" id="crf" value="{{{ Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null) }}}" />{{{ Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null) }}}</textarea>
+                                        {!! $errors->first('crf', '<label class="control-label" for="crf">:message</label>')!!}
+                                    </div>
+                                </div>
+                                <!-- <div class="form-group {{{ $errors->has('declaration') ? 'has-error' : '' }}}">
+                                <label class="col-md-2 control-label" for="declaration">{!! Lang::get('its/its_import_entry.declaration') !!}</label>
+                                <div class="col-md-10">
+                                    <input class="form-control" type="text" name="declaration" id="declaration" value="{{{ Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null) }}}" />
+                                    {!! $errors->first('declaration', '<label class="control-label" for="declaration">:message</label>')!!}
+                                </div>
+                                </div>  -->
+                                <div class="col-md-2">
+                                    <div class="form-group {{{ $errors->has('crf_number') ? 'has-error' : '' }}}">
+                                        <label type="text" name="crf_number" for="crf_number" >{{ Lang::get('its/its_import_entry.crf_number') }}</label>
+                                        <input type="number" class="form-control" name="crf_number" id="crf_number" value="{{{ Input::old('crf_number', isset($its_import_entry) ? $its_import_entry->crf_number : null) }}}" />
+                                        {!! $errors->first('crf_number', '<label class="control-label" for="crf_number">:message</label>')!!}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <div class="form-group {{{ $errors->has('its_broker_att_in_fact_address') ? 'has-error' : '' }}}">
+                                        <label type="text" name="its_broker_att_in_fact_address" for="its_broker_att_in_fact_address">{{ Lang::get('its/its_import_entry.its_broker') }}</label>
+                                        <textarea class="form-control" type="text" rows="8" id="its_broker_att_in_fact_address" name="its_broker_att_in_fact_address" value="{{{ Input::old('its_broker_att_in_fact_address', isset($its_import_entry) ? $its_import_entry->its_broker_att_in_fact_address : null) }}}" >{{{ Input::old('its_broker_att_in_fact_address', isset($its_import_entry) ? $its_import_entry->its_broker_att_in_fact_address : null) }}}</textarea>
+                                        {!! $errors->first('its_broker_att_in_fact_address', '<label class="control-label" for="its_broker_att_in_fact_address">:message</label>')!!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="form-group {{{ $errors->has('broker_tin') ? 'has-error' : '' }}}">
+                                        <label type="text" name="broker_tin" for="broker_tin" >{{ Lang::get('its/its_import_entry.broker_tin') }}</label>
+                                        <input type="number" class="form-control" name="broker_tin" id="broker_tin" value="{{{ Input::old('broker_tin', isset($its_import_entry) ? $its_import_entry->broker_tin : null) }}}" />
+                                        {!! $errors->first('broker_tin', '<label class="control-label" for="broker_tin">:message</label>')!!}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-11">
+                                        <div class="form-group {{{ $errors->has('vessel_aircraft') ? 'has-error' : '' }}}">
+                                            <label type="text" name="vessel_aircraft" for="vessel_aircraft" >{{ Lang::get('its/its_import_entry.vessel_aircraft') }}</label>
+                                            <input type="text" class="form-control" name="vessel_aircraft" id="vessel_aircraft" value="{{{ Input::old('vessel_aircraft', isset($its_import_entry) ? $its_import_entry->vessel_aircraft : null) }}}" />
+                                            {!! $errors->first('vessel_aircraft', '<label class="control-label" for="vessel_aircraft">:message</label>')!!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group {{{ $errors->has('ct') ? 'has-error' : '' }}}">
+                                            <label type="text" name="ct" for="ct" >{{ Lang::get('its/its_import_entry.ct') }}</label>
+                                            <input type="number" class="form-control" name="ct" id="ct" value="{{{ Input::old('ct', isset($its_import_entry) ? $its_import_entry->ct : null) }}}" />
+                                            {!! $errors->first('ct', '<label class="control-label" for="ct">:message</label>')!!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div class="form-group {{{ $errors->has('local_carrier') ? 'has-error' : '' }}}">
+                                            <label type="text" name="local_carrier" for="local_carrier" >{{ Lang::get('its/its_import_entry.local_carrier') }}</label>
+                                            <input type="text" class="form-control" name="local_carrier" id="local_carrier" value="{{{ Input::old('local_carrier', isset($its_import_entry) ? $its_import_entry->local_carrier : null) }}}" />
+                                            {!! $errors->first('local_carrier', '<label class="control-label" for="local_carrier">:message</label>')!!}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="local_carrier">{{ Lang::get('its/its_import_entry.local_carrier_blank_a') }}</label>
+                                            <input type="text" class="form-control" id="local_carrier">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25">{{ Lang::get('its/its_import_entry.25') }}</label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25">{{ Lang::get('its/its_import_entry.25_blank_a') }}</label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25">{{ Lang::get('its/its_import_entry.26') }}</label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25">{{ Lang::get('its/its_import_entry.26_blank_a') }}</label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="form-group {{{ $errors->has('transshipment_port') ? 'has-error' : '' }}}">
+                                        <label type="text" name="transshipment_port" for="transshipment_port" >{{ Lang::get('its/its_import_entry.transshipment_port') }}</label>
+                                        <input type="text" class="form-control" name="transshipment_port" id="transshipment_port" value="{{{ Input::old('transshipment_port', isset($its_import_entry) ? $its_import_entry->transshipment_port : null) }}}" />
+                                        {!! $errors->first('transshipment_port', '<label class="control-label" for="transshipment_port">:message</label>')!!}
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                            <div class="form-group {{{ $errors->has('port_of_destination') ? 'has-error' : '' }}}">
+                                <label type="text" name="port_of_destination" for="port_of_destination" >{{ Lang::get('its/its_import_entry.port_of_destination') }}</label>
+                                <input type="text" class="form-control" name="port_of_destination" id="port_of_destination" value="{{{ Input::old('port_of_destination', isset($its_import_entry) ? $its_import_entry->port_of_destination : null) }}}" />
+                                {!! $errors->first('port_of_destination', '<label class="control-label" for="port_of_destination">:message</label>')!!}
+                            </div>
+                        </div>
+                        
+                       <div class="col-md-6">
+                            <div id="its_location_of_goods_code_typeahead" class="tt-input-group form-group {{{ $errors->has('its_location_of_goods_code') ? 'has-error' : '' }}}">
+                                <label for="its_location_of_goods_code">{{ Lang::get('its/its_import_entry.its_location_of_goods_code') }}</label>
+                                <input type="text" class="typeahead form-control" id="its_location_of_goods_code" name="its_location_of_goods_code" value="{{{ Input::old('its_location_of_goods_code', isset($its_import_entry) ? $its_import_entry->its_location_of_goods_code : null) }}}">
+                                {!! $errors->first('its_location_of_goods_code', '<label class="control-label" for="its_location_of_goods_code">:message</label>')!!}   
+                                <input type="hidden" id="its_location_of_goods_id" name="its_location_of_goods_id" value="{{{ Input::old('its_location_of_goods_id', isset($its_import_entry) ? $its_import_entry->its_location_of_goods_id : null) }}}">
+                            </div>
+                            <!-- <div id="its_preferences_code_typeahead" class="tt-input-group form-group {{{ $errors->has('its_preferences_code') ? 'has-error' : '' }}}">
+                                <label for="its_preferences_code">{{ Lang::get('its/its_import_entry.its_preferences_code') }}</label>
+                                <input type="text" class="typeahead form-control" id="its_preferences_code" name="its_preferences_code" value="{{{ Input::old('its_preferences_code', isset($its_import_entry) ? $its_import_entry->its_preferences_code : null) }}}">
+                                {!! $errors->first('its_preferences_code', '<label class="control-label" for="its_preferences_code">:message</label>')!!}   
+                                <input type="hidden" id="its_preferences_id" name="its_preferences_id" value="{{{ Input::old('its_preferences_id', isset($its_import_entry) ? $its_import_entry->its_preferences_id : null) }}}">
+                            </div> -->
+
+                        </div>
+
+                        <div class="col-md-12">
+                       <h3>Packages and Description of Goods</h3>
+                       <h4>Marks and Numbers and Container Number</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group {{{ $errors->has('marks_number_of_packages') ? 'has-error' : '' }}}">
+                                <label type="text" name="marks_number_of_packages" for="marks_number_of_packages" >{{ Lang::get('its/its_import_entry.marks_number_of_packages') }}</label>
+                                <input type="text" class="form-control" name="marks_number_of_packages" id="marks_number_of_packages" value="{{{ Input::old('marks_number_of_packages', isset($its_import_entry) ? $its_import_entry->marks_number_of_packages : null) }}}" />
+                                {!! $errors->first('marks_number_of_packages', '<label class="control-label" for="marks_number_of_packages">:message</label>')!!}
+                            </div>
+                        </div>
+                       <div class="col-md-3">
+                            <div class="form-group {{{ $errors->has('item_no') ? 'has-error' : '' }}}">
+                                <label type="text" name="item_no" for="item_no" >{{ Lang::get('its/its_import_entry.item_no') }}</label>
+                                <input type="text" class="form-control" name="item_no" id="item_no" value="{{{ Input::old('item_no', isset($its_import_entry) ? $its_import_entry->item_no : null) }}}" />
+                                {!! $errors->first('item_no', '<label class="control-label" for="item_no">:message</label>')!!}
+                            </div>
+                        </div>
+                       <div class="col-md-12">
+                            <div class="form-group {{{ $errors->has('number_and_kind') ? 'has-error' : '' }}}">
+                                <label type="text" name="number_and_kind" for="number_and_kind" >{{ Lang::get('its/its_import_entry.number_and_kind') }}</label>
+                                <input type="text" class="form-control" name="number_and_kind" id="number_and_kind" value="{{{ Input::old('number_and_kind', isset($its_import_entry) ? $its_import_entry->number_and_kind : null) }}}" />
+                                {!! $errors->first('number_and_kind', '<label class="control-label" for="number_and_kind">:message</label>')!!}
+                            </div>
+                        </div>
+                       
+                       <div class="col-md-12">
+                            <div class="form-group {{{ $errors->has('container_no') ? 'has-error' : '' }}}">
+                                <label type="text" name="container_no" for="container_no" >{{ Lang::get('its/its_import_entry.container_no') }}</label>
+                                <input type="text" class="form-control" name="container_no" id="container_no" value="{{{ Input::old('container_no', isset($its_import_entry) ? $its_import_entry->container_no : null) }}}" />
+                                {!! $errors->first('container_no', '<label class="control-label" for="container_no">:message</label>')!!}
+                            </div>
+                        </div>
+                            <div class="col-md-12">
+                       <h3>Add Infos Doc/Product Cert. and Auth.</h3>
+                           </div>
+                       <div class="col-md-4">
+                            <div class="form-group {{{ $errors->has('oth_in_ev') ? 'has-error' : '' }}}">
+                                <label type="text" name="oth_in_ev" for="oth_in_ev" >{{ Lang::get('its/its_import_entry.oth_in_ev') }}</label>
+                                <input type="text" class="form-control" name="oth_in_ev" id="oth_in_ev" value="{{{ Input::old('oth_in_ev', isset($its_import_entry) ? $its_import_entry->oth_in_ev : null) }}}" />
+                                {!! $errors->first('oth_in_ev', '<label class="control-label" for="oth_in_ev">:message</label>')!!}
+                            </div>
+                            </div>
+                       <div class="col-md-4">
+                            <div class="form-group {{{ $errors->has('ins_in_frt') ? 'has-error' : '' }}}">
+                                <label type="text" name="ins_in_frt" for="ins_in_frt" >{{ Lang::get('its/its_import_entry.ins_in_frt') }}</label>
+                                <input type="text" class="form-control" name="ins_in_frt" id="ins_in_frt" value="{{{ Input::old('ins_in_frt', isset($its_impor

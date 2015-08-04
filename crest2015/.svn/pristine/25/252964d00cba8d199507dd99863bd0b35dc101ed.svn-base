@@ -1,0 +1,160 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("payment.payment")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h3> <?php echo e(Lang::get("payment.payment")); ?>
+
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="<?php echo e(URL::to('payment')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get("payment.payment_list")); ?></a>
+	        </div>
+		</div>
+	</h3>
+</div>
+
+<form class="form-horizontal" method="post" action="<?php echo e(URL::to('payment/create')); ?>" autocomplete="off">
+    <input type="hidden" id="trainee_id" value="0" />
+	<?php echo $__env->make('payment.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> <?php echo e(Lang::get("form.create")); ?>
+
+	            </button>	
+	            <button type="reset" class="btn btn-sm btn-default">
+	                <span class="glyphicon glyphicon-remove-circle"></span>  <?php echo e(Lang::get("form.reset")); ?>
+
+	            </button>	
+	 			<a href="<?php echo e(URL::to('payment')); ?>" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  <?php echo e(Lang::get("form.cancel")); ?>
+
+	       		</a>
+	        </div>
+	    </div>
+	</div>	
+</form>
+
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+    $(function() {
+            var substringMatcher = function(strs) {
+                      return function findMatches(q, cb) {
+                        var matches, substringRegex;
+                     
+                        // an array that will be populated with substring matches
+                        matches = [];
+                     
+                        // regex used to determine if a string contains the substring `q`
+                        substrRegex = new RegExp(q, 'i');
+                     
+                        // iterate through the pool of strings and for any string that
+                        // contains the substring `q`, add it to the `matches` array
+                        $.each(strs, function(i, str) {
+                          if (substrRegex.test(str)) {
+                            matches.push(str);
+                          }
+                        });
+                     
+                        cb(matches);
+                      };
+                    };
+
+
+            /********
+                RMD 2015-03-07
+                START OF AWB_HBL_No ->  typeahead
+            *************************************************************************/
+                var trainee_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            //return Bloodhound.tokenizers.whitespace(datum.trainee_name);
+                               var tokens = [];
+                                //the available string is 'name' in your datum
+                                var stringSize = datum.trainee_name.length;
+                                //multiple combinations for every available size
+                                //(eg. dog = d, o, g, do, og, dog)
+                                for (var size = 1; size <= stringSize; size++){          
+                                  for (var i = 0; i+size<= stringSize; i++){
+                                      tokens.push(datum.trainee_name.substr(i, size));
+                                  }
+                                }
+
+                                return tokens;    
+
+
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            //url: '../../its/its_import_entry/dataJson',
+                            //url:'http://boc.itechrar.com/its/its_import_entry/dataJson',
+                            url:'../trainee/dataJson',
+                            
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (trainee_list) {
+                                    //     alert('this is an alert script from create');
+                                  // console.log(trainee_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(trainee_list, function (trainee) {
+                                        console.log(trainee); //debugging
+                                        return {
+                                            trainee_name: trainee.last_name + ','+trainee.first_name + ' ' + trainee.middle_name + ' ' + trainee.trainee_no,
+                                            id: trainee.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                trainee_list.initialize();
+                 console.log(trainee_list);
+
+                //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+               // $('#trainee_trainee_no_typeahead .typeahead').typeahead(null, {
+                  $('#trainee_name').typeahead(
+                    {
+                      hint: true,
+                      highlight: true,
+                      minLength: 1
+                    }, 
+                    {
+                        trainee_name: 'trainee_list',
+                         displayKey: 'trainee_name',
+                        source: trainee_list.ttAdapter()
+                        
+
+                    }
+
+                    ).bind("typeahead:selected", function(obj, trainee, trainee_no) {
+                        console.log(trainee);
+                       $("#trainee_id").val(trainee.id);
+                       $("#trainee_name").val(trainee.trainee_name);
+
+
+                    });
+
+                   /********
+                END OF AWB_HBL_NO ->  typeahead
+            *************************************************************************/
+
+
+                   
+    });
+         
+</script>
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

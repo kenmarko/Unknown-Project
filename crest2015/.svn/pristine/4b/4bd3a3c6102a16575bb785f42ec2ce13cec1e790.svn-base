@@ -1,0 +1,99 @@
+<input type="hidden" container_no="_token" value="<?php echo e(csrf_token()); ?>" />
+<input type="hidden" awb_hbl_no="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('awb_hbl_no') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="awb_hbl_no"><?php echo Lang::get('its/its_import_entry.awb_hbl_no'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="awb_hbl_no" id="awb_hbl_no" value="<?php echo e(Input::old('awb_hbl_no', isset($its_import_entry_container) ? $its_import_entry_container->awb_hbl_no : null)); ?>" />
+			<?php echo $errors->first('awb_hbl_no', '<label class="control-label" for="awb_hbl_no">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<!-- <div class="form-group <?php echo e($errors->has('code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="code"><?php echo Lang::get('its/its_general_procedure.code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="<?php echo e(Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null)); ?>" />
+			<?php echo $errors->first('code', '<label class="control-label" for="code">:message</label>'); ?>
+
+
+		</div>
+	</div> -->
+</div>
+
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('container_no') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="container_no"><?php echo Lang::get('its/its_import_entry_container.container_no'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="container_no" id="container_no" value="<?php echo e(Input::old('container_no', isset($its_import_entry_container) ? $its_import_entry_container->container_no : null)); ?>" />
+			<?php echo $errors->first('container_no', '<label class="control-label" for="container_no">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<!-- <div class="form-group <?php echo e($errors->has('code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="code"><?php echo Lang::get('its/its_general_procedure.code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="<?php echo e(Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null)); ?>" />
+			<?php echo $errors->first('code', '<label class="control-label" for="code">:message</label>'); ?>
+
+
+		</div>
+	</div> -->
+</div>
+
+<input type="hidden" its_tagging_procedure_version_id="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('its_tagging_procedure_version_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="its_tagging_procedure_version_id"><?php echo Lang::get('its/its_import_entry_container.version'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="its_tagging_procedure_version_id" id="its_tagging_procedure_version_id" value="<?php echo e(Input::old('its_tagging_procedure_version_id', isset($its_import_entry_container) ? $its_import_entry_container->its_tagging_procedure_version_id : null)); ?>" />
+			<?php echo $errors->first('its_tagging_procedure_version_id', '<label class="control-label" for="its_tagging_procedure_version_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<!-- <div class="form-group <?php echo e($errors->has('code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="code"><?php echo Lang::get('its/its_general_procedure.code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="<?php echo e(Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null)); ?>" />
+			<?php echo $errors->first('code', '<label class="control-label" for="code">:message</label>'); ?>
+
+
+		</div>
+	</div> -->
+</div>
+
+
+
+<input type="hidden" description="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('description') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="description"><?php echo Lang::get('its/its_import_entry_container.description'); ?></label>
+		<div class="col-md-10">
+			<textarea class="form-control" rows="3" name="description" id="description" name="description" value="<?php echo e(Input::old('description', isset($its_import_entry_container) ? $its_import_entry_container->description : null)); ?>" ><?php echo e(Input::old('description', isset($its_import_entry_container) ? $its_import_entry_container->description : null)); ?></textarea>
+			<?php echo $errors->first('description', '<label class="control-label" for="description">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<!-- <div class="form-group <?php echo e($errors->has('code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="code"><?php echo Lang::get('its/its_general_procedure.code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="<?php echo e(Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null)); ?>" />
+			<?php echo $errors->first('code', '<label class="control-label" for="code">:message</label>'); ?>
+
+
+		</div>
+	</div> -->
+
+	<!-- <div class="col-md-4">
+                                    <div class="form-group <?php echo e($errors->has('crf') ? 'has-error' : ''); ?>">
+                                        <label for="crf"><?php echo e(Lang::get('its/its_import_entry.crf')); ?></label>
+                                        <textarea class="form-control" rows="3" name="crf" id="crf" value="<?php echo e(Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null)); ?>" /><?php echo e(Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null)); ?></textarea>
+                                        <?php echo $errors->first('crf', '<label class="control-label" for="crf">:message</label>'); ?>
+
+                                    </div>
+                                </div> -->
+</div>
+

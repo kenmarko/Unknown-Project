@@ -1,0 +1,39 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="name">{!! Lang::get('admin/gen_role.name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="name" id="name" value="{{{ Input::old('name', isset($gen_role) ? $gen_role->name : null) }}}" />
+			{!! $errors->first('name', '<label class="control-label" for="email">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+<div class="col-md-12">
+	<div class="form-group">
+		<label class="col-md-2 control-label" for="name">{!! Lang::get('admin/gen_role.choose_role') !!}</label>
+		<div class="col-md-10">
+	    	<select tabindex="3" name="permission[]" id="permission" multiple="" style="width: 350px;" data-placeholder="{!! Lang::get('admin/gen_role.choose_role') !!}">
+				<optgroup label="{!! Lang::get('admin/gen_role.user_role') !!}">
+					@foreach ($permissions_user as $permission)
+						<option value="{{{ $permission['gen_permission_id'] }}}"
+						@foreach($permisions_add as $item)
+							@if($item['gen_permission_id']==$permission['gen_permission_id']) selected='selected';
+							@endif
+						@endforeach>{{{ $permission['display_name'] }}}</option>
+					@endforeach
+				</optgroup>
+				<optgroup label="{!! Lang::get('admin/gen_role.admin_role') !!}">
+					@foreach ($permissions_admin as $permission)
+						<option value="{{{ $permission['gen_permission_id'] }}}"
+						@foreach($permisions_add	as $item)
+						@if($item['gen_permission_id']==$permission['gen_permission_id']) selected='selected';
+						@endif
+						@endforeach>{!! $permission['display_name'] !!}</option>
+					@endforeach
+				</optgroup>
+	      	</select>
+    	</div>
+	</div>
+</div>
+

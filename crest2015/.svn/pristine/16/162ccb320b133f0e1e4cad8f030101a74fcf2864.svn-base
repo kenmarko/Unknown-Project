@@ -1,0 +1,44 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("its/its_bank.delete_bank")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+    <h3> <?php echo e(Lang::get("its/its_bank.delete_bank")); ?>  
+        <div class="pull-right">
+            <div class="pull-right">
+                <a href="<?php echo e(URL::to('its/its_bank')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get("its/its_bank.its_packaging_list")); ?></a>
+            </div>
+        </div>
+    </h3>
+</div>
+<div>
+    <?php echo e(Lang::get("its/form.delete_message")); ?>
+
+
+</div>
+<form class="form-horizontal" method="post" action="<?php echo e(URL::to('its/its_bank/' . $its_bank->id . '/delete')); ?>" autocomplete="off">
+    <input type="hidden" name="id" value="<?php echo e($its_bank->id); ?>" />   
+    <?php echo $__env->make('its.its_bank.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
+ <div class="col-md-12">
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="actions">&nbsp;</label>
+            <div class="col-md-9">  
+                <a href="<?php echo e(URL::to('its/its_bank')); ?>" class="btn btn-sm btn-warning close_popup">
+                    <span class="glyphicon glyphicon-ban-circle"></span>  <?php echo e(Lang::get("its/form.cancel")); ?>
+
+                </a>
+                <button type="submit" class="btn btn-sm btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span> <?php echo e(Lang::get("its/form.delete")); ?>
+
+                </button>   
+            </div>
+        </div>
+    </div>  
+</form>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('its.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

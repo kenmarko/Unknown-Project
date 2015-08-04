@@ -1,0 +1,15 @@
+<?php namespace App\Models\Its;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ItsGeneralProcedure extends Model {
+   /**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'its_general_procedure';
+
+	
+	
+}

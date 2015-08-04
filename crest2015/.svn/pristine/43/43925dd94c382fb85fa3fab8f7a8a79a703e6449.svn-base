@@ -1,0 +1,179 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\TraineeLedger;
+use App\Http\Requests\TraineeLedgerRequest;
+use App\Http\Requests\TraineeLedgerEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class TraineeLedgerController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    
+    public function search(){
+      $term = Input::get('term');
+      $result = TraineeLedger::where('type','LIKE','%$term%').orWhere('credit','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = TraineeLedger::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('trainee_ledger.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('trainee_ledger.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TraineeLedgerRequest $trainee_ledger_request) {
+
+        $trainee_ledger = new TraineeLedger();
+        $trainee_ledger -> trainee_ledger_no = $trainee_ledger_request->trainee_ledger_no;
+        $trainee_ledger -> trainee_ledger_name = $trainee_ledger_request->trainee_ledger_name;
+        // $trainee_ledger -> created_by_id = Auth::id();
+        $trainee_ledger -> save();
+
+        $success = \Lang::get('trainee_ledger.create_success').' : '.$trainee_ledger->trainee_ledger_name ; 
+        return redirect('trainee_ledger/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $trainee_ledger = TraineeLedger::find($id);
+       //var_dump($its_customs_office);
+        return view('trainee_ledger/edit',compact('trainee_ledger'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TraineeLedgerEditRequest $trainee_ledger_edit_request, $id) {
+      
+        $trainee_ledger = TraineeLedger::find($id);
+        $trainee_ledger -> trainee_ledger_no = $trainee_ledger_edit_request->trainee_ledger_no;
+        $trainee_ledger -> trainee_ledger_name = $trainee_ledger_edit_request->trainee_ledger_name;
+        // $trainee_ledger -> updated_by_id = Auth::id();
+        $trainee_ledger -> save();
+
+        return redirect('trainee_ledger');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $trainee_ledger = TraineeLedger::find($id);
+        // Show the page
+        return view('trainee_ledger/delete', compact('trainee_ledger'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $trainee_ledger = TraineeLedger::find($id);
+        $trainee_ledger->delete();
+        return redirect('trainee_ledger');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+        $trainee_id = \Input::get('trainee_id');
+
+
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $trainee_ledger_list = TraineeLedger::where('id',$trainee_id)
+              ->select(array('trainee_ledger.id','trainee_ledger.created_at','trainee_ledger.payment_type_id','trainee_ledger.debit','trainee_ledger.credit','trainee_ledger.or_no','trainee_ledger.ar_no','trainee_ledger.remark','trainee_ledger.balance'))
+              ->orderBy('trainee_ledger.created_at', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($trainee_ledger_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'trainee_ledger/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'trainee_ledger/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                TraineeLedger::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

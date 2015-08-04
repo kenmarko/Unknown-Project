@@ -1,0 +1,19 @@
+<html>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<tr>
+	
+	<td><h1>Bg Title</h1></td>
+
+	<td><b>Bold Cell</b></td>
+	<td><strong>Bold Cell</strong></td>
+
+	<td><i>Italic Cell</i></td>
+
+
+	</tr>
+	<tr>
+
+		<td colspan="4"><img src="{{$logo}}"/></td>
+	</tr>
+</html>

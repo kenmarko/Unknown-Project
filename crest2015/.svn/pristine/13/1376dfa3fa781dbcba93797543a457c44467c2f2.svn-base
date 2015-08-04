@@ -1,0 +1,57 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("its/its_tagging_report.its_tagging_report")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+	<h2>
+		<?php echo e(Lang::get("its/its_tagging_report.its_tagging_report")); ?>
+
+
+	</h2>
+
+</div>
+
+	<div class="col-md-12">
+
+		<div class="col-md-3">	
+			<form class="form-horizontal" method="post"  action="<?php echo e(URL::to('its/its_tagging_report/excel_download')); ?>"  autocomplete="off">
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-download"></span> <?php echo Lang::get('its/its_tagging_report.excel_download'); ?>
+
+	            </button>	
+	         </form>	
+    	</div>
+    	<div class="col-md-3">		
+			<form class="form-horizontal" method="post"  action="<?php echo e(URL::to('its/its_tagging_report/pdf_download')); ?>"  autocomplete="off">
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-download"></span> <?php echo Lang::get('its/its_tagging_report.pdf_download'); ?>
+
+	            </button>	
+	         </form>
+    	</div>
+
+		<div class="col-md-3">		
+			<form class="form-horizontal" method="post"  action="<?php echo e(URL::to('its/its_tagging_report/pdf_download_from_view')); ?>"  autocomplete="off">
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-download"></span> <?php echo Lang::get('its/its_tagging_report.pdf_download_from_view'); ?>
+
+	            </button>	
+	         </form>
+    	</div>
+	</div>
+
+
+
+
+<?php $__env->stopSection(); ?>
+    
+<?php /* Scripts */ ?>
+<?php $__env->startSection('scripts'); ?>
+	<script type="text/javascript">
+		
+
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('its.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'office' => 'Office',
+    'office_name' => 'Office Name',
+    'is_active' => 'Active',
+    'create_office'=>'Create New Office',
+    'edit_office'=>'Edit Office',
+    'delete_office'=>'Delete Office',
+    'create_success'=>'You have successfully created new Office',
+    'office_list'=>'Office List',
+ ]; 

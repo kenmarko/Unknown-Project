@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'working_day_status' => 'Working Day Status',
+    'working_day_status_name' => 'Working Day Status Name',
+    'working_day_status_code' => 'Working Day Status Code',
+    'create_working_day_status'=>'Create New Working Day Status',
+    'edit_working_day_status'=>'Edit Working Day Status',
+    'delete_working_day_status'=>'Delete Working Day Status',
+    'create_success'=>'You have successfully created new Working Day Status',
+    'working_day_status_list'=>'Working Day Status List',
+ ]; 

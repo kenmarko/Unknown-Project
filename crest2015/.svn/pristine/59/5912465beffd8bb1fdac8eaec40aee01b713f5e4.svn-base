@@ -1,0 +1,31 @@
+[2015-07-04 07:06:20] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Maatwebsite\Excel\ExcelServiceProvider' not found' in C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php:150
+Stack trace:
+#0 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(131): Symfony\Component\Debug\Exception\FatalErrorException->__construct()
+#1 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(116): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError()
+#2 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(0): Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#3 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php(115): Illuminate\Foundation\ProviderRepository->createProvider()
+#4 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php(59): Illuminate\Foundation\ProviderRepository->compileManifest()
+#5 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(468): Illuminate\Foundation\ProviderRepository->load()
+#6 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\RegisterProviders.php(15): Illuminate\Foundation\Application->registerConfiguredProviders()
+#7 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(183): Illuminate\Foundation\Bootstrap\RegisterProviders->bootstrap()
+#8 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php(195): Illuminate\Foundation\Application->bootstrapWith()
+#9 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php(92): Illuminate\Foundation\Console\Kernel->bootstrap()
+#10 C:\wamp\www\crest2015\artisan(36): Illuminate\Foundation\Console\Kernel->handle()
+#11 C:\wamp\www\crest2015\artisan(0): {main}()
+#12 {main}  
+[2015-07-04 07:08:54] production.ERROR: exception 'Symfony\Component\Debug\Exception\FatalErrorException' with message 'Class 'Maatwebsite\Excel\ExcelServiceProvider' not found' in C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php:150
+Stack trace:
+#0 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(131): Symfony\Component\Debug\Exception\FatalErrorException->__construct()
+#1 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(116): Illuminate\Foundation\Bootstrap\HandleExceptions->fatalExceptionFromError()
+#2 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\HandleExceptions.php(0): Illuminate\Foundation\Bootstrap\HandleExceptions->handleShutdown()
+#3 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php(115): Illuminate\Foundation\ProviderRepository->createProvider()
+#4 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\ProviderRepository.php(59): Illuminate\Foundation\ProviderRepository->compileManifest()
+#5 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(468): Illuminate\Foundation\ProviderRepository->load()
+#6 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Bootstrap\RegisterProviders.php(15): Illuminate\Foundation\Application->registerConfiguredProviders()
+#7 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Application.php(183): Illuminate\Foundation\Bootstrap\RegisterProviders->bootstrap()
+#8 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(199): Illuminate\Foundation\Application->bootstrapWith()
+#9 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(110): Illuminate\Foundation\Http\Kernel->bootstrap()
+#10 C:\wamp\www\crest2015\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php(84): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter()
+#11 C:\wamp\www\crest2015\index.php(53): Illuminate\Foundation\Http\Kernel->handle()
+#12 C:\wamp\www\crest2015\index.php(0): {main}()
+#13 {main}  

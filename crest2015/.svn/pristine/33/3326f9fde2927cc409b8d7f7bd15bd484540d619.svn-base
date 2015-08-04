@@ -1,0 +1,43 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("training.edit_training") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+	<h3> {{{ Lang::get("training.edit_training") }}}
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="{{{ URL::to('training') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("training.training_list") }}</a>
+	        </div>
+		</div>
+	</h3>
+</div>
+<form class="form-horizontal" method="post" action="{{ URL::to('training/' . $training->id . '/edit') }}" autocomplete="off">
+	<input type="hidden" name="id" value="{{ $training->id }}" />
+	@include('training.form')
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("form.save_changes") }}
+	            </button>	
+	 			<a href="{{{ URL::to('training') }}}" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("form.cancel") }}
+	       		</a>
+	        </div>
+	    </div>
+	</div>	
+</form>
+@stop
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#permission").select2()
+	});
+</script>
+@stop

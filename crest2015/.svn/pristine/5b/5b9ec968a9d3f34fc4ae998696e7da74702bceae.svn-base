@@ -1,0 +1,230 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\EventModel;
+use App\Models\EventModels;
+use App\Models\Course;
+use App\Models\Room;
+use App\Models\Day;
+use App\Models\Instructor;
+use App\Http\Requests\SchedulerRequest;
+use App\Http\Requests\SchedulerEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class SchedulerController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Scheduler::where('course_id','LIKE','%$term%').orWhere('batch_id','LIKE','%$term%').orWhere('instructor_id','LIKE','%$term%').orWhere('assessor_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    // public function dataJson(){
+    //   $condition = \Input::all();
+    //   $query = EventModels::select();
+    //   foreach($condition as $column => $value)
+    //   {
+    //     $query->where($column, '=', $value);
+    //   }
+    //   $program = $query->select(['id as value','start as text'])->get();
+
+    //   return response()->json($program);
+    // }
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        $event_list = EventModels::all();
+        foreach ($event_list as $event)
+        { 
+
+              $events[] = \Calendar::event(
+                $event->batch,
+                false,
+                $event->start,
+                $event->end,
+                $event->id
+            );
+
+              
+        }
+
+
+          $eloquentEvent = EventModel::first(); //EventModel implements MaddHatter\LaravelFullcalendar\Event  
+
+          $calendar = \Calendar::addEvents($events, [ //set custom color fo this event
+                'color' => '#6CA9DD',
+            ])
+          ->setOptions([ //set fullcalendar options
+                'firstDay' => 1
+            ])
+            ->setCallbacks([ //set fullcalendar callback options (will not be JSON encoded)
+                // 'viewRender' => 'function() {alert("Callbacks!");}'
+            ]); 
+
+         return view('scheduler_dashboard/dashboard',  compact('calendar'));
+         // return view('scheduler_dashboard/dashboard');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        $action = 0;
+        $course_list = Course::orderBy('course.course_code')->get();
+        $room_list = Room::orderBy('room.room_name')->get();
+        $instructor_list = Instructor::all();
+        $day_list = Day::all();
+        return view('scheduler_dashboard.scheduler.create',compact('course_list','room_list','instructor_list','action','day_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(SchedulerRequest $scheduler_request) {
+
+        // $scheduler = new EventModel();
+        // $scheduler -> course_id = $scheduler_request->course_id;
+        // $scheduler -> batch = $scheduler_request->batch;
+        // $scheduler -> instructor_id = $scheduler_request->instructor_id;
+        // $scheduler -> assessor_id = $scheduler_request->assessor_id;
+        // // $scheduler -> capacity = $scheduler_request->capacity;
+        // // $scheduler -> title = "hello";
+        // $scheduler -> start = $scheduler_request->start;
+        // $scheduler -> end = $scheduler_request->end;
+        // // $scheduler -> scheduler_fee = $scheduler_request->scheduler_fee;
+        // // $scheduler -> is_active = $scheduler_request->is_active;
+        // // $scheduler -> created_by_id = Auth::id();
+        // $scheduler -> save();
+   
+
+        $success = \Lang::get('scheduler.create_success').' : '.$scheduler->title ; 
+        return redirect('scheduler/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $scheduler = Scheduler::find($id);
+       //var_dump($its_customs_office);
+        return view('scheduler/edit',compact('scheduler'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(SchedulerEditRequest $scheduler_edit_request, $id) {
+      
+        $scheduler = Scheduler::find($id);
+        $scheduler -> course_id = $scheduler_edit_request->course_id;
+        $scheduler -> batch_id = $scheduler_edit_request->batch_id;
+        $scheduler -> instructor_id = $scheduler_edit_request->instructor_id;
+        $scheduler -> assessor_id = $scheduler_edit_request->assessor_id;
+        $scheduler -> capacity = $scheduler_edit_request->capacity;
+        $scheduler -> date_from = $scheduler_edit_request->date_from;
+        $scheduler -> date_to = $scheduler_edit_request->date_to;
+        $scheduler -> scheduler_fee = $scheduler_edit_request->scheduler_fee;
+        $scheduler -> is_active = $scheduler_edit_request->is_active;
+        // $scheduler -> updated_by_id = Auth::id();
+        $scheduler -> save();
+
+        return redirect('scheduler');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $scheduler = Scheduler::find($id);
+        // Show the page
+        return view('scheduler/delete', compact('scheduler'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $scheduler = Scheduler::find($id);
+        $scheduler->delete();
+        return redirect('scheduler');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $scheduler_list = Scheduler::select(array('scheduler.id','scheduler.course_id','scheduler.batch_id','scheduler.instructor_id','scheduler.assessor_id','scheduler.capacity','scheduler.date_from','scheduler.date_to','scheduler.scheduler_fee','scheduler.is_active'))
+              ->orderBy('scheduler.course_id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($scheduler_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'scheduler/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'scheduler/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Scheduler::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

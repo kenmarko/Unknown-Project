@@ -1,0 +1,127 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('course_code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="course_code"><?php echo Lang::get('course.course_code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="course_code" id="course_code" value="<?php echo e(Input::old('course_code', isset($course) ? $course->course_code : null)); ?>" />
+			<?php echo $errors->first('course_code', '<label class="control-label" for="course_code">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('description') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="description"><?php echo Lang::get('course.description'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="description" id="description" value="<?php echo e(Input::old('description', isset($course) ? $course->description : null)); ?>" />
+			<?php echo $errors->first('description', '<label class="control-label" for="description">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('day_from') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="day_from"><?php echo Lang::get('course.day_from'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control datepicker" type="text" readonly name="day_from" id="day_from" value="<?php echo e(Input::old('day_from', isset($course) ? $course->day_from : null)); ?>" />
+			<?php echo $errors->first('day_from', '<label class="control-label" for="day_from">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('day_to') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="day_to"><?php echo Lang::get('course.day_to'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control datepicker" type="text" readonly name="day_to" id="day_to" value="<?php echo e(Input::old('day_to', isset($course) ? $course->day_to : null)); ?>" />
+			<?php echo $errors->first('day_to', '<label class="control-label" for="day_to">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('default_training_fee') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="default_training_fee"><?php echo Lang::get('course.default_training_fee'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="default_training_fee" id="default_training_fee" value="<?php echo e(Input::old('default_training_fee', isset($course) ? $course->default_training_fee : null)); ?>" />
+			<?php echo $errors->first('default_training_fee', '<label class="control-label" for="default_training_fee">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('minimum_capacity') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="minimum_capacity"><?php echo Lang::get('course.minimum_capacity'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="minimum_capacity" id="minimum_capacity" value="<?php echo e(Input::old('minimum_capacity', isset($course) ? $course->minimum_capacity : null)); ?>" />
+			<?php echo $errors->first('minimum_capacity', '<label class="control-label" for="minimum_capacity">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('maximum_capacity') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="maximum_capacity"><?php echo Lang::get('course.maximum_capacity'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="maximum_capacity" id="maximum_capacity" value="<?php echo e(Input::old('maximum_capacity', isset($course) ? $course->maximum_capacity : null)); ?>" />
+			<?php echo $errors->first('maximum_capacity', '<label class="control-label" for="maximum_capacity">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('maximum_batch') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="maximum_batch"><?php echo Lang::get('course.maximum_batch'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="maximum_batch" id="maximum_batch" value="<?php echo e(Input::old('maximum_batch', isset($course) ? $course->maximum_batch : null)); ?>" />
+			<?php echo $errors->first('maximum_batch', '<label class="control-label" for="maximum_batch">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_active') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_active"><?php echo Lang::get('term.is_active'); ?></label>
+		<div class="col-md-10" style="padding-top:7px;">
+			<?php
+			$default = Input::old('is_active', isset($term) ? $term->is_active : null);
+			if($default == '1'){
+			echo '<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked />';
+			}
+			elseif($default == '0')
+			{
+			echo '<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="0" />';
+			}
+			else
+			{
+			echo '<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked />';
+			}
+			?>
+		</div>
+
+ 	</div>
+</div>
+
+
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+	$(function() {
+
+		$("#day_from").numericOnly();
+		$("#day_to").numericOnly();
+		$("#default_training_fee").decimalOnly();
+		$("#minimum_capacity").numericOnly();
+		$("#maximum_capacity").numericOnly();
+		$("#maximum_batch").numericOnly();
+		$(".validate").validator();
+
+		$('.datepicker').datepicker(
+		{ 
+			format: "yyyy-mm-dd",
+			orientation: "top left",
+			autoclose: true 
+		})
+		});
+
+  $(function () { 
+
+  	$("input").not("[type=submit]").jqBootstrapValidation(); 
+ 	 });
+
+
+</script>
+
+
+<?php $__env->stopSection(); ?>

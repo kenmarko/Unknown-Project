@@ -1,0 +1,19 @@
+ <?php
+
+return [
+    'philhealth' => 'Philhealth',
+    'range_from' => 'Range from',
+    'range_to' => 'Range to',
+    'salary_base' => 'Base Salary',
+    'total_monthly_contribution' => 'Total Monthly Contribution',
+    'semi_monthly_contribution' => 'Semi Monthly Contribution',
+    'ph_ps' => 'PH PS',
+    'ph_es' => 'PH ES',
+    'semi_monthly_ps' => 'Semi Monthly PS',
+    'semi_monthly_es' => 'Semi Monthly ES',
+    'create_philhealth'=>'Create New Philhealth',
+    'edit_philhealth'=>'Edit Philhealth',
+    'delete_philhealth'=>'Delete Philhealth',
+    'create_success'=>'You have successfully created new Philhealth',
+    'philhealth_list'=>'Philhealth List',
+ ]; 

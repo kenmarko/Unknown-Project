@@ -1,0 +1,77 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('course_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="course_id">{!! Lang::get('training.course_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="course_id" id="course_id" value="{{{ Input::old('course_id', isset($training) ? $training->course_id : null) }}}" />
+			{!! $errors->first('course_id', '<label class="control-label" for="course_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('batch_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="batch_id">{!! Lang::get('training.batch_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="batch_id" id="batch_id" value="{{{ Input::old('batch_id', isset($training) ? $training->batch_id : null) }}}" />
+			{!! $errors->first('batch_id', '<label class="control-label" for="batch_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('instructor_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="instructor_id">{!! Lang::get('training.instructor_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="instructor_id" id="instructor_id" value="{{{ Input::old('instructor_id', isset($training) ? $training->instructor_id : null) }}}" />
+			{!! $errors->first('instructor_id', '<label class="control-label" for="instructor_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('assessor_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="assessor_id">{!! Lang::get('training.assessor_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="assessor_id" id="assessor_id" value="{{{ Input::old('assessor_id', isset($training) ? $training->assessor_id : null) }}}" />
+			{!! $errors->first('assessor_id', '<label class="control-label" for="assessor_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('capacity') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="capacity">{!! Lang::get('training.capacity') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="capacity" id="capacity" value="{{{ Input::old('capacity', isset($training) ? $training->capacity : null) }}}" />
+			{!! $errors->first('capacity', '<label class="control-label" for="capacity">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('date_from') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="date_from">{!! Lang::get('training.date_from') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date_from" id="date_from" value="{{{ Input::old('date_from', isset($training) ? $training->date_from : null) }}}" />
+			{!! $errors->first('date_from', '<label class="control-label" for="date_from">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('date_to') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="date_to">{!! Lang::get('training.date_to') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date_to" id="date_to" value="{{{ Input::old('date_to', isset($training) ? $training->date_to : null) }}}" />
+			{!! $errors->first('date_to', '<label class="control-label" for="date_to">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('training_fee') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="training_fee">{!! Lang::get('training.training_fee') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="training_fee" id="training_fee" value="{{{ Input::old('training_fee', isset($training) ? $training->training_fee : null) }}}" />
+			{!! $errors->first('training_fee', '<label class="control-label" for="training_fee">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('training.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($training) ? $training->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

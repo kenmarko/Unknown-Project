@@ -1,0 +1,302 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('created_at') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="created_at"><?php echo Lang::get('payment.created_at'); ?></label>
+		<div class="col-md-10">
+			<label class="control-label" type="date" name="created_at" id="created_at" value="<?php echo e(Input::old('created_at', isset($payment) ? $payment->created_at : null)); ?>" />
+			<?php echo date('Y-m-d'); ?>
+
+			<?php echo $errors->first('created_at', '<label class="control-label" for="created_at">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	
+	<!-- Fetch person_name after joining from two(2) tables -->
+	<div class="form-group <?php echo e($errors->has('trainee_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="trainee_name"><?php echo Lang::get('payment.trainee_id'); ?></label>
+		<input type="hidden" name="trainee_id" id="trainee_id" value="0" />
+		<div class="col-md-10">
+			<?php if($action == 1): ?>
+				<input class="typeahead form-control" type="text" name="trainee_name" id="trainee_name" value="<?php echo e($person->first_name. " ".$person->middle_name. " ".$person->last_name); ?>" />		
+			<?php else: ?>
+				<input class="typeahead form-control" type="text" name="trainee_name" id="trainee_name" value="" />
+			<?php endif; ?>
+			<?php echo $errors->first('trainee_id', '<label class="control-label" for="trainee_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('receipt_no') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="receipt_no"><?php echo Lang::get('payment.receipt_no'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="receipt_no" id="receipt_no" value="<?php echo e(Input::old('receipt_no', isset($payment) ? $payment->receipt_no : null)); ?>" />
+			<?php echo $errors->first('receipt_no', '<label class="control-label" for="receipt_no">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('balance') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="balance"><?php echo Lang::get('payment.balance'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="balance" id="balance" value="<?php echo e(Input::old('balance', isset($payment) ? $payment->balance : null)); ?>" />
+			<?php echo $errors->first('balance', '<label class="control-label" for="balance">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('cash_tendered') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="cash_tendered"><?php echo Lang::get('payment.cash_tendered'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="cash_tendered" id="cash_tendered" value="<?php echo e(Input::old('cash_tendered', isset($payment) ? $payment->cash_tendered : null)); ?>" />
+			<?php echo $errors->first('cash_tendered', '<label class="control-label" for="cash_tendered">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('amount') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="amount"><?php echo Lang::get('payment.amount'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="amount" id="amount" value="<?php echo e(Input::old('amount', isset($payment) ? $payment->amount : null)); ?>" />
+			<?php echo $errors->first('amount', '<label class="control-label" for="amount">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('payment_description') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="payment_description"><?php echo Lang::get('payment.payment_description'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="payment_description" id="payment_description" value="<?php echo e(Input::old('payment_description', isset($payment) ? $payment->payment_description : null)); ?>" />
+			<?php echo $errors->first('payment_description', '<label class="control-label" for="payment_description">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	
+	<div class="form-group <?php echo e($errors->has('payment_mode_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="payment_mode_id"><?php echo Lang::get('payment.payment_mode_id'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_mode_id" id="payment_mode_id" tabindex="4">
+			
+				<?php if($action == 1): ?>
+					<?php foreach($payment_mode_list as $payment_mode): ?>					
+						<?php if($payment_mode->id == $payment->id): ?>
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="payment_mode_id" value="<?php echo e($payment_mode->id); ?>" selected><?php echo e($payment_mode->payment_mode_name); ?></option>
+						<?php else: ?>
+						<option name="payment_mode_id" value="<?php echo e($payment_mode->id); ?>"><?php echo e($payment_mode->payment_mode_name); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($payment_mode_list as $payment_mode): ?>
+						<option name="payment_mode_id" value="<?php echo e($payment_mode->id); ?>" ><?php echo e($payment_mode->payment_mode_name); ?></option>
+
+					<?php endforeach; ?>
+
+	
+				<?php endif; ?>
+			</select>
+			<?php echo $errors->first('payment_mode_id', '<label class="control-label" for="payment_mode_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('payment_type_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="payment_type_id"><?php echo Lang::get('payment.payment_type_id'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_type_id" id="payment_type_id" tabindex="4">
+			
+				<?php if($action == 1): ?>
+					<?php foreach($payment_type_list as $payment_type): ?>					
+						<?php if($payment_type->id == $payment->id): ?>
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="payment_type_id" value="<?php echo e($payment_type->id); ?>" selected><?php echo e($payment_type->payment_type_name); ?></option>
+						<?php else: ?>
+						<option name="payment_type_id" value="<?php echo e($payment_type->id); ?>"><?php echo e($payment_type->payment_type_name); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($payment_type_list as $payment_type): ?>
+						<option name="payment_type_id" value="<?php echo e($payment_type->id); ?>" ><?php echo e($payment_type->payment_type_name); ?></option>
+
+					<?php endforeach; ?>
+
+	
+				<?php endif; ?>
+			</select>
+			<?php echo $errors->first('payment_type_id', '<label class="control-label" for="payment_type_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('change') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="change"><?php echo Lang::get('payment.change'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="change" id="change" value="<?php echo e(Input::old('change', isset($payment) ? $payment->change : null)); ?>" />
+			<?php echo $errors->first('change', '<label class="control-label" for="change">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('payment_status_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="payment_status_id"><?php echo Lang::get('payment.payment_status_id'); ?></label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_status_id" id="payment_status_id" tabindex="4">
+			
+				<?php if($action == 1): ?>
+					<?php foreach($payment_status_list as $payment_status): ?>					
+						<?php if($payment_status->id == $payment->id): ?>
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="payment_status_id" value="<?php echo e($payment_status->id); ?>" selected><?php echo e($payment_status->payment_status_name); ?></option>
+						<?php else: ?>
+						<option name="payment_status_id" value="<?php echo e($payment_status->id); ?>"><?php echo e($payment_status->payment_status_name); ?></option>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				<?php else: ?>
+					<option name="" value="" selected></option>
+					<?php foreach($payment_status_list as $payment_status): ?>
+						<option name="payment_status_id" value="<?php echo e($payment_status->id); ?>" ><?php echo e($payment_status->payment_status_name); ?></option>
+
+					<?php endforeach; ?>
+
+	
+				<?php endif; ?>
+			</select>
+			<?php echo $errors->first('payment_status_id', '<label class="control-label" for="payment_status_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+<?php $__env->startSection('scripts'); ?>
+<script>
+$(function() {
+
+        $("#cash_tendered").decimalOnly();
+        $("#amount").decimalOnly();
+        $("#receipt_no").numericOnly();
+         
+         });
+
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(function() {
+            var substringMatcher = function(strs) {
+                      return function findMatches(q, cb) {
+                        var matches, substringRegex;
+                     
+                        // an array that will be populated with substring matches
+                        matches = [];
+                     
+                        // regex used to determine if a string contains the substring `q`
+                        substrRegex = new RegExp(q, 'i');
+                     
+                        // iterate through the pool of strings and for any string that
+                        // contains the substring `q`, add it to the `matches` array
+                        $.each(strs, function(i, str) {
+                          if (substrRegex.test(str)) {
+                            matches.push(str);
+                          }
+                        });
+                     
+                        cb(matches);
+                      };
+                    };
+
+
+            /********
+                RMD 2015-03-07
+                START OF AWB_HBL_No ->  typeahead
+            *************************************************************************/
+                var trainee_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            //return Bloodhound.tokenizers.whitespace(datum.trainee_name);
+                               var tokens = [];
+                                //the available string is 'name' in your datum
+                                var stringSize = datum.trainee_name.length;
+                                //multiple combinations for every available size
+                                //(eg. dog = d, o, g, do, og, dog)
+                                for (var size = 1; size <= stringSize; size++){          
+                                  for (var i = 0; i+size<= stringSize; i++){
+                                      tokens.push(datum.trainee_name.substr(i, size));
+                                  }
+                                }
+
+                                return tokens;    
+
+
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            //url: '../../its/its_import_entry/dataJson',
+                            //url:'http://boc.itechrar.com/its/its_import_entry/dataJson',
+                            url:'../trainee/dataJson',
+                            
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (trainee_list) {
+                                      // alert('this is an alert script from create');
+                                  // console.log(trainee_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(trainee_list, function (trainee) {
+                                        console.log(trainee); //debugging
+                                        return {
+                                            trainee_name: trainee.last_name + ','+trainee.first_name + ' ' + trainee.middle_name + ' ' + trainee.trainee_no,
+                                            id: trainee.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                trainee_list.initialize();
+                 console.log(trainee_list);
+
+                //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+               // $('#trainee_trainee_no_typeahead .typeahead').typeahead(null, {
+                  $('#trainee_name').typeahead(
+                    {
+                      hint: true,
+                      highlight: true,
+                      minLength: 1
+                    }, 
+                    {
+                        trainee_name: 'trainee_list',
+                         displayKey: 'trainee_name',
+                        source: trainee_list.ttAdapter()
+                        
+
+                    }
+
+                    ).bind("typeahead:selected", function(obj, trainee, trainee_no) {
+                        console.log(trainee);
+                       $("#trainee_id").val(trainee.id);
+                       $("#trainee_name").val(trainee.trainee_name);
+
+
+                    });
+
+                   /********
+                END OF AWB_HBL_NO ->  typeahead
+            *************************************************************************/
+
+
+                   
+    });
+
+
+</script>
+
+
+<?php $__env->stopSection(); ?>

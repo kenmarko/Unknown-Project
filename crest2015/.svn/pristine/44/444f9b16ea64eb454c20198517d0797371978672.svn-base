@@ -1,0 +1,29 @@
+ <?php
+
+return [
+
+    'registrar'=>'Registrar',
+    'enrollment_report'=>'Enrollment Report',
+    'er'=>'ER Section',
+    'course'=>'Course',
+    'batch'=>'Batch',
+    'month'=>'Month',
+    'no'=>'No',
+    'name'=>'Name',
+    'serial_no'=>'Serial No.',
+    'assessment_result'=>'Assessment Result',
+    'certificate_no'=>'Certificate No.',
+    'remarks'=>'Remarks',
+    'birthdate'=>'Birthdate',
+    'rank'=>'Rank',
+    'date'=>'Date',
+    'print'=>'Print',
+    'download'=>'Download',
+    'ccr'=>'CCR Section',
+    'course_completion_report'=>'Course Completion Report',
+    'create_registrar'=>'Create New Registrar',
+    'edit_registrar'=>'Edit Registrar',
+    'delete_registrar'=>'Delete Registrar',
+    'create_success'=>'You have successfully created new Registrar',
+    'registrar_list'=>'Registrar List',
+ ]; 

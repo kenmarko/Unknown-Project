@@ -1,0 +1,173 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsGeneralProcedure;
+use App\Http\Requests\Its\ItsGeneralProcedureRequest;
+use App\Http\Requests\Its\ItsGeneralProcedureEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ItsGeneralProcedureController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsGeneralProcedure::where('code','LIKE','%$term%').orWhere('description','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsGeneralProcedure::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('its.its_general_procedure.index');
+    }
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_general_procedure.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsGeneralProcedureRequest $its_general_procedure_request) {
+
+        $its_general_procedure = new ItsGeneralProcedure();
+        $its_general_procedure -> code = $its_general_procedure_request->code;
+        $its_general_procedure -> description = $its_general_procedure_request->description;
+        $its_general_procedure -> created_by_id = Auth::id();
+        $its_general_procedure -> save();
+
+        $success = \Lang::get('its/its_general_procedure.create_success').' : '.$its_general_procedure->description ; 
+        return redirect('its/its_general_procedure/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_general_procedure = ItsGeneralProcedure::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_general_procedure/edit',compact('its_general_procedure'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsGeneralProcedureEditRequest $its_general_procedure_edit_request, $id) {
+      
+        $its_general_procedure = ItsGeneralProcedure::find($id);
+        $its_general_procedure -> code = $its_general_procedure_edit_request->code;
+        $its_general_procedure -> description = $its_general_procedure_edit_request->description;
+        $its_general_procedure -> updated_by_id = Auth::id();
+        $its_general_procedure -> save();
+
+        return redirect('its/its_general_procedure');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $its_general_procedure = ItsGeneralProcedure::find($id);
+        // Show the page
+        return view('its/its_general_procedure/delete', compact('its_general_procedure'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_general_procedure = ItsGeneralProcedure::find($id);
+        $its_general_procedure->delete();
+        return redirect('its/its_general_procedure');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $its_general_procedure_list = ItsGeneralProcedure::select(array('its_general_procedure.id','its_general_procedure.code','its_general_procedure.description'))
+              ->orderBy('its_general_procedure.description', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($its_general_procedure_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'its/its_general_procedure/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'its/its_general_procedure/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsGeneralProcedure::where('id', '=', $value) -> update(array('description' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

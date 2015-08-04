@@ -1,0 +1,25 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	
+	<div class="form-group <?php echo e($errors->has('model') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="model"><?php echo Lang::get('its/its_declaration.model'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="model" id="model" value="<?php echo e(Input::old('model', isset($its_declaration) ? $its_declaration->model : null)); ?>" />
+			<?php echo $errors->first('model', '<label class="control-label" for="model">:message</label>'); ?>
+
+
+		</div>
+	</div>
+
+	<div class="form-group <?php echo e($errors->has('description') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="description"><?php echo Lang::get('its/its_declaration.description'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="description" id="description" value="<?php echo e(Input::old('description', isset($its_declaration) ? $its_declaration->description : null)); ?>" />
+			<?php echo $errors->first('description', '<label class="control-label" for="description">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

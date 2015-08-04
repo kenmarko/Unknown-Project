@@ -1,0 +1,166 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("employee.employee") }}} :: @parent
+@stop
+{{-- Content --}}
+@section('content')
+<style>
+
+td.details-control {
+    background: url('{{ URL::to('assets/site/images/details_open.png') }}') no-repeat center center;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: url('{{ URL::to('assets/site/images/details_close.png') }}') no-repeat center center;
+}
+</style>
+<div class="page-header">
+		<h2>
+			{{{ Lang::get("employee.employee") }}}
+
+		<div class="pull-right">
+			<a href="{{{ URL::to('employee/create') }}}" class="btn btn-sm  btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>  {{ Lang::get('employee.create_employee') }}</a>
+		</div>
+
+		</h2>
+	</div>
+
+	<table id="table" class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th></th>
+				<th>{{ Lang::get("employee.employee_no") }}</th>
+				<th> {{ Lang::get("employee.person_id") }}</th>
+				<th> {{ Lang::get("employee.role_id") }}</th>
+				<th> {{ Lang::get("employee.corporate_entity_id") }}</th>
+				<th> {{ Lang::get("employee.is_active") }}</th>
+				<th>{{ Lang::get("site.action") }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+@stop
+    
+{{-- Scripts --}}
+@section('scripts')
+	<script type="text/javascript">
+
+		/* Formatting function for row details - modify as you need */
+			function format ( d ) {
+			    // `d` is the original data object for the row
+			return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
+			        '<tr>'+
+			            '<td><b>SSS:</td>'+
+			            '<td>'+d.sss+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td><b>Date Employed:</td>'+			            
+			            '<td>'+d.date_employed+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td><b>Bank Account No.:</td>'+
+			            '<td>'+d.bank_account_no+'</td>'+
+
+			        '</tr>'+
+			        '<tr>'+
+			            '<td><b>Philhealth:</td>'+
+			            '<td>'+d.philhealth+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td><b>Employment Status:</td>'+
+			            '<td>'+d.employment_status_name+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td>'+'</td>'+
+			            '<td><b>Tax Status Code:</td>'+
+			            '<td>'+d.tax_status_code_name+'</td>'+
+			        '</tr>'+
+			        '<tr>'+
+			        	'<td><b>TIN:</td>'+
+			            '<td>'+d.tin+'</td>'+
+			        '</tr>'+
+			        '<tr>'+
+			        	'<td><b>Pagibig:</td>'+
+			        	'<td>'+d.pagibig+'</td>'+
+			        '</tr>'
+			        '</table>';
+			}
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#table').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+				
+				"bProcessing": true,
+		        "bServerSide": true,
+		        "sAjaxSource": "{{ URL::to('employee/data/') }}",
+		        columns: [
+		            {
+		                "className":      'details-control',
+		                "orderable":      false,
+		                "data":           null,
+		                "defaultContent": ''
+		            },
+		            {data: 'employee_no', name: 'employee_no'},
+		            {data: 'first_name', name: 'first_name'},
+		            {data: 'role_name', name: 'role_id'},
+		            {data: 'corporate_entity_name', name: 'corporate_entity_id'},
+		            {data: 'is_active', name: 'is_active'},
+		            {data: 'actions', name: 'actions'}
+		        ],
+		        order: [[1, 'asc']]
+			});
+
+
+			// Add event listener for opening and closing details
+		    var oTable = $('#table').DataTable();
+
+			    // Add event listener for opening and closing details
+			    $('#table tbody').on('click', 'td.details-control', function () {
+			        var tr = $(this).closest('tr');
+			        var row = oTable.row(tr);
+
+			        if (row.child.isShown()) {
+			            // This row is already open - close it
+			            row.child.hide();
+			            tr.removeClass('shown');
+			        } else {
+			            // Open this row
+			            row.child(format(row.data())).show();
+			            tr.addClass('shown');
+			        }
+			    });
+
+
+		// 	var startPosition;
+  //          var endPosition;
+  //          $("#table tbody").sortable({
+  //           cursor : "move",
+  //               start : function(event, ui) {
+  //                   startPosition = ui.item.prevAll().length + 1;
+  //              },
+  //              update : function(event, ui) {
+  //                   endPosition = ui.item.prevAll().length + 1;
+  //                   var navigationList = "";
+  //                   $('#table #row').each(function(i) {
+  //                       navigationList = navigationList + ',' + $(this).val();
+  //                   });
+  //                   $.getJSON("{{ URL::to('employee/reorder') }}", {
+  //                       list : navigationList
+  //                   }, function(data) {
+  //                   });
+  //               }
+  //           });
+		});
+	</script>
+@stop

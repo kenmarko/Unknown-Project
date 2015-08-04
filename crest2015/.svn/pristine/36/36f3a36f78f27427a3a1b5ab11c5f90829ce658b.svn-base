@@ -1,0 +1,173 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("scheduler.scheduler") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+	<h3> {{{ Lang::get("scheduler.scheduler") }}}
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="{{{ URL::to('scheduler') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("scheduler.scheduler_list") }}</a>
+	        </div>
+		</div>
+	</h3>
+</div>
+
+<form class="form-horizontal" >
+	@include('scheduler.form')
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<!-- <button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("form.create") }}
+	            </button>	
+	            <button type="reset" class="btn btn-sm btn-default">
+	                <span class="glyphicon glyphicon-remove-circle"></span>  {{ Lang::get("form.reset") }}
+	            </button>	
+	 			<a href="{{{ URL::to('scheduler') }}}" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("form.cancel") }}
+	       		</a> -->
+	        </div>
+	    </div>
+	</div>	
+</form>
+
+<input type="hidden" id="time_range_count" value="1">
+<input type="hidden" id="date_range_count" value="1">
+@stop
+@section('scripts')
+	
+	<script id="time_range_template" type="application/html-template">
+	<div id="<<time_range_id>>">	
+		<div class="time_start form-group">
+			<div class="col-md-3">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_start') !!}</label>
+		    </div>
+
+			<div class="col-md-7">
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_monday>>" id="time_start_monday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_tuesday>>" id="<<time_start_tuesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_wednesday>>" id="<<time_start_wednesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_thursday>>" id="<<time_start_thursday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_friday>>" id="<<time_start_friday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_start_saturday>>" id="<<time_start_saturday>>" value="" />
+				</div>
+
+			</div>
+			<div class="col-md-2">
+		    </div>
+		<div class="time_end form-group">
+			<div class="col-md-3">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_end') !!}</label>
+		    </div>
+
+			<div class="col-md-7">
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_monday>>" id="<<time_end_monday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_tuesday>>" id="<<time_end_tuesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_wednesday>>" id="<<time_end_wednesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_thursday>>" id="<<time_end_thursday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_friday>>" id="<<time_end_friday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="col-md-11" type="text" name="<<time_end_saturday>>" id="<<time_end_saturday>>" value="" />
+				</div>
+
+			</div>
+			<div class="col-md-2">
+		    </div>
+		</div>
+	</div>
+	</script>
+
+	<script id="date_range_template" type="application/html-template">
+		<div id="<<date_range_id>>">
+			<div class="col-md-3">
+		    </div>
+			<div class="col-md-7">
+				<div class="col-md-5">
+					<input class="col-md-11" type="text" name="<<date_range_from>>" id="<<date_range_from>>" value="" />
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-5">
+					<input class="col-md-11" type="text" name="<<date_range_to>>" id="<<date_range_to>>" value="" />
+				</div>
+			</div>
+			<div class="col-md-2">
+		    </div>
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		$(function(){
+
+			var time_range_count = $("#time_range_count").val();
+			var date_range_count = $("#date_range_count").val();
+			generateTimeRange(time_range_count);
+			generateDateRange(date_range_count);
+
+		});
+
+
+
+		function generateTimeRange(time_range_count)
+		{
+	
+				var time_range_id = "#time_range_id"+time_range_count;
+				if($(time_range_id).html()==null)
+				{
+					//generate template here
+					var template = $("#time_range_template").clone().html();
+					var html = template;
+					alert(html);
+					$("#time_range_container").append(html);
+
+				}
+		}
+		
+		function generateDateRange(date_range_count)
+		{
+	
+				var date_range_id = "#date_range_id"+date_range_count;
+				if($(date_range_id).html()==null)
+				{
+					//generate template here
+					var template = $("#date_range_template").clone().html();
+					var html = template;
+					alert(html);
+					$("#date_range_container").append(html);
+
+				}
+		}
+
+
+
+
+	</script>
+
+
+@stop

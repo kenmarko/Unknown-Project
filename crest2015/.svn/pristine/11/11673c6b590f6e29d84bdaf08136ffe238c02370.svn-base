@@ -1,0 +1,245 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Course;
+use App\Models\Guardian;
+use App\Models\Person;
+use App\Models\Trainee;
+use App\Models\Suffix;
+use App\Models\Rank;
+use App\Models\CourseRequirement;
+use App\Models\Requirement;
+use App\Http\Requests\TraineeRequest;
+use App\Http\Requests\TraineeEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class TraineeController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Trainee::where('trainee_no','LIKE','%$term%').orWhere('last_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $condition = \Input::all();
+      $query = Trainee::join('person','trainee.person_id','=','person.id')
+                        ->select('trainee.id','trainee.trainee_no','person.first_name','person.middle_name','person.last_name');
+      foreach($condition as $column => $value)
+      {
+        $query->where($column, '=', $value);
+      }
+
+      $trainee = $query->get();
+
+      return response()->json($trainee);
+    }
+
+
+    public function dataJsonDropdown()
+    {
+           $condition = \Input::all();
+      $query = Trainee::select();
+      foreach($condition as $column => $value)
+      {
+        $query->where($column, '=', $value);
+      }
+      $trainee = $query->select([ 'id as value','trainee_no as text'])->get();
+
+      return response()->json($trainee);
+
+    }
+
+
+    
+
+    
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('information_dashboard/trainee.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('trainee.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TraineeRequest $trainee_request) {
+
+        $trainee = new Trainee();
+        $trainee -> trainee_no = $trainee_request->trainee_no;
+        $trainee -> last_name = $trainee_request->last_name;
+        $trainee -> first_name = $trainee_request->first_name;
+        $trainee -> middle_name = $trainee_request->middle_name;
+        $trainee -> suffix_id = $trainee_request->suffix_id;
+        $trainee -> address = $trainee_request->address;
+        $trainee -> birth_date = $trainee_request->birth_date;
+        $trainee -> birth_place = $trainee_request->birth_place;
+        $trainee -> date = $trainee_request->date;
+        $trainee -> rank = $trainee_request->rank;
+        $trainee -> contact_no = $trainee_request->contact_no;
+        $trainee -> email = $trainee_request->email;
+        $trainee -> is_active = $trainee_request->is_active;
+        // $trainee -> created_by_id = Auth::id();
+        $trainee -> save();
+
+        $success = \Lang::get('trainee.create_success').' : '.$trainee->trainee_name ; 
+        return redirect('trainee/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $trainee = Trainee::find($id);
+       //var_dump($its_customs_office);   
+        $action = 1;  
+        $course_requirement_list = CourseRequirement::orderBy('course_requirement.course_id')->get();
+        $requirement_list = Requirement::orderBy('requirement.description')->get();
+        $course_list = Course::orderBy('course.description','ASC')->get();
+        $suffix_list = Suffix::orderBy('suffix.suffix_name')->get();
+        $rank_list = Rank::orderBy('rank.rank_name')->get();
+        return view('information_dashboard/trainee/edit',compact('trainee','course_list','course_requirement_list','action','requirement_list','suffix_list','rank_list'));
+        
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TraineeEditRequest $trainee_edit_request, $id) {
+      
+        $trainee = Trainee::find($id);
+        $trainee -> trainee_no = $trainee_edit_request->trainee_no;
+        $trainee -> last_name = $trainee_edit_request->last_name;
+        $trainee -> first_name = $trainee_edit_request->first_name;
+        $trainee -> middle_name = $trainee_edit_request->middle_name;
+        $trainee -> suffix_id = $trainee_edit_request->suffix_id;
+        $trainee -> address = $trainee_edit_request->address;
+        $trainee -> birth_date = $trainee_edit_request->birth_date;
+        $trainee -> birth_place = $trainee_edit_request->birth_place;
+        $trainee -> date = $trainee_edit_request->date;
+        $trainee -> rank_id = $trainee_edit_request->rank_id;
+        $trainee -> contact_no = $trainee_edit_request->contact_no;
+        $trainee -> email = $trainee_edit_request->email;
+        $trainee -> is_active = $trainee_edit_request->is_active;
+        // $trainee -> updated_by_id = Auth::id();
+        $trainee -> save();
+
+        return redirect('trainee');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $trainee = Trainee::find($id);
+        // Show the page
+        return view('trainee/delete', compact('trainee'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $trainee = Trainee::find($id);
+        $trainee->delete();
+        return redirect('trainee');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+
+          $trainee_list = Trainee::join('person','trainee.person_id','=','person.id')
+              ->join('suffix as p_suffix','person.suffix_id','=','p_suffix.id')
+              ->join('guardian','trainee.guardian_id','=','guardian.id')
+              ->join('rank','trainee.rank_id','=','rank.id')
+              // ->join('trainee_requirement', function($join)
+              // {
+              //     $join->on('trainee.id', '=', 'trainee_requirement.trainee_id');
+              // })
+              // ->join('suffix as g_suffix','guardian.suffix_id','=','g_suffix.id')
+              ->select(['trainee.id','trainee.trainee_no','person.first_name','person.last_name','person.middle_name','p_suffix.suffix_name as p_suffix_name','rank.rank_name','trainee.contact_no','trainee.email_address','trainee.course_finished','trainee.school_graduated',
+                'trainee.school_address','guardian.first_name as g_first_name','guardian.middle_name as g_middle_name','guardian.last_name as g_last_name','guardian.contact_no as g_contact_no','guardian.address','person.birth_date','person.birth_place']);
+
+        return Datatables::of($trainee_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'information/trainee/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("form.edit") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->edit_column('birth_date', '{{date("M d,Y", strtotime($birth_date)) }} ' )
+            ->edit_column('first_name','{{ ucwords(strtolower($first_name." ".$middle_name." ".$last_name." ".$p_suffix_name)) }}')
+            ->edit_column('g_first_name','{{ ucwords(strtolower($g_first_name." ".$g_middle_name." ".$g_last_name)) }}')
+            ->make(true);
+
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Trainee::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

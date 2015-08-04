@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'address_type' => 'Address Type',
+    'address_type_name' => 'Address Type Name',
+    'create_address_type'=>'Create New Address Type',
+    'edit_address_type'=>'Edit Address Type',
+    'delete_address_type'=>'Delete Address Type',
+    'create_success'=>'You have successfully created new Address Type',
+    'address_type_list'=>'Address Type List',
+ ]; 
+

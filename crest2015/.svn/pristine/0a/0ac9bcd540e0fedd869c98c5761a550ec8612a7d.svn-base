@@ -1,0 +1,58 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('classification_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_name">{!! Lang::get('classification.classification_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_name" id="classification_name" value="{{{ Input::old('classification_name', isset($classification) ? $classification->classification_name : null) }}}" />
+			{!! $errors->first('classification_name', '<label class="control-label" for="classification_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('education_category_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="education_category_id">{!! Lang::get('classification.education_category_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="education_category_id" id="education_category_id" tabindex="4">
+			
+				@if($action == 1)
+						@foreach($education_category_list as $education_category)
+							@if($education_category->id == $classification->id)
+							<option name="education_category_id" value="{{{ $education_category->id }}}" selected>{{{ $education_category->education_category_name }}}</option>
+							@else
+							<option name="education_category_id" value="{{{ $education_category->id }}}">{{{ $education_category->education_category_name }}}</option>
+							@endif
+						@endforeach
+					@else
+						<option name="" value="" selected></option>
+						@foreach($education_category_list as $education_category)
+							<option name="education_category_id" value="{{{ $education_category->id }}}" >{{{ $education_category->education_category_name }}}</option>
+
+						@endforeach
+
+					@endif
+			</select>
+			{!! $errors->first('education_category_id', '<label class="control-label" for="education_category_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('order_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="order_no">{!! Lang::get('classification.order_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="order_no" id="order_no" value="{{{ Input::old('order_no', isset($classification) ? $classification->order_no : null) }}}" />
+			{!! $errors->first('order_no', '<label class="control-label" for="order_no">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#education_category_id").change(function(){
+			$("#order_no").numericOnly();
+
+		});
+	});
+</script>
+
+@stop

@@ -1,0 +1,15 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('rate_type_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="rate_type_name">{!! Lang::get('rate_type.rate_type_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="rate_type_name" id="rate_type_name" value="{{{ Input::old('rate_type_name', isset($rate_type) ? $rate_type->rate_type_name : null) }}}" />
+			{!! $errors->first('rate_type_name', '<label class="control-label" for="rate_type_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('rate_type_no') ? 'has-error' : '' }}}">
+	
+</div>
+
+

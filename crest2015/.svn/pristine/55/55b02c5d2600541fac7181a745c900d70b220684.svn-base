@@ -1,0 +1,188 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Section;
+use App\Http\Requests\SectionRequest;
+use App\Http\Requests\SectionEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class SectionController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Section::where('section_name','LIKE','%$term%').orWhere('session_id','LIKE','%$term%').orWhere('program_id','LIKE','%$term%').orWhere('classification_level_id','LIKE','%$term%').orWhere('semester_level_id','LIKE','%$term%').orWhere('is_active','LIKE','%$term%').orWhere('section_type_id','LIKE','%$term%').orWhere('campus_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Section::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('section.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('section.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(SectionRequest $section_request) {
+
+        $section = new Section();
+        $section -> section_name = $section_request->section_name;
+        $section -> session_id = $section_request->session_id;
+        $section -> program_id = $section_request->program_id;
+        $section -> classification_level_id = $section_request->classification_level_id;
+        $section -> semester_level_id = $section_request->semester_level_id;
+        $section -> is_active = $section_request->is_active;
+        $section -> section_type_id = $section_request->section_type_id;
+        $section -> campus_id = $section_request->campus_id;
+        $section -> is_block = $section_request->is_block;
+        // $section -> created_by_id = Auth::id();
+        $section -> save();
+
+        $success = \Lang::get('section.create_success').' : '.$section->section_name ; 
+        return redirect('section/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $section = Section::find($id);
+       //var_dump($its_customs_office);
+        return view('section/edit',compact('section'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(SectionEditRequest $section_edit_request, $id) {
+      
+        $section = Section::find($id);
+        $section -> section_name = $section_edit_request->section_name;
+        $section -> session_id = $section_edit_request->session_id;
+        $section -> program_id = $section_edit_request->program_id;
+        $section -> classification_level_id = $section_edit_request->classification_level_id;
+        $section -> semester_level_id = $section_edit_request->semester_level_id;
+        $section -> is_active = $section_edit_request->is_active;
+        $section -> section_type_id = $section_edit_request->section_type_id;
+        $section -> campus_id = $section_edit_request->campus_id;
+        $section -> is_block = $section_edit_request->is_block;
+        // $section -> updated_by_id = Auth::id();
+        $section -> save();
+
+        return redirect('section');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $section = Section::find($id);
+        // Show the page
+        return view('section/delete', compact('section'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $section = Section::find($id);
+        $section->delete();
+        return redirect('section');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $section_list = Section::select(array('section.id','section.section_name','section.session_id','program_id','classification_level_id','semester_level_id','is_active','section_type_id','campus_id','is_block'))
+              ->orderBy('section.section_name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($section_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'section/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'section/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Section::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

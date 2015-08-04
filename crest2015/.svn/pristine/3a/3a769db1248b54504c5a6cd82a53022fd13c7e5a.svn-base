@@ -1,0 +1,156 @@
+<!-- 	<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+    <div class="col-md-12">
+    <div class="form-group {{{ $errors->has('email') ? 'has-error' : '' }}}">
+        <label class="col-md-3 control-label" for="email">{{ Lang::get('admin/gen_user.email') }}</label>
+        <div class="col-md-9">
+            <input class="form-control"  type="email" tabindex="1" placeholder="{{ Lang::get('admin/gen_user.email') }}" name="email" id="email" value="{{{ Input::old('email', isset($gen_user) ? $gen_user->email : null) }}}" />
+            {!! $errors->first('email', '<label class="control-label" for="email">:message</label>')!!}
+        </div>
+    </div>
+    </div>
+
+	<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('password') ? 'has-error' : '' }}}">
+		<label class="col-md-3 control-label" for="password">{{ Lang::get('admin/gen_user.password') }}</label>
+		<div class="col-md-9">
+			<input class="form-control"  tabindex="2" placeholder="{{ Lang::get('admin/gen_user.password') }}" type="password" name="password" id="password" value="" />
+			{!!$errors->first('password', '<label class="control-label" for="password">:message</label>')!!}
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('password_confirmation') ? 'has-error' : '' }}}">
+		<label class="col-md-3 control-label" for="password_confirmation">{{ Lang::get('admin/gen_user.password_confirmation') }}</label>
+		<div class="col-md-9">
+			<input class="form-control" type="password" tabindex="3" placeholder="{{ Lang::get('admin/gen_user.password_confirmation') }}"  name="password_confirmation" id="password_confirmation" value="" />
+			{!!$errors->first('password_confirmation', '<label class="control-label" for="password_confirmation">:message</label>')!!}
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+	<div class="form-group">
+		<label class="col-md-3 control-label" for="confirm">{{ Lang::get('admin/gen_user.activate_user') }}</label>
+		<div class="col-md-9">
+			<select class="form-control" name="confirmed" id="confirmed" tabindex="4">
+				<option value="1"{{{ ((isset($gen_user) && $gen_user->confirmed == 1)? ' selected="selected"' : '') }}}>{{{ Lang::get('admin/gen_user.yes') }}}</option>
+				<option value="0"{{{ ((isset($gen_user) && $gen_user->confirmed == 0) ? ' selected="selected"' : '') }}}>{{{ Lang::get('admin/gen_user.no') }}}</option>
+			</select>
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group {{{ $errors->has('roles[]') ? 'has-error' : '' }}}">
+			<label class="col-md-3 control-label" for="roles">{{ Lang::get('admin/gen_user.roles') }}</label>
+			<div class="col-md-9">
+				<select name="roles[]" id="roles" multiple style="width:100%;" tabindex="5" value="{{{ Input::old('roles', isset($gen_user) ? $gen_user->roles : null) }}}">
+					@foreach ($gen_role_list as $gen_role)
+					<option value="{{{ $gen_role->gen_role_id }}}"{{{ ( array_search($gen_role->gen_role_id, $gen_user_role_list ) !== false && array_search($gen_role->gen_role_id, $gen_user_role_list ) >= 0 ? ' selected="selected"' : '') }}}>{{{ $gen_role->name }}}</option>
+					@endforeach
+				</select>
+
+				<span class="help-block"> {{ Lang::get('admin/gen_user.roles_info') }} </span>
+			</div>
+		</div>
+	</div>
+	 <div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="roles">{{ Lang::get('admin/gen_user.roles') }}</label>
+			<div class="col-md-9">
+				<select name="roles[]" id="roles" multiple style="width:100%;" tabindex="5">
+					@foreach ($gen_role_list as $gen_role)
+					<option value="{{{ $gen_role->gen_role_id }}}"{{{ ( array_search($gen_role->gen_role_id, $gen_user_role_list ) !== false && array_search($gen_role->gen_role_id, $gen_user_role_list ) >= 0 ? ' selected="selected"' : '') }}}>{{{ $gen_role->name }}}</option>
+					@endforeach
+				</select>
+
+				<span class="help-block"> {{ Lang::get('admin/gen_user.roles_info') }} </span>
+			</div>
+		</div>
+	</div> --> 
+
+		<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+    <div class="col-md-12">
+    <div class="form-group {{{ $errors->has('email') ? 'has-error' : '' }}}">
+        <label class="col-md-3 control-label" for="email">{{ Lang::get('admin/gen_user.email') }}</label>
+        <div class="col-md-9">
+            <input class="form-control"  type="email" tabindex="1" placeholder="{{ Lang::get('admin/gen_user.email') }}" name="email" id="email" value="{{{ Input::old('email', isset($gen_user) ? $gen_user->email : null) }}}" />
+            {!! $errors->first('email', '<label class="control-label" for="email">:message</label>')!!}
+        </div>
+    </div>
+    </div>
+
+	<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('password') ? 'has-error' : '' }}}">
+		<label class="col-md-3 control-label" for="password">{{ Lang::get('admin/gen_user.password') }}</label>
+		<div class="col-md-9">
+			<input class="form-control"  tabindex="2" placeholder="{{ Lang::get('admin/gen_user.password') }}" type="password" name="password" id="password" value="" />
+			{!!$errors->first('password', '<label class="control-label" for="password">:message</label>')!!}
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('password_confirmation') ? 'has-error' : '' }}}">
+		<label class="col-md-3 control-label" for="password_confirmation">{{ Lang::get('admin/gen_user.password_confirmation') }}</label>
+		<div class="col-md-9">
+			<input class="form-control" type="password" tabindex="3" placeholder="{{ Lang::get('admin/gen_user.password_confirmation') }}"  name="password_confirmation" id="password_confirmation" value="" />
+			{!!$errors->first('password_confirmation', '<label class="control-label" for="password_confirmation">:message</label>')!!}
+		</div>
+	</div>
+	</div>
+	<div class="col-md-12">
+	<div class="form-group">
+		<label class="col-md-3 control-label" for="confirm">{{ Lang::get('admin/gen_user.activate_user') }}</label>
+		<div class="col-md-9">
+			<select class="form-control" name="confirmed" id="confirmed" tabindex="4">
+				<option value="1"{{{ ((isset($gen_user) && $gen_user->confirmed == 1)? ' selected="selected"' : '') }}}>{{{ Lang::get('admin/gen_user.yes') }}}</option>
+				<option value="0"{{{ ((isset($gen_user) && $gen_user->confirmed == 0) ? ' selected="selected"' : '') }}}>{{{ Lang::get('admin/gen_user.no') }}}</option>
+			</select>
+		</div>
+	</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="roles">{{ Lang::get('admin/gen_user.roles') }}</label>
+			<div class="col-md-9">
+				<select name="roles[]" id="roles" multiple="" style="width:100%;" tabindex="5" data-placeholder="{{{ Input::old('roles', isset($gen_user) ? $gen_user->roles : null) }}}">
+					@foreach ($gen_role_list as $gen_role)
+					<option value="{{{ $gen_role['gen_role_id'] }}}"{{{ ( array_search($gen_role->gen_role_id, $gen_user_role_list ) !== false && array_search($gen_role->gen_role_id, $gen_user_role_list ) >= 0 ? ' selected="selected"' : '') }}}>{{{ $gen_role->name }}}</option>
+					@endforeach
+				</select>
+
+				<span class="help-block"> {{ Lang::get('admin/gen_user.roles_info') }} </span>
+			</div>
+		</div>
+	</div>
+
+<!-- <div class="col-md-12">
+	<div class="form-group">
+		<label class="col-md-3 control-label" for="roles">{!! Lang::get('admin/gen_user.roles') !!}</label>
+		<div class="col-md-9">
+	    	<select tabindex="3" name="roles[]" id="roles" multiple="" style="width: 100%;" data-placeholder="{!! Lang::get('admin/gen_role.roles') !!}">
+				<optgroup label="{!! Lang::get('admin/gen_role.user_role') !!}">
+					@foreach ($gen_role_list as $roles)
+						<option value="{{{ $gen_role->gen_role_id }}}"{{{ ( array_search($gen_role->gen_role_id, $gen_user_role_list ) !== false && array_search($gen_role->gen_role_id, $gen_user_role_list ) >= 0 ? ' selected="selected"' : '') }}}>{{{ $gen_role->name }}}</option>
+						@foreach($gen_role_list as $item)
+							@if($item['gen_role_id']==$roles['gen_role_id']) selected='selected';
+							@endif
+						@endforeach>{{{ $roles['display_name'] }}}</option>
+					@endforeach
+				</optgroup>
+	      	</select>
+    	</div>
+	</div>
+</div> -->
+
+
+	<!-- <div class="form-group {{{ $errors->has('email') ? 'has-error' : '' }}}">
+        <label class="col-md-3 control-label" for="email">{{ Lang::get('admin/gen_user.email') }}</label>
+        <div class="col-md-9">
+            <input class="form-control"  type="email" tabindex="1" placeholder="{{ Lang::get('admin/gen_user.email') }}" name="email" id="email" value="{{{ Input::old('email', isset($gen_user) ? $gen_user->email : null) }}}" />
+            {!! $errors->first('email', '<label class="control-label" for="email">:message</label>')!!}
+        </div>
+    </div> -->
+
+    

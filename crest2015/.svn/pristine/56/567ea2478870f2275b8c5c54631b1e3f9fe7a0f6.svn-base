@@ -1,0 +1,19 @@
+ <?php
+
+return [
+    'its_tagging_procedure' => 'Tagging Procedure',
+    'version' => 'Version',
+    'step' => 'Step',
+    'code' => 'Code',
+	// 'icon' => 'Icon',
+    'create_tagging_procedure'=>'Create New Tagging Procedure',
+    'edit_tagging_procedure'=>'Edit Tagging Procedure',
+    'delete_tagging_procedure'=>'Delete Tagging Procedure',
+    'create_success'=>'You have successfully created new Tagging Procedure',
+     'its_tagging_procedure_list'=>'Tagging Procedure List',
+     'name'=>'Name',
+     'description' => 'Description',
+     'roles' => 'Roles',
+     'roles_info' => 'Adding the role to tagging procedure, be assigned all privileges for a given role.'
+    
+ ]; 

@@ -1,0 +1,56 @@
+<html>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	
+
+		<table align="center">
+			<tr>
+				<td rowspan="4" align="center"><img src="<?php echo e($logo); ?>" width="70px" height="70px" align="center"/></td>
+				<td align="center" align="center" align="center" align="center">Republic of the Philippines</td>
+			</tr>
+			<tr>
+				<td align="center" align="center" align="center">Department of Finance</td>
+			</tr>
+			<tr>
+				<td align="center" align="center"><b>Bureau of Customs</b></td>
+			</tr>
+			<tr>
+				<td align="center">Cebu- PEZA</td>
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+		</table>
+		<br><br><br><br>
+		<table border="1" cellpadding="0px" cellspacing="0px">
+			<tr>
+				<td align="center">Date</td>
+				<td align="center">Port of Discharge</td>
+				<td align="center">Transshipment Entry Number</td>
+				<td align="center">Consignee</td>
+				<td align="center">Contents of Shipments</td>
+				<td align="center">No. of Containers</td>
+				<td align="center">Date of Shipments left the port of discharge</td>
+				<td align="center">No. of Containers which have left from port of discharge</td>
+				<td align="center">No. of Containers which have arrived at PEZA</td>
+			</tr>
+			
+			<?php foreach($its_import_entry_list as $its_import_entry): ?>
+			<?php /**/ $no_container = $its_import_entry->its_import_entry_container()->where('awb_hbl_no','=',$its_import_entry->awb_hbl_no)->count() /**/ ?>
+			<tr>
+				<td align="center"></td>
+				<td align="center"><?php echo e($its_import_entry->ex_company_address); ?></td>
+				<td align="center"></td>
+				<td align="center"><?php echo e($its_import_entry->im_company_address); ?></td>
+				<td align="center"><?php echo e($its_import_entry->number_and_kind); ?></td>
+				<td align="center"><?php echo e($no_container); ?></td>
+				<td align="center"></td>
+				<td align="center"></td>
+				<td align="center"></td>
+			</tr>
+			<?php endforeach; ?>
+			
+
+		</table>
+
+</html>

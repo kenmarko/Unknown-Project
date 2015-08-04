@@ -1,0 +1,172 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\TaxStatusCode;
+use App\Http\Requests\TaxStatusCodeRequest;
+use App\Http\Requests\TaxStatusCodeEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class TaxStatusCodeController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = TaxStatusCode::where('tax_status_code_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = TaxStatusCode::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('tax_status_code.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('tax_status_code.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TaxStatusCodeRequest $tax_status_code_request) {
+
+        $tax_status_code = new TaxStatusCode();
+        $tax_status_code -> tax_status_code_name = $tax_status_code_request->tax_status_code_name;
+        // $tax_status_code -> created_by_id = Auth::id();
+        $tax_status_code -> save();
+
+        $success = \Lang::get('tax_status_code.create_success').' : '.$tax_status_code->tax_status_code_name ; 
+        return redirect('tax_status_code/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $tax_status_code = TaxStatusCode::find($id);
+       //var_dump($its_customs_office);
+        return view('tax_status_code/edit',compact('tax_status_code'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TaxStatusCodeEditRequest $tax_status_code_edit_request, $id) {
+      
+        $tax_status_code = TaxStatusCode::find($id);
+        $tax_status_code -> tax_status_code_name = $tax_status_code_edit_request->tax_status_code_name;
+        // $tax_status_code -> updated_by_id = Auth::id();
+        $tax_status_code -> save();
+
+        return redirect('tax_status_code');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $tax_status_code = TaxStatusCode::find($id);
+        // Show the page
+        return view('tax_status_code/delete', compact('tax_status_code'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $tax_status_code = TaxStatusCode::find($id);
+        $tax_status_code->delete();
+        return redirect('tax_status_code');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $tax_status_code_list = TaxStatusCode::select(array('tax_status_code.id','tax_status_code.tax_status_code_name'))
+              ->orderBy('tax_status_code.tax_status_code_name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($tax_status_code_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'tax_status_code/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'tax_status_code/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                TaxStatusCode::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

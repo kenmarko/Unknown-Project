@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('prefix_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="prefix_name">{!! Lang::get('prefix.prefix_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="prefix_name" id="prefix_name" value="{{{ Input::old('prefix_name', isset($prefix) ? $prefix->prefix_name : null) }}}" />
+			{!! $errors->first('prefix_name', '<label class="control-label" for="prefix_name">:message</label>')!!}
+
+		</div>
+	</div>
+	
+</div>
+
+

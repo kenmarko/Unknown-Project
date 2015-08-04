@@ -1,0 +1,101 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("its/its_bank_branch.its_bank_branch")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+ <h3> <?php echo e(Lang::get("its/its_bank_branch.its_bank_branch")); ?>
+
+  <div class="pull-right">
+   <div class="pull-right">
+             <a href="<?php echo e(URL::to('its/its_bank_branch')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get("its/its_bank_branch.its_bank_branch_list")); ?></a>
+         </div>
+  </div>
+ </h3>
+</div>
+
+<form class="form-horizontal" method="post" action="<?php echo e(URL::to('its/its_bank_branch/create')); ?>" autocomplete="off">
+ <?php echo $__env->make('its.its_bank_branch.form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ <div class="col-md-12">
+  <div class="form-group">
+   <label class="col-md-3 control-label" for="actions">&nbsp;</label>
+   <div class="col-md-9"> 
+     <button type="submit" class="btn btn-sm btn-success">
+                 <span class="glyphicon glyphicon-ok-circle"></span> <?php echo e(Lang::get("its/form.create")); ?>
+
+             </button> 
+             <button type="reset" class="btn btn-sm btn-default">
+                 <span class="glyphicon glyphicon-remove-circle"></span>  <?php echo e(Lang::get("its/form.reset")); ?>
+
+             </button> 
+     <a href="<?php echo e(URL::to('its/gen_user')); ?>" class="btn btn-sm btn-warning close_popup">
+                 <span class="glyphicon glyphicon-ban-circle"></span>  <?php echo e(Lang::get("its/form.cancel")); ?>
+
+          </a>
+         </div>
+     </div>
+ </div> 
+</form>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+ $(function() {
+
+            /********
+                RMD 2015-03-07
+                START OF OFFICE CODE ->  typeahead
+            *************************************************************************/
+                var its_bank_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_bank/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_bank_list) {
+                                    console.log(its_bank_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_bank_list, function (its_bank) {
+                                        //console.log(its_customs_office); //debugging
+                                        return {
+                                            code:its_bank.code,
+                                            name:its_bank.name,
+                                            id: its_bank.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_bank_list.initialize();
+                 
+                //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#bank_name_typeahead .typeahead').typeahead(null, {
+                  name: 'its_bank_list',
+                  displayKey: 'name',
+                  source: its_bank_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_bank, name) {
+                        console.log(its_bank); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                       //alert(its_bank.id);
+                       $("#bank_id").val(its_bank.id);
+                        //automatically assign value to export_county_code
+                       // $("#its_customs_office_name").val(its_customs_office.name);
+                    });
+
+            /********
+                END OF OFFICE CODE ->  typeahead
+            *************************************************************************/
+
+ });
+</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('its.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

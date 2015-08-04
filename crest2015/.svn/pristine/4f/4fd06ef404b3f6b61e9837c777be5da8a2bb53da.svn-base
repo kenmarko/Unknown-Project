@@ -1,0 +1,238 @@
+<input type="hidden" id="its_import_entry_id" value="0" />
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+	<div class="col-md-12">
+		<div class="form-group {{{ $errors->has('prefix_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="prefix_id">{!! Lang::get('assessor.prefix_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="prefix_id" id="prefix_id" tabindex="4">
+			@if($action==1)
+				@foreach($prefix_list as $prefix)
+					@if($assessor->prefix_id == $prefix->id)
+					<option name="prefix_id" value="{{{ $prefix->id }}}" selected>{{{ $prefix->prefix_name  }}}</option>
+					@else
+					<option name="prefix_id" value="{{{ $prefix->id }}}" >{{{ $prefix->prefix_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($prefix_list as $prefix)
+					<option name="prefix_id" value="{{{ $prefix->id }}}" >{{{ $prefix->prefix_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('prefix_id', '<label class="control-label" for="prefix_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('first_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="first_name">{!! Lang::get('assessor.first_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="first_name" id="first_name" value="{{{ Input::old('first_name', isset($assessor) ? $assessor->first_name : null) }}}" />
+			{!! $errors->first('first_name', '<label class="control-label" for="first_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('middle_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="middle_name">{!! Lang::get('assessor.middle_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="middle_name" id="middle_name" value="{{{ Input::old('middle_name', isset($assessor) ? $assessor->middle_name : null) }}}" />
+			{!! $errors->first('middle_name', '<label class="control-label" for="middle_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('last_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="last_name">{!! Lang::get('assessor.last_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="last_name" id="last_name" value="{{{ Input::old('last_name', isset($assessor) ? $assessor->last_name : null) }}}" />
+			{!! $errors->first('last_name', '<label class="control-label" for="last_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('suffix_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="suffix_id">{!! Lang::get('assessor.suffix_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="suffix_id" id="suffix_id" tabindex="4">
+			@if($action==1)
+				@foreach($suffix_list as $suffix)
+					@if($assessor->suffix_id == $suffix->id)
+					<option name="suffix_id" value="{{{ $suffix->id }}}" selected>{{{ $suffix->suffix_name  }}}</option>
+					@else
+					<option name="suffix_id" value="{{{ $suffix->id }}}" >{{{ $suffix->suffix_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($suffix_list as $suffix)
+					<option name="suffix_id" value="{{{ $suffix->id }}}" >{{{ $suffix->suffix_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('suffix_id', '<label class="control-label" for="suffix_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('birthdate') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="birthdate">{!! Lang::get('assessor.birthdate') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="birthdate" id="birthdate" value="{{{ Input::old('birthdate', isset($assessor) ? $assessor->birthdate : null) }}}" />
+			{!! $errors->first('birthdate', '<label class="control-label" for="birthdate">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('religion_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="religion_id">{!! Lang::get('assessor.religion_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="religion_id" id="religion_id" tabindex="4">
+			@if($action==1)
+				@foreach($religion_list as $religion)
+					@if($assessor->religion_id == $religion->id)
+					<option name="religion_id" value="{{{ $religion->id }}}" selected>{{{ $religion->religion_name  }}}</option>
+					@else
+					<option name="religion_id" value="{{{ $religion->id }}}" >{{{ $religion->religion_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($religion_list as $religion)
+					<option name="religion_id" value="{{{ $religion->id }}}" >{{{ $religion->religion_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('religion_id', '<label class="control-label" for="religion_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('gender_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="gender_id">{!! Lang::get('assessor.gender_id') !!}</label>
+		<div class="col-md-10">
+			<input type="radio" id="gender_id" name="gender_id" value="male" checked>Male
+			<br>
+			<input type="radio" id="gender_id" name="gender_id" value="female">Female
+			{!! $errors->first('gender_id', '<label class="control-label" for="gender_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('civil_status_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="civil_status_id">{!! Lang::get('assessor.civil_status_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="civil_status_id" id="civil_status_id" value="{{{ Input::old('civil_status_id', isset($assessor) ? $assessor->civil_status_id : null) }}}" />
+			{!! $errors->first('civil_status_id', '<label class="control-label" for="civil_status_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('citizenship_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="citizenship_id">{!! Lang::get('assessor.citizenship_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="citizenship_id" id="citizenship_id" tabindex="4">
+			@if($action==1)
+				@foreach($citizenship_list as $citizenship)
+					@if($assessor->citizenship_id == $citizenship->id)
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" selected>{{{ $citizenship->citizenship_name  }}}</option>
+					@else
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" >{{{ $citizenship->citizenship_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($citizenship_list as $citizenship)
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" >{{{ $citizenship->citizenship_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('citizenship_id', '<label class="control-label" for="citizenship_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('blood_type_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="blood_type_id">{!! Lang::get('assessor.blood_type_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="blood_type_id" id="blood_type_id" value="{{{ Input::old('blood_type_id', isset($assessor) ? $assessor->blood_type_id : null) }}}" />
+			{!! $errors->first('blood_type_id', '<label class="control-label" for="blood_type_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('assessor.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($assessor) ? $assessor->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+
+@section('scripts')
+<script type="text/javascript">
+    $(function() {
+
+
+
+			var employee = new Bloodhound({
+			  datumTokenizer: Bloodhound.tokenizers.whitespace,
+			  queryTokenizer: Bloodhound.tokenizers.whitespace,
+			  // url points to a json file that contains an array of country names, see
+			  // https://github.com/twitter/typeahead.js/blob/gh-pages/data/employee.json
+			  prefetch: '../employee/dataJson'
+			});
+			 
+			// passing in `null` for the `options` arguments will result in the default
+			// options being used
+			$('#prefetch .typeahead').typeahead(null, {
+			  name: 'employee',
+			  source: employee
+			});
+
+
+   				// var employee_list = new Bloodhound({
+       //                  datumTokenizer: function (datum) {
+       //                      return Bloodhound.tokenizers.whitespace(datum.employee_id);
+       //                  },
+       //                  queryTokenizer: Bloodhound.tokenizers.whitespace,
+       //                  limit: 10,
+       //                  prefetch: {
+       //                      // url points to a json file that contains an array of country names, see
+       //                      // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+       //                      //url: '../../its/assessor/dataJson',
+       //                      //url:'http://boc.itechrar.com/its/assessor/dataJson',
+       //                      url:'../../employee/dataJson',
+                            
+       //                      // the json file contains an array of strings, but the Bloodhound
+       //                      // suggestion engine expects JavaScript objects so this converts all of
+       //                      // those strings
+       //                       filter: function (employee_list) {
+       //                                   alert('this is an alert script from create');
+       //                              console.log(employee_list); //debugging
+       //                              // Map the remote source JSON array to a JavaScript object array
+       //                              return $.map(employee_list, function (assessor) {
+       //                                  //console.log(its_customs_office); //debugging
+       //                                  return {
+       //                                      employee_id: assessor.employee_id,
+       //                                      id: assessor.id
+       //                                  };
+       //                              });
+       //                      }
+       //                  }
+       //          });
+
+       //          employee_list.initialize();
+       //           console.log(employee_list);
+
+       //          //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+       //         // $('#its_import_entry_employee_id_typeahead .typeahead').typeahead(null, {
+       //            $('#assessor_employee_id_typeahead').typeahead(null, {
+       //            employee_id: 'employee_list',
+       //            displayKey: 'employee_id',
+       //            source: employee_list.ttAdapter()
+       //          }).bind("typeahead:selected", function(obj, assessor, employee_id) {
+       //                  console.log(assessor);
+       //                 $("#its_import_entry_id").val(assessor.id);
+
+
+       //              });
+
+
+    });
+
+</script>
+@stop

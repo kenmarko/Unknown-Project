@@ -1,0 +1,195 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\StudentCurriculum;
+use App\Models\Classification;
+use App\Http\Requests\StudentCurriculumRequest;
+use App\Http\Requests\StudentCurriculumEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class StudentCurriculumController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = StudentCurriculum::where('student_id','LIKE','%$term%').orWhere('curriculum_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = StudentCurriculum::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('student_curriculum.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        $action = 0;
+        // Get all the available permissions
+        $classification_list = Classification::orderBy('classification.classification_name','ASC')->get();
+        // Show the page
+        return view('student_curriculum.create', compact('action','classification_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(StudentCurriculumRequest $student_curriculum_request) {
+
+        $student_curriculum = new StudentCurriculum();
+        $student_curriculum -> student_id = $student_curriculum_request->student_id;
+        $student_curriculum -> curriculum_id = $student_curriculum_request->curriculum_id;
+        $student_curriculum -> date_assigned = $student_curriculum_request->date_assigned;
+        $student_curriculum -> is_active = $student_curriculum_request->is_active;
+        // $student_curriculum -> created_by_id = Auth::id();
+        $student_curriculum -> save();
+
+        $success = \Lang::get('student_curriculum.create_success').' : '.$student_curriculum->student_curriculum_name ; 
+        return redirect('student_curriculum/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $action = 1;
+        $classification_list = Classification::find($id);
+        $student_curriculum = StudentCurriculum::find($id);
+       //var_dump($its_customs_office);
+        return view('student_curriculum/edit',compact('action','student_curriculum','classification_list'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(StudentCurriculumEditRequest $student_curriculum_edit_request, $id) {
+      
+        $student_curriculum = StudentCurriculum::find($id);
+        $student_curriculum -> student_id = $student_curriculum_edit_request->student_id;
+        $student_curriculum -> curriculum_id = $student_curriculum_edit_request->curriculum_id;
+        $student_curriculum -> date_assigned = $student_curriculum_edit_request->date_assigned;
+        $student_curriculum -> is_active = $student_curriculum_edit_request->is_active;
+        // $student_curriculum -> updated_by_id = Auth::id();
+        $student_curriculum -> save();
+
+        return redirect('student_curriculum');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $action = 1;
+        $student_curriculum = StudentCurriculum::find($id);
+        // Show the page
+        return view('student_curriculum/delete', compact('student_curriculum'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $student_curriculum = StudentCurriculum::find($id);
+        $student_curriculum->delete();
+        return redirect('student_curriculum');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $student_curriculum_list = StudentCurriculum::join('student','student_curriculum.student_id','=','student.id')
+              ->join('curriculum','student_curriculum.curriculum_id','=','curriculum.id')
+              ->join('program','curriculum.program_id','=','program.id')
+              ->join('classification','program.id','=','classification.id')
+              ->select(array('student_curriculum.id','student.first_name','student.last_name','classification.classification_name','student_curriculum.date_assigned','student_curriculum.is_active'))
+              ->orderBy('student.first_name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($student_curriculum_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'student_curriculum/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'student_curriculum/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('first_name','{{ ucwords(strtolower($first_name." ".$last_name)) }}')
+            ->remove_column('last_name')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                StudentCurriculum::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

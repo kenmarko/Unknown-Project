@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'room_type' => 'Room Type',
+    'room_type_code' => 'Code',
+    'room_type_name' => 'Name',
+    'create_room_type'=>'Create New Room Type',
+    'edit_room_type'=>'Edit Room Type',
+    'delete_room_type'=>'Delete Room Type',
+    'create_success'=>'You have successfully created new Room Type',
+    'room_type_list'=>'Room Type List',
+ ]; 

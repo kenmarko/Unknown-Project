@@ -1,0 +1,15 @@
+<?php
+
+return [
+	'home' => 'Home',
+	'login' => 'Login',
+	'sign_up' => 'Sign up',
+	'admin_panel' => 'Admin Panel',
+	'its_panel'=> 'Import Tracking System',
+	'logout' => 'Logout',
+	'login_as' => 'Logged in as',
+	'reporting' => 'Reports',
+	'report' => 'Reports',
+	
+
+];

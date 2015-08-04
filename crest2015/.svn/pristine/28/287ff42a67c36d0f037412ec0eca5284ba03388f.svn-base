@@ -1,0 +1,40 @@
+<?php namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class EnrollmentRequest extends FormRequest {
+
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		return [
+			'first_name' => 'required|min:3,person',
+			'last_name' => 'required|min:3,person',
+			'birth_place' => 'required|min:3,person',
+			'email_address' => 'required|min:3,trainee',
+			'contact_no' => 'required|min:7,trainee',
+			'course_finished' => 'required|min:3,trainee',
+			'school_graduated' => 'required|min:3,trainee',
+			'school_address' => 'required|min:3,trainee',
+			'guardian_first_name' => 'required|min:3,guardian',
+			'guardian_last_name' => 'required|min:3,guardian',
+			'guardian_contact' => 'required|min:7,guardian',
+			'guardian_address' => 'required|min:3,guardian',
+		];
+	}
+
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
+	}
+
+}

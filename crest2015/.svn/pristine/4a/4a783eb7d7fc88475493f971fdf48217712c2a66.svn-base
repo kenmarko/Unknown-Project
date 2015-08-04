@@ -1,0 +1,11 @@
+ <?php
+
+return [
+    'blood_type' => 'Blood Type',
+    'blood_type_name' => 'Blood Type Name',
+    'create_blood_type'=>'Create New Blood Type',
+    'edit_blood_type'=>'Edit Blood Type',
+    'delete_blood_type'=>'Delete Blood Type',
+    'create_success'=>'You have successfully created new Blood Type',
+    'blood_type_list'=>'Blood Type List',
+ ]; 

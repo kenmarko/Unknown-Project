@@ -1,0 +1,39 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('country_name') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="country_name"><?php echo Lang::get('country.country_name'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="country_name" id="country_name" value="<?php echo e(Input::old('country_name', isset($country) ? $country->country_name : null)); ?>" />
+			<?php echo $errors->first('country_name', '<label class="control-label" for="country_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('country_code') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="country_code"><?php echo Lang::get('country.country_code'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="country_code" id="country_code" value="<?php echo e(Input::old('country_code', isset($country) ? $country->country_code : null)); ?>" />
+			<?php echo $errors->first('country_code', '<label class="control-label" for="country_code">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_default') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_default"><?php echo Lang::get('country.country_is_default'); ?></label>
+		<div class="col-md-10">
+			<!-- <?php echo e($default = Input::old('is_default', isset($country) ? $country->is_default : null)); ?> -->
+			<?php if($default == '1'): ?>
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data"  value="1" checked />
+			<?php elseif($default == '0'): ?>
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data" value="1"/>
+			<?php else: ?>
+				<input type="checkbox" name="is_default" id="is_default" class="reset-data" value="1" checked/>
+			<?php endif; ?>
+			<?php echo $errors->first('is_default', '<label class="control-label" for="is_default">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

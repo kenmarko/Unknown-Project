@@ -1,0 +1,341 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register all of the routes for an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the controller to call when that URI is requested.
+|
+*/
+
+Route::get('auth/login', 'Auth\AuthController@showLoginForm');
+Route::post('auth/login', 'Auth\AuthController@login');
+Route::get('auth/register', 'Auth\AuthController@showRegistrationForm');
+Route::post('auth/register', 'Auth\AuthController@register');
+Route::get('auth/logout', 'Auth\AuthController@logout');
+
+Route::get('/', 'HomeController@index');
+Route::get('/crest_login', 'HomeController@crest_login');
+
+Route::get('administrator/', 'AdminController@index');
+
+//information Dashboard
+// Route::get('information/', 'InformationDashboardController@index');
+Route::get('information/', 'EnrollmentController@index');
+// Route::get('information/enrollment', 'EnrollmentController@index');
+Route::get('information/enrollment/enroll', 'EnrollmentController@getEnroll');
+Route::post('information/enrollment/enroll', 'EnrollmentController@postEnroll');
+Route::get('information/enrollment/old_trainee', 'EnrollmentOldController@getRegister');
+Route::post('information/enrollment/old_trainee', 'EnrollmentOldController@postRegister');
+Route::get('information/enrollment/data', 'EnrollmentController@data');
+Route::get('information/trainee', 'TraineeController@index');
+Route::get('information/trainee/{id}/edit', 'TraineeController@getEdit');
+Route::get('information/trainee/data', 'TraineeController@data');
+Route::get('information/course_requirement', 'CourseRequirementController@index');
+Route::get('information/course_requirement/data', 'CourseRequirementController@data');
+Route::get('information/course_requirement/dataJson', 'CourseRequirementController@dataJson');
+Route::get('information/trainee_requirement/dataJson', 'TraineeRequirementController@dataJson');
+
+//scheduler Dashboard
+Route::get('scheduler/', 'SchedulerController@index');
+Route::get('scheduler/training_schedules', 'SchedulerController@getTraining');
+Route::get('scheduler/create', 'SchedulerController@getcreate');
+Route::post('scheduler/create', 'SchedulerController@postCreate');
+Route::get('scheduler/{id}/edit', 'SchedulerController@getEdit');
+Route::post('scheduler/{id}/edit', 'SchedulerController@postEdit');
+Route::get('scheduler/{id}/delete', 'SchedulerController@getDelete');
+Route::post('scheduler/{id}/delete', 'SchedulerController@postDelete');
+Route::get('scheduler/data', 'SchedulerController@data');
+Route::get('scheduler/dataJson', 'SchedulerController@dataJson');
+
+//registrar Dashboard
+Route::get('registrar/enrollment_report', 'RegistrarController@index');
+Route::get('registrar/course_completion_report', 'RegistrarController@getCCR');
+
+
+//this is routing for course
+Route::get('course/', 'CourseController@index');
+Route::get('course/create', 'CourseController@getCreate');
+Route::post('course/create', 'CourseController@postCreate');
+Route::get('course/{id}/edit', 'CourseController@getEdit');
+Route::post('course/{id}/edit', 'CourseController@postEdit');
+Route::get('course/{id}/delete', 'CourseController@getDelete');
+Route::post('course/{id}/delete', 'CourseController@postDelete');
+Route::get('course/data', 'CourseController@data');
+
+//this is routing for trainee
+Route::get('trainee/', 'TraineeController@index');
+Route::get('trainee/create', 'TraineeController@getCreate');
+Route::post('trainee/create', 'TraineeController@postCreate');
+Route::get('trainee/{id}/edit', 'TraineeController@getEdit');
+Route::post('trainee/{id}/edit', 'TraineeController@postEdit');
+Route::get('trainee/{id}/delete', 'TraineeController@getDelete');
+Route::post('trainee/{id}/delete', 'TraineeController@postDelete');
+Route::get('trainee/data', 'TraineeController@data');
+Route::get('trainee/dataJson', 'TraineeController@dataJson');
+
+//this is routing for training
+Route::get('training/', 'TrainingController@index');
+Route::post('training/createJson', 'TrainingController@postCreateJson');
+Route::get('training/create', 'TrainingController@getCreate');
+Route::post('training/create', 'TrainingController@postCreate');
+Route::get('training/{id}/edit', 'TrainingController@getEdit');
+Route::post('training/{id}/edit', 'TrainingController@postEdit');
+Route::get('training/{id}/delete', 'TrainingController@getDelete');
+Route::post('training/{id}/delete', 'TrainingController@postDelete');
+Route::get('training/data', 'TrainingController@data');
+
+//this is routing for training_trainee
+Route::get('training_trainee/', 'TrainingTraineeController@index');
+Route::get('training_trainee/create', 'TrainingTraineeController@getCreate');
+Route::post('training_trainee/create', 'TrainingTraineeController@postCreate');
+Route::get('training_trainee/{id}/edit', 'TrainingTraineeController@getEdit');
+Route::post('training_trainee/{id}/edit', 'TrainingTraineeController@postEdit');
+Route::get('training_trainee/{id}/delete', 'TrainingTraineeController@getDelete');
+Route::post('training_trainee/{id}/delete', 'TrainingTraineeController@postDelete');
+Route::get('training_trainee/data', 'TrainingTraineeController@data');
+
+//this is routing for trainee_ledger
+Route::get('trainee_ledger/', 'TraineeLedgerController@index');
+Route::get('trainee_ledger/create', 'TraineeLedgerController@getCreate');
+Route::post('trainee_ledger/create', 'TraineeLedgerController@postCreate');
+Route::get('trainee_ledger/{id}/edit', 'TraineeLedgerController@getEdit');
+Route::post('trainee_ledger/{id}/edit', 'TraineeLedgerController@postEdit');
+Route::get('trainee_ledger/{id}/delete', 'TraineeLedgerController@getDelete');
+Route::post('trainee_ledger/{id}/delete', 'TraineeLedgerController@postDelete');
+Route::get('trainee_ledger/data', 'TraineeLedgerController@data');
+
+
+//this is routing for schedule
+Route::get('schedule/', 'ScheduleController@index');
+Route::get('schedule/create', 'ScheduleController@getCreate');
+Route::post('schedule/create', 'ScheduleController@postCreate');
+Route::get('schedule/{id}/edit', 'ScheduleController@getEdit');
+Route::post('schedule/{id}/edit', 'ScheduleController@postEdit');
+Route::get('schedule/{id}/delete', 'ScheduleController@getDelete');
+Route::post('schedule/{id}/delete', 'ScheduleController@postDelete');
+Route::get('schedule/data', 'ScheduleController@data');
+
+//this is routing for person_type
+Route::get('person_type/', 'PersonTypeController@index');
+Route::get('person_type/create', 'PersonTypeController@getCreate');
+Route::post('person_type/create', 'PersonTypeController@postCreate');
+Route::get('person_type/{id}/edit', 'PersonTypeController@getEdit');
+Route::post('person_type/{id}/edit', 'PersonTypeController@postEdit');
+Route::get('person_type/{id}/delete', 'PersonTypeController@getDelete');
+Route::post('person_type/{id}/delete', 'PersonTypeController@postDelete');
+Route::get('person_type/data', 'PersonTypeController@data');
+
+//this is routing for assessor
+Route::get('assessor/', 'AssessorController@index');
+Route::get('assessor/create', 'AssessorController@getCreate');
+Route::post('assessor/create', 'AssessorController@postCreate');
+Route::get('assessor/{id}/edit', 'AssessorController@getEdit');
+Route::post('assessor/{id}/edit', 'AssessorController@postEdit');
+Route::get('assessor/{id}/delete', 'AssessorController@getDelete');
+Route::post('assessor/{id}/delete', 'AssessorController@postDelete');
+Route::get('assessor/data', 'AssessorController@data');
+
+//this is routing for employee
+Route::get('employee/', 'EmployeeController@index');
+Route::get('employee/create', 'EmployeeController@getCreate');
+Route::post('employee/create', 'EmployeeController@postCreate');
+Route::get('employee/{id}/edit', 'EmployeeController@getEdit');
+Route::post('employee/{id}/edit', 'EmployeeController@postEdit');
+Route::get('employee/{id}/delete', 'EmployeeController@getDelete');
+Route::post('employee/{id}/delete', 'EmployeeController@postDelete');
+Route::get('employee/data', 'EmployeeController@data');
+Route::get('employee/dataJson', 'EmployeeController@dataJson');
+
+//this is routing for corporate_entity
+Route::get('corporate_entity/', 'CorporateEntityController@index');
+Route::get('corporate_entity/create', 'CorporateEntityController@getCreate');
+Route::post('corporate_entity/create', 'CorporateEntityController@postCreate');
+Route::get('corporate_entity/{id}/edit', 'CorporateEntityController@getEdit');
+Route::post('corporate_entity/{id}/edit', 'CorporateEntityController@postEdit');
+Route::get('corporate_entity/{id}/delete', 'CorporateEntityController@getDelete');
+Route::post('corporate_entity/{id}/delete', 'CorporateEntityController@postDelete');
+Route::get('corporate_entity/data', 'CorporateEntityController@data');
+Route::get('corporate_entity/dataJson', 'CorporateEntityController@dataJson');
+
+//this is routing for role
+Route::get('role/', 'RoleController@index');
+Route::get('role/create', 'RoleController@getCreate');
+Route::post('role/create', 'RoleController@postCreate');
+Route::get('role/{id}/edit', 'RoleController@getEdit');
+Route::post('role/{id}/edit', 'RoleController@postEdit');
+Route::get('role/{id}/delete', 'RoleController@getDelete');
+Route::post('role/{id}/delete', 'RoleController@postDelete');
+Route::get('role/data', 'RoleController@data');
+Route::get('role/dataJson', 'RoleController@dataJson');
+
+//this is routing for user
+Route::get('user/', 'UserController@index');
+Route::get('user/create', 'UserController@getCreate');
+Route::post('user/create', 'UserController@postCreate');
+Route::get('user/{id}/edit', 'UserController@getEdit');
+Route::post('user/{id}/edit', 'UserController@postEdit');
+Route::get('user/{id}/delete', 'UserController@getDelete');
+Route::post('user/{id}/delete', 'UserController@postDelete');
+Route::get('user/data', 'UserController@data');
+Route::get('user/dataJson', 'UserController@dataJson');
+
+//this is routing for user_role
+Route::get('user_role/', 'UserRoleController@index');
+Route::get('user_role/create', 'UserRoleController@getCreate');
+Route::post('user_role/create', 'UserRoleController@postCreate');
+Route::get('user_role/{id}/edit', 'UserRoleController@getEdit');
+Route::post('user_role/{id}/edit', 'UserRoleController@postEdit');
+Route::get('user_role/{id}/delete', 'UserRoleController@getDelete');
+Route::post('user_role/{id}/delete', 'UserRoleController@postDelete');
+Route::get('user_role/data', 'UserRoleController@data');
+Route::get('user_role/dataJson', 'UserRoleController@dataJson');
+
+//this is routing for instructor
+Route::get('instructor/', 'InstructorController@index');
+Route::get('instructor/create', 'InstructorController@getCreate');
+Route::post('instructor/create', 'InstructorController@postCreate');
+Route::get('instructor/{id}/edit', 'InstructorController@getEdit');
+Route::post('instructor/{id}/edit', 'InstructorController@postEdit');
+Route::get('instructor/{id}/delete', 'InstructorController@getDelete');
+Route::post('instructor/{id}/delete', 'InstructorController@postDelete');
+Route::get('instructor/data', 'InstructorController@data');
+Route::get('instructor/dataJson', 'InstructorController@dataJson');
+
+//this is routing for office_employee
+Route::get('office_employee/', 'OfficeEmployeeController@index');
+Route::get('office_employee/create', 'OfficeEmployeeController@getCreate');
+Route::post('office_employee/create', 'OfficeEmployeeController@postCreate');
+Route::get('office_employee/{id}/edit', 'OfficeEmployeeController@getEdit');
+Route::post('office_employee/{id}/edit', 'OfficeEmployeeController@postEdit');
+Route::get('office_employee/{id}/delete', 'OfficeEmployeeController@getDelete');
+Route::post('office_employee/{id}/delete', 'OfficeEmployeeController@postDelete');
+Route::get('office_employee/data', 'OfficeEmployeeController@data');
+Route::get('office_employee/dataJson', 'OfficeEmployeeController@dataJson');
+
+//this is routing for payment_status
+Route::get('payment_status/', 'PaymentStatusController@index');
+Route::get('payment_status/create', 'PaymentStatusController@getCreate');
+Route::post('payment_status/create', 'PaymentStatusController@postCreate');
+Route::get('payment_status/{id}/edit', 'PaymentStatusController@getEdit');
+Route::post('payment_status/{id}/edit', 'PaymentStatusController@postEdit');
+Route::get('payment_status/{id}/delete', 'PaymentStatusController@getDelete');
+Route::post('payment_status/{id}/delete', 'PaymentStatusController@postDelete');
+Route::get('payment_status/data', 'PaymentStatusController@data');
+Route::get('payment_status/dataJson', 'PaymentStatusController@dataJson');
+
+
+//this is routing for religion
+Route::get('religion/', 'ReligionController@index');
+Route::get('religion/create', 'ReligionController@getCreate');
+Route::post('religion/create', 'ReligionController@postCreate');
+Route::get('religion/{id}/edit', 'ReligionController@getEdit');
+Route::post('religion/{id}/edit', 'ReligionController@postEdit');
+Route::get('religion/{id}/delete', 'ReligionController@getDelete');
+Route::post('religion/{id}/delete', 'ReligionController@postDelete');
+Route::get('religion/data', 'ReligionController@data');
+Route::get('religion/dataJson', 'ReligionController@dataJson');
+
+//this is routing for civil_status
+Route::get('civil_status/', 'CivilStatusController@index');
+Route::get('civil_status/create', 'CivilStatusController@getCreate');
+Route::post('civil_status/create', 'CivilStatusController@postCreate');
+Route::get('civil_status/{id}/edit', 'CivilStatusController@getEdit');
+Route::post('civil_status/{id}/edit', 'CivilStatusController@postEdit');
+Route::get('civil_status/{id}/delete', 'CivilStatusController@getDelete');
+Route::post('civil_status/{id}/delete', 'CivilStatusController@postDelete');
+Route::get('civil_status/data', 'CivilStatusController@data');
+Route::get('civil_status/dataJson', 'CivilStatusController@dataJson');
+
+//this is routing for blood_type
+Route::get('blood_type/', 'BloodTypeController@index');
+Route::get('blood_type/create', 'BloodTypeController@getCreate');
+Route::post('blood_type/create', 'BloodTypeController@postCreate');
+Route::get('blood_type/{id}/edit', 'BloodTypeController@getEdit');
+Route::post('blood_type/{id}/edit', 'BloodTypeController@postEdit');
+Route::get('blood_type/{id}/delete', 'BloodTypeController@getDelete');
+Route::post('blood_type/{id}/delete', 'BloodTypeController@postDelete');
+Route::get('blood_type/data', 'BloodTypeController@data');
+Route::get('blood_type/dataJson', 'BloodTypeController@dataJson');
+
+//this is routing for payment
+Route::get('payment/', 'PaymentController@index');
+Route::get('payment/create', 'PaymentController@getCreate');
+Route::post('payment/create', 'PaymentController@postCreate');
+Route::get('payment/{id}/edit', 'PaymentController@getEdit');
+Route::post('payment/{id}/edit', 'PaymentController@postEdit');
+Route::get('payment/{id}/delete', 'PaymentController@getDelete');
+Route::post('payment/{id}/delete', 'PaymentController@postDelete');
+Route::get('payment/data', 'PaymentController@data');
+Route::get('payment/dataJson', 'PaymentController@dataJson');
+
+//this is routing for payment_mode
+Route::get('payment_mode/', 'PaymentModeController@index');
+Route::get('payment_mode/create', 'PaymentModeController@getCreate');
+Route::post('payment_mode/create', 'PaymentModeController@postCreate');
+Route::get('payment_mode/{id}/edit', 'PaymentModeController@getEdit');
+Route::post('payment_mode/{id}/edit', 'PaymentModeController@postEdit');
+Route::get('payment_mode/{id}/delete', 'PaymentModeController@getDelete');
+Route::post('payment_mode/{id}/delete', 'PaymentModeController@postDelete');
+Route::get('payment_mode/data', 'PaymentModeController@data');
+Route::get('payment_mode/dataJson', 'PaymentModeController@dataJson');
+
+//this is routing for payment_type
+Route::get('payment_type/', 'PaymentTypeController@index');
+Route::get('payment_type/create', 'PaymentTypeController@getCreate');
+Route::post('payment_type/create', 'PaymentTypeController@postCreate');
+Route::get('payment_type/{id}/edit', 'PaymentTypeController@getEdit');
+Route::post('payment_type/{id}/edit', 'PaymentTypeController@postEdit');
+Route::get('payment_type/{id}/delete', 'PaymentTypeController@getDelete');
+Route::post('payment_type/{id}/delete', 'PaymentTypeController@postDelete');
+Route::get('payment_type/data', 'PaymentTypeController@data');
+Route::get('payment_type/dataJson', 'PaymentTypeController@dataJson');
+
+//this is routing for enrollment
+
+// Route::get('enrollment/', 'EnrollmentController@index');
+// Route::get('enrollment/enroll', 'EnrollmentController@getEnroll');
+// Route::post('enrollment/enroll', 'EnrollmentController@postEnroll');
+// Route::get('enrollment/{id}/edit', 'EnrollmentController@getEdit');
+// Route::post('enrollment/{id}/edit', 'EnrollmentController@postEdit');
+// Route::get('enrollment/{id}/delete', 'EnrollmentController@getDelete');
+// Route::post('enrollment/{id}/delete', 'EnrollmentController@postDelete');
+// Route::get('enrollment/data', 'EnrollmentController@data');
+
+//this is routing for scheduler
+// Route::get('scheduler/', 'SchedulerController@index');
+// Route::get('scheduler/create', 'SchedulerController@getCreate');
+// Route::post('scheduler/create', 'SchedulerController@postCreate');
+// Route::get('scheduler/{id}/edit', 'SchedulerController@getEdit');
+// Route::post('scheduler/{id}/edit', 'SchedulerController@postEdit');
+// Route::get('scheduler/{id}/delete', 'SchedulerController@getDelete');
+// Route::post('scheduler/{id}/delete', 'SchedulerController@postDelete');
+// Route::get('scheduler/data', 'SchedulerController@data');
+
+// Route::get('requirement_detail/dataJson', 'RequirementDetailController@dataJson');
+// Route::get('requirement/dataJson', 'RequirementController@dataJson');
+
+
+// end of CRUD routings
+
+
+
+Route::pattern('id', '[0-9]+');
+
+
+Route::get('/reporting', ['uses' =>'ReportController@index', 'as' => 'Report']);
+Route::post('/reporting', ['uses' =>'ReportController@post']);
+
+
+if (Request::is('admin/*'))
+{
+    require __DIR__.'/admin_routes.php';
+}
+
+if (Request::is('its/*'))
+{
+    require __DIR__.'/its_routes.php';
+}

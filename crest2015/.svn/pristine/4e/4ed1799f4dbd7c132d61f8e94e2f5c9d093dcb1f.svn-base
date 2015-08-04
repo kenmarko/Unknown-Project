@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('classification_level_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_level_no">{!! Lang::get('classification_level.classification_level_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_level_no" id="classification_level_no" value="{{{ Input::old('classification_level_no', isset($classification_level) ? $classification_level->classification_level_no : null) }}}" />
+			{!! $errors->first('classification_level_no', '<label class="control-label" for="classification_level_no">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_level_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_level_name">{!! Lang::get('classification_level.classification_level_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_level_name" id="classification_level_name" value="{{{ Input::old('classification_level_name', isset($classification_level) ? $classification_level->classification_level_name : null) }}}" />
+			{!! $errors->first('classification_level_name', '<label class="control-label" for="classification_level_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_id">{!! Lang::get('classification_level.classification_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_id" id="classification_id" value="{{{ Input::old('classification_id', isset($classification_level) ? $classification_level->classification_id : null) }}}" />
+			{!! $errors->first('classification_id', '<label class="control-label" for="classification_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

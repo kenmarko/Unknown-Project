@@ -1,0 +1,40 @@
+<?php namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class TempTraineeRequest extends FormRequest {
+
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		return [
+            'temp_trainee_no' => 'required|min:1|unique:temp_trainee',
+            'last_name' => 'required|min:1',
+            'first_name' => 'required|min:1',
+            'middle_name' => 'min:2',
+            'suffix_id' => 'min:1',
+            'birth_date' => 'required|min:1',
+            'birth_place' => 'required|min:1',
+            'date' => 'required|min:1',
+            'rank_id' => 'required|min:1',
+            'contact_no' => 'required|min:1',
+            'email' => 'required|min:1',
+            'is_active' => 'required|min:1'
+		];
+	}
+
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
+	}
+
+}

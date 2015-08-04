@@ -1,0 +1,23 @@
+<?php namespace App\Models\Its;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ItsCustomsOffice extends Model {
+   /**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'its_customs_office';
+
+	public static $rules = [
+	'code' => 'required|min:4',
+    'name' => 'required|min:4',
+
+    'active' => 'integer',
+    'admin' => 'integer'
+];
+
+	
+	
+}

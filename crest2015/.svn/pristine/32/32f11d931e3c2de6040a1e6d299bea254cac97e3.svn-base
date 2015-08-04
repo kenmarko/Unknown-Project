@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'admin_office' => 'Admin Office',
+    'admin_id' => 'Admin',
+    'office_id' => 'Office',
+    'is_active' => 'Active',
+    'create_admin_office'=>'Create New Admin Office',
+    'edit_admin_office'=>'Edit Admin Office',
+    'delete_admin_office'=>'Delete Admin Office',
+    'create_success'=>'You have successfully created new Admin Office',
+    'admin_office_list'=>'Admin Office List',
+ ]; 

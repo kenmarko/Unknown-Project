@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('enrollment_status_name') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="enrollment_status_name"><?php echo Lang::get('enrollment_status.enrollment_status_name'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="enrollment_status_name" id="enrollment_status_name" value="<?php echo e(Input::old('enrollment_status_name', isset($enrollment_status) ? $enrollment_status->enrollment_status_name : null)); ?>" />
+			<?php echo $errors->first('enrollment_status_name', '<label class="control-label" for="enrollment_status_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

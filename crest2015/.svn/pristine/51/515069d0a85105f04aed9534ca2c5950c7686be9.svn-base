@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'building' => 'Building',
+    'building_name' => 'Building Name',
+    'campus_id' => 'Campus',
+    'is_active' => 'Active',
+    'create_building'=>'Create New Building',
+    'edit_building'=>'Edit Building',
+    'delete_building'=>'Delete Building',
+    'create_success'=>'You have successfully created new Building',
+    'building_list'=>'Building List',
+ ]; 

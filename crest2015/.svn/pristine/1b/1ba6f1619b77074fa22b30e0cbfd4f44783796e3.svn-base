@@ -1,0 +1,90 @@
+<input type="hidden" container_no="_token" value="{{{ csrf_token() }}}" />
+<input type="hidden" awb_hbl_no="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('awb_hbl_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="awb_hbl_no">{!! Lang::get('its/its_import_entry.awb_hbl_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="awb_hbl_no" id="awb_hbl_no" value="{{{ Input::old('awb_hbl_no', isset($its_import_entry_container) ? $its_import_entry_container->awb_hbl_no : null) }}}" />
+			{!! $errors->first('awb_hbl_no', '<label class="control-label" for="awb_hbl_no">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_general_procedure.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div> -->
+</div>
+
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('container_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="container_no">{!! Lang::get('its/its_import_entry_container.container_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="container_no" id="container_no" value="{{{ Input::old('container_no', isset($its_import_entry_container) ? $its_import_entry_container->container_no : null) }}}" />
+			{!! $errors->first('container_no', '<label class="control-label" for="container_no">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_general_procedure.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div> -->
+</div>
+
+<input type="hidden" its_tagging_procedure_version_id="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('its_tagging_procedure_version_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="its_tagging_procedure_version_id">{!! Lang::get('its/its_import_entry_container.version') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="its_tagging_procedure_version_id" id="its_tagging_procedure_version_id" value="{{{ Input::old('its_tagging_procedure_version_id', isset($its_import_entry_container) ? $its_import_entry_container->its_tagging_procedure_version_id : null) }}}" />
+			{!! $errors->first('its_tagging_procedure_version_id', '<label class="control-label" for="its_tagging_procedure_version_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_general_procedure.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div> -->
+</div>
+
+
+
+<input type="hidden" description="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('description') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="description">{!! Lang::get('its/its_import_entry_container.description') !!}</label>
+		<div class="col-md-10">
+			<textarea class="form-control" rows="3" name="description" id="description" name="description" value="{{{ Input::old('description', isset($its_import_entry_container) ? $its_import_entry_container->description : null) }}}" >{{{ Input::old('description', isset($its_import_entry_container) ? $its_import_entry_container->description : null) }}}</textarea>
+			{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_general_procedure.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_general_procedure) ? $its_general_procedure->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div> -->
+
+	<!-- <div class="col-md-4">
+                                    <div class="form-group {{{ $errors->has('crf') ? 'has-error' : '' }}}">
+                                        <label for="crf">{{ Lang::get('its/its_import_entry.crf') }}</label>
+                                        <textarea class="form-control" rows="3" name="crf" id="crf" value="{{{ Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null) }}}" />{{{ Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null) }}}</textarea>
+                                        {!! $errors->first('crf', '<label class="control-label" for="crf">:message</label>')!!}
+                                    </div>
+                                </div> -->
+</div>
+

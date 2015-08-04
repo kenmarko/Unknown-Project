@@ -1,0 +1,221 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsTagging;
+use App\Models\Its\ItsImportEntryContainer;
+use App\Http\Requests\Its\ItsTaggingRequest;
+use App\Http\Requests\Its\ItsTaggingEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+
+use Datatables;
+use Config;    
+use Hash;
+use DB;
+use Input;
+
+class ItsTaggingController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsTagging::where('step','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsTagging::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  //rmd 2015-09-4 $registry_no refers to the import_entry registry no
+   public function index($container_no = 0)  { 
+      //for post request we need to extract registry_no from the input
+      if($container_no == 0){
+        $container_no = Input::get('container_no');
+      }  
+        //return $registry_number;
+        // Show the page
+      $its_import_entry_container = ItsImportEntryContainer::where('container_no','=',$container_no)->first(); 
+      //print ($its_import_entry->registry_no);
+      //var_dump($its_import_entry);
+      return view('its.its_tagging.index', compact('its_import_entry_container'));
+    }
+
+
+    
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_tagging.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsTaggingRequest $its_tagging_request) {
+
+        $its_tagging = new ItsTagging();
+        $its_tagging -> step = $its_tagging_request->step;
+        $its_tagging -> name = $its_tagging_request->name;
+        $its_tagging -> created_by_id = Auth::id();
+        $its_tagging -> save();
+
+        $success = \Lang::get('its/its_tagging.create_success').' : '.$its_tagging->name ; 
+        return redirect('its/its_tagging/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_tagging = ItsTagging::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_tagging/edit',compact('its_tagging'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsTaggingRequest $its_tagging_request, $id) {
+      
+        $its_tagging = ItsTagging::find($id);
+        $its_tagging -> step = $its_tagging_request->step;
+        $its_tagging -> name = $its_tagging_request->name;
+        $its_tagging -> updated_by_id = Auth::id();
+        $its_tagging -> save();
+
+        return redirect('its/its_tagging');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $its_tagging = ItsTagging::find($id);
+        // Show the page
+        return view('its/its_tagging/delete', compact('its_tagging'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_tagging = ItsTagging::find($id);
+        $its_tagging->delete();
+        return redirect('its/its_tagging');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data($container_no) {
+     // print $registry_no;
+      
+      //get its_import_entry record from database to extract its_import_entry_id and its_tagging_procedure_version_id 
+      $its_import_entry_container = ItsImportEntryContainer::where('container_no','=',$container_no)->first(); 
+
+      if( $its_import_entry_container !=null ){
+        //by using the import_entry_id and its_tagging_procedure_version_id
+        //call the STORED PROCEDURE in the database that automatically populate its_tagging records based on 
+        //the give import_entry_id and its_tagging_procedure_version_id
+        //this statement below will AUTOMATICALLY add entries to its_tagging table 
+        DB::statement(DB::raw('CALL its_tagging_populate('.$its_import_entry_container->id.','.$its_import_entry_container->its_tagging_procedure_version_id.','.Auth::id().');'));
+      
+
+      // //after adding its_tagging entries we are now ready to retrieve tagging list
+      // $its_tagging_list = ItsTagging::where('its_import_entry_container_id','=',$its_import_entry_container->id)->with('its_tagging_procedure')->get();
+      // $its_tagging_list = ItsTagging::where('its_import_entry_container_id','=',$its_import_entry_container->id)->with('its_tagging_procedure')->select(array('its_tagging.id','its_tagging_procedure.step','its_tagging_procedure.name','its_tagging.released_at', 'its_tagging.tagged_by_released', 'its_tagging.tagged_released', 'its_tagging.received_at', 'its_tagging.tagged_by_received', 'its_tagging.tagged_received'));
+
+        $its_tagging_list = ItsTagging::join('its_tagging_procedure','its_tagging.its_tagging_procedure_id','=','its_tagging_procedure.id')->where('its_tagging.its_import_entry_container_id','=',$its_import_entry_container->id)->where('its_tagging_procedure.its_tagging_procedure_version_id','=',$its_import_entry_container->its_tagging_procedure_version_id)
+                    ->select(array('its_tagging.id','its_tagging_procedure.step','its_tagging_procedure.name', 'its_tagging.released_at', 'its_tagging.tagged_by_released_id', 'its_tagging.tagged_released', 'its_tagging.received_at', 'its_tagging.tagged_by_received_id', 'its_tagging.tagged_received'))
+                    ->orderBy('its_tagging_procedure.step', 'ASC');
+      }
+      var_dump($its_tagging_list);
+
+       /*
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $its_tagging_list = ItsTagging::select(array('its_tagging.id','its_tagging.step','its_tagging.name',  'its_tagging.released_at', 'its_tagging.taggeds_by', 'its_tagging.taggeds', 'its_tagging.received_at', 'its_tagging.taggedv_by', 'its_tagging.taggedv'))
+              ->orderBy('its_tagging.step', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    */
+// /**
+      return Datatables::of($its_tagging_list)
+            // ->add_column('actions', '<a href="{{{ URL::to(\'its/its_tagging/\' . $id . \'/..\' ) }}}" class="btn btn-primary btn-sm" > {{ Lang::get("its/form.tag") }}</a>
+            //         <input type="hidden" name="row" value="{{$id}}" id="row">')
+             ->add_column('tagged_released', '<a href="{{{ URL::to(\'/its/its_tagging/\' ) }}}" class="btn btn-info btn-sm" > {{ Lang::get("its/form.tag") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+             ->add_column('tagged_received', '<a href="{{{ URL::to(\'/its/its_tagging/\' ) }}}" class="btn btn-info btn-sm" > {{ Lang::get("its/form.tags") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+
+//             */
+            
+//             //return Datatables::of(null)->make(true);
+       
+
+    }
+
+
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsTagging::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

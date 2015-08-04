@@ -1,0 +1,15 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('religion_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="religion_name">{!! Lang::get('religion.religion_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="religion_name" id="religion_name" value="{{{ Input::old('religion_name', isset($religion) ? $religion->religion_name : null) }}}" />
+			{!! $errors->first('religion_name', '<label class="control-label" for="religion_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('religion_no') ? 'has-error' : '' }}}">
+	
+</div>
+
+

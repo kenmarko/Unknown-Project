@@ -1,0 +1,205 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Program;
+use App\Models\Classification;
+use App\Http\Requests\ProgramRequest;
+use App\Http\Requests\ProgramEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ProgramController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Program::where('program_code','LIKE','%$term%').orWhere('program_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    // public function dataJson(){
+    //   $result = Program::where('is_active',1)->get();
+    //   return response()->json($result);
+    // }
+
+
+    public function dataJson(){
+      $condition = \Input::all();
+      $query = Program::select();
+      foreach($condition as $column => $value)
+      {
+        $query->where($column, '=', $value);
+      }
+      $program = $query->select([ 'id as value','program_code as text'])->get();
+
+      return response()->json($program);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('program.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        
+        // Show the page
+       $classification_list = Classification::orderBy('classification.classification_name')->get();
+       $action =0;
+        return view('program.create',compact('classification_list','action'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ProgramRequest $program_request) {
+
+        $program = new Program();
+        $program -> program_name = $program_request->program_name;
+        $program -> program_code = $program_request->program_code;
+        $program -> classification_id = $program_request->classification_id;
+        $program -> is_active = $program_request->is_active;
+        // $program -> created_by_id = Auth::id();
+        $program -> save();
+
+        $success = \Lang::get('program.create_success').' : '.$program->program_name ; 
+        return redirect('program/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $program = Program::find($id);
+       //var_dump($its_customs_office);
+        $classification_list = Classification::orderBy('classification.classification_name')->get();
+        $action =1;
+        return view('program/edit',compact('program','classification_list','action'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ProgramEditRequest $program_edit_request, $id) {
+      
+        $program = Program::find($id);
+        $program -> program_name =$program_edit_request->program_name;
+        $program -> program_code =$program_edit_request->program_code;
+        $program -> classification_id =$program_edit_request->classification_id;
+        $program -> is_active =$program_edit_request->is_active;
+        $program -> save();
+
+        return redirect('program');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $program = Program::find($id);
+        // Show the page
+        $classification_list = Classification::orderBy('classification.classification_name')->get();
+        $action =1;
+        return view('program/delete', compact('program','classification_list','action'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $program = Program::find($id);
+        $program->delete();
+        return redirect('program');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $program_list = Program::join('classification','program.classification_id','=','classification.id')
+              ->select(array('program.id','program.program_name','program.program_code','classification.classification_name','program.is_active'))
+              ->orderBy('program.program_code', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($program_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'program/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'program/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Program::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

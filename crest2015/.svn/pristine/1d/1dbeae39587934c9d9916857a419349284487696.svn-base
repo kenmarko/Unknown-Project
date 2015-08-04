@@ -1,0 +1,44 @@
+<?php namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class TempTraineeEditRequest extends FormRequest {
+
+	/**
+	 * Get the validation rules that apply to the request.
+	 *
+	 * @return array
+	 */
+	public function rules()
+	{
+		//var_dump($this);
+		//return false;
+		//return [
+           // 'name'=> 'exists:gen_role,name,gen_role_id,'.$this->get('gen_role_id'),
+		//];
+		return [
+           'temp_trainee_no'=> 'unique:temp_trainee,temp_trainee_no,'.$this->get('id'),
+           'last_name'=> 'required:temp_trainee,last_name,'.$this->get('id'),
+           'first_name'=> 'required:temp_trainee,first_name,'.$this->get('id'),
+           'address'=> 'required:temp_trainee,address,'.$this->get('id'),
+           'birth_date'=> 'required:temp_trainee,birth_date,'.$this->get('id'),
+           'birth_place'=> 'required:temp_trainee,birth_place,'.$this->get('id'),
+           'date'=> 'required:temp_trainee,date,'.$this->get('id'),
+           'rank_id'=> 'required:temp_trainee,rank_id,'.$this->get('id'),
+           'contact_no'=> 'required:temp_trainee,contact_no,'.$this->get('id'),
+           'email'=> 'required:temp_trainee,email,'.$this->get('id'),
+           'is_active'=> 'required:temp_trainee,is_active,'.$this->get('id')
+		];
+	}
+
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
+	}
+
+}

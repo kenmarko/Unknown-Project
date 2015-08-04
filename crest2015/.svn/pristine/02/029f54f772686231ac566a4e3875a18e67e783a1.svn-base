@@ -1,0 +1,15 @@
+ <?php
+
+return [
+    'its_additional_code' => 'Additional Code',
+    'code' => 'Code',
+	// 'icon' => 'Icon',
+    'its_additional_code' => 'Additional Code',
+    'create_additional_code'=>'Create New Additional Code',
+    'edit_additional_code'=>'Edit Additional Code',
+    'delete_additional_code'=>'Delete Additional Code',
+    'create_success'=>'You have successfully created new Additional Code',
+    'its_additional_code_list'=>'Additional Code List',
+    'name'=>'Description'
+    
+ ]; 

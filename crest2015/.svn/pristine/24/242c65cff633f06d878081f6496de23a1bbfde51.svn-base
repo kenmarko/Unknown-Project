@@ -1,0 +1,214 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Employee;
+use App\Http\Requests\EmployeeRequest;
+use App\Http\Requests\EmployeeEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class EmployeeController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Employee::where('employee_no','LIKE','%$term%').orWhere('person_id','LIKE','%$term%').orWhere('corporate_entity_id','LIKE','%$term%').orWhere('date_employed','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Employee::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('employee.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('employee.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(EmployeeRequest $employee_request) {
+
+        $employee = new Employee();
+
+        $count = Employee::all()->count();
+        $id = Employee::orderBy('employee.employee_no','DESC')->take(1)->get();
+        foreach ($id as $high)
+        {
+          $id=$high->student_no;
+
+        }
+
+        if($count > 0)
+        {
+          $id = $id + 1;
+        }
+        else
+        {
+          $id = "10000000";
+        }
+
+
+        $employee -> person_id = $employee_request->person_id;
+        $employee -> sss = $employee_request->sss;
+        $employee -> tin = $employee_request->tin;
+        $employee -> pagibig = $employee_request->pagibig;
+        $employee -> philhealth = $employee_request->philhealth;
+        $employee -> date_employed = $employee_request->date_employed;
+        $employee -> employment_status_id = $employee_request->employment_status_id;
+        $employee -> tax_status_code_id = $employee_request->tax_status_code_id;
+        $employee -> bank_account_no = $employee_request->bank_account_no;
+        $employee -> corporate_entity_id = $employee_request->corporate_entity_id;
+        $employee -> is_active = $employee_request->is_active;
+        // $employee -> created_by_id = Auth::id();
+        $employee -> save();
+
+        $success = \Lang::get('employee.create_success').' : '.$employee->employee_name ; 
+        return redirect('employee/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $employee = Employee::find($id);
+       //var_dump($its_customs_office);
+        return view('employee/edit',compact('employee'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(EmployeeEditRequest $employee_edit_request, $id) {
+      
+        $employee = Employee::find($id);
+        $employee -> person_id = $employee_edit_request->person_id;
+        $employee -> sss = $employee_edit_request->sss;
+        $employee -> tin = $employee_edit_request->tin;
+        $employee -> pagibig = $employee_edit_request->pagibig;
+        $employee -> philhealth = $employee_edit_request->philhealth;
+        $employee -> date_employed = $employee_edit_request->date_employed;
+        $employee -> employment_status_id = $employee_edit_request->employment_status_id;
+        $employee -> tax_status_code_id = $employee_edit_request->tax_status_code_id;
+        $employee -> bank_account_no = $employee_edit_request->bank_account_no;
+        $employee -> corporate_entity_id = $employee_edit_request->corporate_entity_id;
+        $employee -> is_active = $employee_edit_request->is_active;
+        // $employee -> updated_by_id = Auth::id();
+        $employee -> save();
+
+        return redirect('employee');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $employee = Employee::find($id);
+        // Show the page
+        return view('employee/delete', compact('employee'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $employee = Employee::find($id);
+        $employee->delete();
+        return redirect('employee');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $employee_list = Employee::join('person','employee.person_id','=','person.id')
+              ->select(array('employee.id','employee.employee_no','person.first_name','person.middle_name','person.last_name','employee.sss','employee.tin','employee.pagibig','employee.philhealth','employee.date_employed','employee.employment_status_id','employee.tax_status_code_id','employee.bank_account_no','employee.corporate_entity_id','employee.is_active'))
+              ->orderBy('employee.employee_no', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($employee_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'employee/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'employee/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->editColumn('first_name','{{ ucwords(strtolower($first_name." ".$middle_name." ".$last_name)) }}')
+            ->remove_column('middle_name','last_name')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Employee::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('shift_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="shift_name">{!! Lang::get('shift.shift_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="shift_name" id="shift_name" value="{{{ Input::old('shift_name', isset($shift) ? $shift->shift_name : null) }}}" />
+			{!! $errors->first('shift_name', '<label class="control-label" for="shift_name">:message</label>')!!}
+
+		</div>
+	</div>
+	
+</div>
+
+

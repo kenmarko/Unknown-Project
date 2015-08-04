@@ -1,0 +1,14 @@
+ <?php
+
+return [
+    'its_preferences' => 'Preferences',
+    'code' => 'Code',
+	// 'icon' => 'Icon',
+    'create_preferences'=>'Create New Preferences',
+    'edit_preferences'=>'Edit Preferences',
+    'delete_preferences'=>'Delete Preferences',
+    'create_success'=>'You have successfully created new Preferences',
+     'its_preferences_list'=>'Preferences List',
+     'name'=>'Description',
+    'action'=>'Action',
+ ]; 

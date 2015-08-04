@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'teacher_department' => 'Teacher Department',
+    'teacher_id' => 'Teacher',
+    'department_id' => 'Department',
+    'is_active' => 'Active',
+    'create_teacher_department'=>'Create New Teacher Department',
+    'edit_teacher_department'=>'Edit Teacher Department',
+    'delete_teacher_department'=>'Delete Teacher Department',
+    'create_success'=>'You have successfully created new Teacher Department',
+    'teacher_department_list'=>'Teacher Department List',
+ ]; 

@@ -1,0 +1,201 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Person;
+use App\Http\Requests\PersonRequest;
+use App\Http\Requests\PersonEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class PersonController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Person::where('first_name','LIKE','%$term%').orWhere('last_name','LIKE','%$term%').orWhere('birthdate','LIKE','%$term%').orWhere('religion_id','LIKE','%$term%').orWhere('gender_id','LIKE','%$term%').orWhere('civil_status_id','LIKE','%$term%').orWhere('blood_type_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Person::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('person.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('person.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(PersonRequest $person_request) {
+
+        $person = new Person();
+        $person -> prefix_id = $person_request->prefix_id;
+        $person -> first_name = $person_request->first_name;
+        $person -> last_name = $person_request->last_name;
+        $person -> middle_name = $person_request->middle_name;
+        $person -> birthdate = $person_request->birthdate;
+        $person -> birth_place_id = $person_request->birth_place_id;
+        $person -> religion_id = $person_request->religion_id;
+        $person -> gender_id = $person_request->gender_id;
+        $person -> civil_status_id = $person_request->civil_status_id;
+        $person -> citizenship = $person_request->citizenship;
+        $person -> blood_type_id = $person_request->blood_type_id;
+        $person -> photo_id = $person_request->photo_id;
+        // $person -> created_by_id = Auth::id();
+        $person -> save();
+
+        $success = \Lang::get('person.create_success').' : '.$person->person_name ; 
+        return redirect('person/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $person = Person::find($id);
+       //var_dump($its_customs_office);
+        return view('person/edit',compact('person'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(PersonEditRequest $person_edit_request, $id) {
+      
+        $person = Person::find($id);
+        $person -> prefix_id = $person_edit_request->prefix_id;
+        $person -> first_name = $person_edit_request->first_name;
+        $person -> last_name = $person_edit_request->last_name;
+        $person -> middle_name = $person_edit_request->middle_name;
+        $person -> birthdate = $person_edit_request->birthdate;
+        $person -> birth_place_id = $person_edit_request->birth_place_id;
+        $person -> religion_id = $person_edit_request->religion_id;
+        $person -> gender_id = $person_edit_request->gender_id;
+        $person -> civil_status_id = $person_edit_request->civil_status_id;
+        $person -> citizenship = $person_edit_request->citizenship;
+        $person -> blood_type_id = $person_edit_request->blood_type_id;
+        $person -> photo_id = $person_edit_request->photo_id;
+        // $person -> updated_by_id = Auth::id();
+        $person -> save();
+
+        return redirect('person');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $person = Person::find($id);
+        // Show the page
+        return view('person/delete', compact('person'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $person = Person::find($id);
+        $person->delete();
+        return redirect('person');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $person_list = Person::join('prefix','person.prefix_id','=','prefix.id')
+              ->join('religion','person.religion_id','=','religion.id')
+              ->join('gender','person.gender_id','=','gender.id')
+              ->join('civil_status','person.civil_status_id','=','civil_status.id')
+              ->join('citizenship','person.citizenship_id','=','citizenship.id')
+              ->join('blood_type','person.blood_type_id','=','blood_type.id')
+              ->select(array('person.id','prefix.prefix_name','person.first_name','person.last_name','person.middle_name','person.birthdate','person.birth_place_id','religion.religion_name','gender.gender_name','civil_status.civil_status_name','citizenship.citizenship_name','blood_type.blood_type_name','person.photo_id'))
+              ->orderBy('person.prefix_id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($person_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'person/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'person/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('birthdate', '{{date("M d,Y", strtotime($birthdate)) }} ' )
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Person::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

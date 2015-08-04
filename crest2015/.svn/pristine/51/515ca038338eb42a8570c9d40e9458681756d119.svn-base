@@ -1,0 +1,22 @@
+ <?php
+
+return [
+    'person' => 'Person',
+    'prefix_id' => 'Prefix',
+    'first_name' => 'First Name',
+    'last_name' => 'Last Name',
+    'middle_name' => 'Middle Name',
+    'birthdate' => 'Birthdate',
+    'birth_place_id' => 'Birth Place',
+    'religion_id' => 'Religion',
+    'gender_id' => 'Gender',
+    'civil_status_id' => 'Civil Status',
+    'citizenship_id' => 'Citizenship',
+    'blood_type_id' => 'Blood Type',
+    'photo_id' => 'Photo',
+    'create_person'=>'Create New Person',
+    'edit_person'=>'Edit Person',
+    'delete_person'=>'Delete Person',
+    'create_success'=>'You have successfully created new Person',
+    'person_list'=>'Person List',
+ ]; 

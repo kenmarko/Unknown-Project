@@ -1,0 +1,113 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('employee_no') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="employee_no"><?php echo Lang::get('employee.employee_no'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="employee_no" id="employee_no" value="<?php echo e(Input::old('employee_no', isset($employee) ? $employee->employee_no : null)); ?>" />
+			<?php echo $errors->first('employee_no', '<label class="control-label" for="employee_no">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('person_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="person_id"><?php echo Lang::get('employee.person_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="person_id" id="person_id" value="<?php echo e(Input::old('person_id', isset($employee) ? $employee->person_id : null)); ?>" />
+			<?php echo $errors->first('person_id', '<label class="control-label" for="person_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('sss') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="sss"><?php echo Lang::get('employee.sss'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="sss" id="sss" value="<?php echo e(Input::old('sss', isset($employee) ? $employee->sss : null)); ?>" />
+			<?php echo $errors->first('sss', '<label class="control-label" for="sss">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('tin') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="tin"><?php echo Lang::get('employee.tin'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="tin" id="tin" value="<?php echo e(Input::old('tin', isset($employee) ? $employee->tin : null)); ?>" />
+			<?php echo $errors->first('tin', '<label class="control-label" for="tin">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('pagibig') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="pagibig"><?php echo Lang::get('employee.pagibig'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="pagibig" id="pagibig" value="<?php echo e(Input::old('pagibig', isset($employee) ? $employee->pagibig : null)); ?>" />
+			<?php echo $errors->first('pagibig', '<label class="control-label" for="pagibig">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('philhealth') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="philhealth"><?php echo Lang::get('employee.philhealth'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="philhealth" id="philhealth" value="<?php echo e(Input::old('philhealth', isset($employee) ? $employee->philhealth : null)); ?>" />
+			<?php echo $errors->first('philhealth', '<label class="control-label" for="philhealth">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('date_employed') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="date_employed"><?php echo Lang::get('employee.date_employed'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date_employed" id="date_employed" value="<?php echo e(Input::old('date_employed', isset($employee) ? $employee->date_employed : null)); ?>" />
+			<?php echo $errors->first('date_employed', '<label class="control-label" for="date_employed">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('employment_status_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="employment_status_id"><?php echo Lang::get('employee.employment_status_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="employment_status_id" id="employment_status_id" value="<?php echo e(Input::old('employment_status_id', isset($employee) ? $employee->employment_status_id : null)); ?>" />
+			<?php echo $errors->first('employment_status_id', '<label class="control-label" for="employment_status_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('tax_status_code_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="tax_status_code_id"><?php echo Lang::get('employee.tax_status_code_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="tax_status_code_id" id="tax_status_code_id" value="<?php echo e(Input::old('tax_status_code_id', isset($employee) ? $employee->tax_status_code_id : null)); ?>" />
+			<?php echo $errors->first('tax_status_code_id', '<label class="control-label" for="tax_status_code_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('bank_account_no') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="bank_account_no"><?php echo Lang::get('employee.bank_account_no'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="bank_account_no" id="bank_account_no" value="<?php echo e(Input::old('bank_account_no', isset($employee) ? $employee->bank_account_no : null)); ?>" />
+			<?php echo $errors->first('bank_account_no', '<label class="control-label" for="bank_account_no">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('corporate_entity_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="corporate_entity_id"><?php echo Lang::get('employee.corporate_entity_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="corporate_entity_id" id="corporate_entity_id" value="<?php echo e(Input::old('corporate_entity_id', isset($employee) ? $employee->corporate_entity_id : null)); ?>" />
+			<?php echo $errors->first('corporate_entity_id', '<label class="control-label" for="corporate_entity_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_active') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_active"><?php echo Lang::get('employee.is_active'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="<?php echo e(Input::old('is_active', isset($employee) ? $employee->is_active : null)); ?>" />
+			<?php echo $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

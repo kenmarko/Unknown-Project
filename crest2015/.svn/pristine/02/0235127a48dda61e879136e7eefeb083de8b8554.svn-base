@@ -1,0 +1,28 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Trainee;
+
+class InformationDashboardController extends BaseController {
+
+
+	public function index()
+	{
+
+        $trainee_count = Trainee::count();
+
+       return view('information_dashboard/dashboard',  compact('trainee_count'));
+	}
+
+	public function enrollment()
+	{
+
+        $trainee_count = Trainee::count();
+
+       return view('information_dashboard/enrollment/index');
+	}
+
+}   
+
+    

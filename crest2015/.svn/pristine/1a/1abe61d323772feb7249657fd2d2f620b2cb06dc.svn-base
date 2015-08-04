@@ -1,0 +1,98 @@
+@extends('app')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("book.delete_book") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{!!URL::to('site/dashboard')!!}">Book List</a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
+                <div class="user">
+                    <!-- <span class="hello"> {{ Lang::get('site/site.welcome') }}!</span> -->
+                </div> </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{{ URL::to('/') }}}"><i class="glyphicon glyphicon-home"></i> {{ Lang::get('admin/admin.homepage') }}</a>
+                    </li>
+                    <li>
+                        <a href="{{{ URL::to('auth/logout') }}}"><i class="glyphicon glyphicon-off"></i> {{ Lang::get('site/site.logout') }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+<!-- Side Bar -->
+        <div class="navbar-default sidebar" role="navigation">
+                        <div class="sidebar-nav navbar-collapse">
+                            <ul class="nav" id="side-menu">
+                                <li class="sidebar-search">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                         </span>
+                                    </div>
+                                </li>
+                                @include('dashboard/sidebar')
+
+                            
+                                
+                                <!-- <li>
+                                    <a href="{{URL::to('site/site_tagging')}}" {{ (Request::is('site/site_tagging*') ? ' class=active' : '') }}>
+                                    <i class="glyphicon glyphicon-list"></i><span cslass="hidden-sm text"> {{ Lang::get("site/site_tagging.site_tagging") }}</span></a>
+                                </li> -->
+                            </ul>
+                        </div>
+
+        </div>
+</nav>
+<div id="page-wrapper">
+    <div class="row">
+<!-- Content Header -->
+<div class="page-header">
+    <h3> {{{ Lang::get("book.delete_book") }}}  
+        <div class="pull-right">
+            <div class="pull-right">
+                <a href="{{{ URL::to('dashboard/book') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("book.book_list") }}</a>
+            </div>
+        </div>
+    </h3>
+</div>
+<div>
+    {{ Lang::get("form.delete_message") }}
+
+</div>
+<form class="form-horizontal" method="post" action="{{ URL::to('dashboard/book/' . $book->id . '/delete') }}" autocomplete="off">
+    <input type="hidden" name="id" value="{{ $book->id }}" />   
+    @include('dashboard/book.form')
+
+ <div class="col-md-12">
+        <div class="form-group">
+            <label class="col-md-3 control-label" for="actions">&nbsp;</label>
+            <div class="col-md-9">  
+                <a href="{{{ URL::to('dashboard/book') }}}" class="btn btn-sm btn-warning close_popup">
+                    <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("form.cancel") }}
+                </a>
+                <button type="submit" class="btn btn-sm btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span> {{ Lang::get("form.delete") }}
+                </button>   
+            </div>
+        </div>
+    </div>  
+</form>
+
+@stop

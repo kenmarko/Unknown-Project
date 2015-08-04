@@ -1,0 +1,203 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\TeacherClassification;
+use App\Models\Classification;
+use App\Models\Teacher;
+use App\Models\Person;
+use App\Http\Requests\TeacherClassificationRequest;
+use App\Http\Requests\TeacherClassificationEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class TeacherClassificationController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = TeacherClassification::where('teacher_classification_no','LIKE','%$term%').orWhere('teacher_classification_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = TeacherClassification::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('teacher_classification.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        $action = 0;
+        $classification_list = Classification::orderBy('classification.classification_name','ASC')->get();
+       
+
+        return view('teacher_classification.create',compact('action','classification_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(TeacherClassificationRequest $teacher_classification_request) {
+
+        $teacher_classification = new TeacherClassification();
+        $teacher_classification -> teacher_id = $teacher_classification_request->teacher_id;
+        $teacher_classification -> classification_id = $teacher_classification_request->classification_id;
+        $teacher_classification -> is_default = $teacher_classification_request->is_default;
+        $teacher_classification -> is_active = $teacher_classification_request->is_active;
+        $teacher_classification -> save();
+
+        $success = \Lang::get('teacher_classification.create_success').' : '.$teacher_classification->teacher_classification_name ; 
+        return redirect('teacher_classification/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $teacher_classification = TeacherClassification::find($id);
+        $teacher_list = Teacher::all();
+        $action = 1;
+       //var_dump($its_customs_office);
+        return view('teacher_classification/edit',compact('teacher_classification','action','teacher_list'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(TeacherClassificationEditRequest $teacher_classification_edit_request, $id) {
+      
+        $teacher_classification = TeacherClassification::find($id);
+        $teacher_classification -> teacher_id = $teacher_classification_edit_request->teacher_id;
+        $teacher_classification -> classification_id = $teacher_classification_edit_request->classification_id;
+        $teacher_classification -> is_default = $teacher_classification_edit_request->is_default;
+        $teacher_classification -> is_active = $teacher_classification_edit_request->is_active;
+        $teacher_classification -> save();
+
+        return redirect('teacher_classification');
+    }
+
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $teacher_classification = TeacherClassification::find($id);
+        // Show the page
+        return view('teacher_classification/delete', compact('teacher_classification'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $teacher_classification = TeacherClassification::find($id);
+        $teacher_classification->delete();
+        return redirect('teacher_classification');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $teacher_classification_list = TeacherClassification::join('classification','teacher_classification.classification_id','=','classification.id')
+              ->join('teacher','teacher_classification.teacher_id','=','teacher.id')
+              ->join('person','teacher.person_id','=','person.id')
+              ->select(array('teacher_classification.id','person.first_name','person.last_name','classification.classification_name','teacher_classification.is_default','teacher_classification.is_active'))
+              ->orderBy('teacher_classification.id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($teacher_classification_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'teacher_classification/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'teacher_classification/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('first_name','{{ ucwords(strtolower($first_name." ".$last_name)) }}')
+            ->remove_column('last_name')
+            ->editColumn('is_default','@if($is_default == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                TeacherClassification::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

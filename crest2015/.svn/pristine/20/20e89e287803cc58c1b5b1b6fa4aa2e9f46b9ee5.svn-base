@@ -1,0 +1,613 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsImportEntry;
+use App\Models\Its\ItsImportEntryContainer;
+use App\Http\Requests\Its\ItsImportEntryRequest;
+use App\Http\Requests\Its\ItsImportEntryEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ItsImportEntryController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsImportEntry::where('code','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsImportEntry::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('its.its_import_entry.index');
+    }
+
+/**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function view()
+    {
+        // Show the page
+        return view('its.its_import_entry.view');
+    }
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_import_entry.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsImportEntryRequest $its_import_entry_request) {
+
+        $its_import_entry = new ItsImportEntry();
+        $its_import_entry -> registry_no = $its_import_entry_request->registry_no;
+        $its_import_entry -> its_customs_office_name = $its_import_entry_request->its_customs_office_name;
+        $its_import_entry -> its_customs_office_code = $its_import_entry_request->its_customs_office_code;
+        $its_import_entry -> ex_company_address = $its_import_entry_request->ex_company_address;
+        $its_import_entry -> im_company_address = $its_import_entry_request->im_company_address;
+        $its_import_entry -> page_no = $its_import_entry_request->page_no;
+        $its_import_entry -> exporter_no = $its_import_entry_request->exporter_no;
+        $its_import_entry -> declaration = $its_import_entry_request->declaration;
+        $its_import_entry -> customs_reference = $its_import_entry_request->customs_reference;
+        $its_import_entry -> crf_number = $its_import_entry_request->crf_number;
+        $its_import_entry -> item_count = $its_import_entry_request->item_count;
+        $its_import_entry -> total_package = $its_import_entry_request->total_package;
+        $its_import_entry -> reference_no = $its_import_entry_request->reference_no;
+        $its_import_entry -> importer_tin = $its_import_entry_request->importer_tin;
+        $its_import_entry -> its_broker_att_in_fact_address = $its_import_entry_request->its_broker_att_in_fact_address;
+        $its_import_entry -> broker_tin = $its_import_entry_request->broker_tin;
+        $its_import_entry -> vessel_aircraft = $its_import_entry_request->vessel_aircraft;
+        $its_import_entry -> crf_number = $its_import_entry_request->crf_number;
+        $its_import_entry -> crf = $its_import_entry_request->crf;
+        // $its_import_entry -> vessel_aircraft = $its_import_entry_request->vessel_aircraft;
+        $its_import_entry -> ct = $its_import_entry_request->ct;
+        $its_import_entry -> local_carrier = $its_import_entry_request->local_carrier;
+        $its_import_entry -> transshipment_port = $its_import_entry_request->transshipment_port;
+        $its_import_entry -> port_of_destination = $its_import_entry_request->port_of_destination;
+        $its_import_entry -> its_location_of_goods_code = $its_import_entry_request->its_location_of_goods_code;
+        $its_import_entry -> marks_number_of_packages = $its_import_entry_request->marks_number_of_packages;
+        $its_import_entry -> item_no = $its_import_entry_request->item_no;
+        $its_import_entry -> number_and_kind = $its_import_entry_request->number_and_kind;
+        $its_import_entry -> container_no = $its_import_entry_request->container_no;
+        $its_import_entry -> oth_in_ev = $its_import_entry_request->oth_in_ev;
+        $its_import_entry -> ins_in_frt = $its_import_entry_request->ins_in_frt;
+        $its_import_entry -> fine = $its_import_entry_request->fine;
+        $its_import_entry -> a_d = $its_import_entry_request->a_d;
+        $its_import_entry -> inv_no = $its_import_entry_request->inv_no;
+        $its_import_entry -> dump_bond = $its_import_entry_request->dump_bond;
+        $its_import_entry -> type = $its_import_entry_request->type;
+        $its_import_entry -> tax_base = $its_import_entry_request->tax_base;
+        $its_import_entry -> rate = $its_import_entry_request->rate;
+        $its_import_entry -> amount = $its_import_entry_request->amount;
+        $its_import_entry -> mp = $its_import_entry_request->mp;
+        $its_import_entry -> total_fio = $its_import_entry_request->total_fio;
+        $its_import_entry -> t_rel = $its_import_entry_request->t_rel;
+        $its_import_entry -> export_country_name = $its_import_entry_request->export_country_name;
+        $its_import_entry -> export_country_code = $its_import_entry_request->export_country_code;
+        $its_import_entry -> country_of_destination_code = $its_import_entry_request->country_of_destination_code;
+        $its_import_entry -> country_of_origin = $its_import_entry_request->country_of_origin;
+        $its_import_entry -> country_of_origin_code = $its_import_entry_request->country_of_origin_code;
+        $its_import_entry -> country_of_destination = $its_import_entry_request->country_of_destination;
+        $its_import_entry -> its_delivery_term_code = $its_import_entry_request->its_delivery_term_code;
+        $its_import_entry -> its_delivery_term_name = $its_import_entry_request->its_delivery_term_name;
+        $its_import_entry -> total_customs_value = $its_import_entry_request->total_customs_value;
+        $its_import_entry -> exchange_rate = $its_import_entry_request->exchange_rate;
+        $its_import_entry -> bank_transfer_id = $its_import_entry_request->bank_transfer_id;
+        $its_import_entry -> its_bank_code = $its_import_entry_request->its_bank_code;
+        $its_import_entry -> its_payment_term = $its_import_entry_request->its_payment_term;
+        $its_import_entry -> its_bank_name = $its_import_entry_request->its_bank_name;
+        $its_import_entry -> its_bank_branch = $its_import_entry_request->its_bank_branch;
+        $its_import_entry -> bank_ref_number = $its_import_entry_request->bank_ref_number;
+        $its_import_entry -> hs_code_tar_spec = $its_import_entry_request->hs_code_tar_spec;
+        $its_import_entry -> item_gross_weight = $its_import_entry_request->item_gross_weight;
+        $its_import_entry -> its_preferences_code = $its_import_entry_request->its_preferences_code;
+        $its_import_entry -> procedure = $its_import_entry_request->procedure;
+        $its_import_entry -> item_net_wt = $its_import_entry_request->item_net_wt;
+        $its_import_entry -> its_quota_code = $its_import_entry_request->its_quota_code;
+        $its_import_entry -> awb_hbl_no = $its_import_entry_request->awb_hbl_no;
+        $its_import_entry -> receipt_number = $its_import_entry_request->receipt_number;
+        $its_import_entry -> customs_value = $its_import_entry_request->customs_value;
+        $its_import_entry -> valuation_method = $its_import_entry_request->valuation_method;
+        $its_import_entry -> ai_code = $its_import_entry_request->ai_code;
+        $its_import_entry -> adjustment = $its_import_entry_request->adjustment;
+        $its_import_entry -> dutiable_value = $its_import_entry_request->dutiable_value;
+        $its_import_entry -> prepaid_account = $its_import_entry_request->prepaid_account;
+        $its_import_entry -> id_of_warehouse = $its_import_entry_request->id_of_warehouse;
+        $its_import_entry -> mode_of_payment = $its_import_entry_request->mode_of_payment;
+        $its_import_entry -> assessment_number = $its_import_entry_request->assessment_number;
+        $its_import_entry -> date = $its_import_entry_request->date;
+        $its_import_entry -> guarantee = $its_import_entry_request->guarantee;
+        $its_import_entry -> date = $its_import_entry_request->date;
+        $its_import_entry -> total_fee = $its_import_entry_request->total_fee;
+        $its_import_entry -> total_assessment = $its_import_entry_request->total_assessment;
+        $its_import_entry -> its_broker = $its_import_entry_request->its_broker;
+        $its_import_entry -> date = $its_import_entry_request->date;
+        $its_import_entry -> control_at_office = $its_import_entry_request->control_at_office;
+        $its_import_entry -> code = $its_import_entry_request->code;
+        $its_import_entry -> office_of_destination = $its_import_entry_request->office_of_destination;
+        $its_import_entry -> control_at_office = $its_import_entry_request->control_at_office;
+        $its_import_entry -> stamp = $its_import_entry_request->stamp;
+        $its_import_entry -> place_and_date = $its_import_entry_request->place_and_date;
+        $its_import_entry -> signature = $its_import_entry_request->signature;
+        $its_import_entry -> no = $its_import_entry_request->no;
+        $its_import_entry -> suppl_units = $its_import_entry_request->suppl_units;
+        $its_import_entry -> country_of_origin_id = $its_import_entry_request->country_of_origin_id;
+        $its_import_entry -> country_of_destination_id = $its_import_entry_request->country_of_destination_id;
+        $its_import_entry -> importer_att_in_fact = $its_import_entry_request->importer_att_in_fact;
+        // $its_import_entry -> origin_country_name = $its_import_entry_request->origin_country_name;
+
+       // $its_import_entry -> name = $its_import_entry_request->name;
+        $its_import_entry -> created_by_id = Auth::id();
+
+        //just add asssignments here
+        //$its_import_entry -> broker_tin = $its_import_entry_request->broker_tin;
+        // $its_import_entry -> its_broker = $its_import_entry_request->its_broker;
+        // $its_import_entry -> broker_tin = $its_import_entry_request->broker_tin;
+        //$its_import_entry -> 
+
+        //please continue - i will observe
+
+
+
+        $its_import_entry -> save();
+
+        $success = \Lang::get('its/its_import_entry.create_success').' : '.$its_import_entry->awb_hbl_no ; 
+        return redirect('its/its_import_entry/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_import_entry = ItsImportEntry::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_import_entry/edit',compact('its_import_entry'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsImportEntryRequest $its_import_entry_request, $id) {
+      
+        $its_import_entry = ItsImportEntry::find($id);
+        $its_import_entry -> awb_hbl_no = $its_import_entry_request->awb_hbl_no;
+        //$its_import_entry -> name = $its_import_entry_request->name;
+        $its_import_entry -> updated_by_id = Auth::id();
+        $its_import_entry -> save();
+
+        return redirect('its/its_import_entry');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $its_import_entry = ItsImportEntry::find($id);
+        // Show the page
+        return view('its/its_import_entry/delete', compact('its_import_entry'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_import_entry = ItsImportEntry::find($id);
+        $its_import_entry->delete();
+        return redirect('its/its_import_entry');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+public function TagReleased()
+{
+
+                $its_import_entry_container_list = ItsImportEntryContainer::with('its_tagging')->get();
+
+                   //iterate each import entry containers
+
+
+               foreach($its_import_entry_container_list as  $its_import_entry_container) 
+                 {
+                   //count the total tagging procedures
+                      $tagging_procedure_count = $its_import_entry_container->its_tagging->count();
+
+                      //count the tagging procedures with tagged_released = 1 
+                      $tagged_released_count = $its_import_entry_container->its_tagging()->where('tagged_released','=',1)->count();
+
+                   
+                        
+                      if($tagging_procedure_count == $tagged_released_count)
+                      {
+                        $status = "Full";
+                      }
+
+                      $status = "Partial";
+                   }
+              return $status;
+
+
+}
+public function TagReceived()
+{
+
+                $its_import_entry_container_list = ItsImportEntryContainer::with('its_tagging')->get();
+
+                   //iterate each import entry containers
+
+
+               foreach($its_import_entry_container_list as  $its_import_entry_container) 
+                 {
+                   //count the total tagging procedures
+                      $tagging_procedure_count = $its_import_entry_container->its_tagging->count();
+
+                      //count the tagging procedures with tagged_released = 1 
+                      $tagged_received_count = $its_import_entry_container->its_tagging()->where('tagged_received','=',1)->count();
+
+                   
+                        
+                      if($tagging_procedure_count == $tagged_received_count)
+                      {
+                        $status = "Full";
+                      }
+
+                      $status = "Partial";
+                   }
+              return $status;
+
+
+}
+
+ public function data()
+ {
+
+      // Goal -> to determine the status(full/partial) of import entry containers 
+
+
+      // import entry has remarks (full/partial)
+      //   - Full
+      //     if all import entry containers has FULL RELEASED remark
+      //   - Partial
+      //     if not all import entry containers has FULL RELEASED remark
+
+
+      // import entry container has remarks (full/partial)
+      //   - FULL
+      //     if all the tagging procedure for this container has FULL RELEASED remark
+      //     set the tagged_released of import entry container to  true
+          
+      //   - PARTIAL
+      //     if not all the tagging procedure for this container has FULL RELEASED remark
+      //     set the tagged_released of import entry container to false
+      // TO DETERMINE THE FINAL REMARKS (FULL/PARTIAL) OF IMPORT ENTRY
+
+      // If Total Containers = Total Containers whose tagged_released remark is true
+      //   - set the tagged_released of import entry (table) to true
+
+      // ELSE
+      //   - set the tagged_released of import entry (table)
+      //retrieve list of import entries from the databse
+      $its_import_entry_list = ItsImportEntry::with('its_import_entry_container') -> get();
+
+//var_dump($its_import_entry_list);
+      foreach ($its_import_entry_list as $its_import_entry) {
+                      # code...
+                     // print $its_import_entry -> awb_hbl_no . "HAS ". $its_import_entry->its_import_entry_container->count() ."<br><br>";
+
+
+                      foreach ($its_import_entry ->its_import_entry_container as $its_import_entry_container) {
+                                    //print $its_import_entry_container -> container_no." has ". $its_import_entry_container->its_tagging->count() ."tagging procedure count <br>";
+
+                                    // import entry container has remarks (full/partial)
+                                    //   - FULL
+                                    
+
+                                    $tagging_procedure_count = $its_import_entry_container->its_tagging()->count();
+
+
+                                   // print $its_import_entry_container -> container_no." has ".  $tagging_procedure_count ."tagging procedure count <br>";
+
+                                    //$tagged_released_count stores the count of tagging procedure whose tagged_released value is true
+                                    $tagged_released_true_count = $its_import_entry_container->its_tagging()->where("tagged_released",'=', true)->count();
+                                    
+                                   // print $its_import_entry_container -> container_no." has ".  $tagged_released_true_count ."tagging procedure true count <br>";
+
+
+
+                                    // if all the tagging procedure for this container has FULL RELEASED remark
+                                    if(($tagging_procedure_count !=0) && ($tagging_procedure_count == $tagged_released_true_count )) 
+                                    {
+                                        $its_import_entry_container->tagged_released =  true;
+                                    }
+                                    else
+                                    {
+                                        $its_import_entry_container->tagged_released =  false;
+
+                                    }
+
+
+                                    $its_import_entry_container->save();
+
+
+                        //     set the tagged_released of import entry container to  true
+                            
+                        //   - PARTIAL
+                        //     if not all the tagging procedure for this container has FULL RELEASED remark
+                        //     set the tagged_released of import entry container to false
+
+                      }
+
+
+
+                      $its_import_entry_container_count = $its_import_entry->its_import_entry_container()->count();
+
+
+
+                      $its_import_entry_container_full_released_count = $its_import_entry->its_import_entry_container()->where("tagged_released","=", true)->count();
+
+
+                     // print  $its_import_entry_container_count." = ".  $its_import_entry_container_full_released_count."<br>";
+
+
+                      if(($its_import_entry_container_count!=0) && ($its_import_entry_container_count == $its_import_entry_container_full_released_count))
+                      {
+                          $its_import_entry->tagged_released =  true;
+                      }
+                      else
+                      {
+                          $its_import_entry->tagged_released = false;
+                      }
+
+                      $its_import_entry->save();
+
+                      //print $its_import_entry->id."- FULL RELEASED:".$its_import_entry->tagged_released."<br>";
+      }
+
+
+
+
+
+
+
+      
+
+       /*//var_dump($its_import_entry_container_list);
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $its_import_entry_list = ItsImportEntry::select(array('its_import_entry.id','its_import_entry.awb_hbl_no',))
+              ->orderBy('its_import_entry.awb_hbl_no', 'ASC');
+
+          
+               // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+
+          $tag_released =  $this->TagReleased();
+          $tag_received =  $this->TagReceived();  */
+
+
+       $its_import_entry_list =  ItsImportEntry::select(array('its_import_entry.id','its_import_entry.awb_hbl_no','tagged_released'))
+              ->orderBy('its_import_entry.awb_hbl_no', 'ASC');
+
+
+        return Datatables::of($its_import_entry_list)
+            ->edit_column('tagged_released','@if($tagged_released == 1) FULL @else PARTIAL @endif')
+            ->add_column('actions', '<a href="{{{ URL::to(\'its/its_import_entry/\' . $id . \'/edit\' ) }}}" class="btn btn-info btn-sm" ><span class="glyphicon glyphicon-eye-open"></span> {{ Lang::get("its/form.views") }}</a>
+                    <a href="{{{ URL::to(\'its/its_import_entry/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            // ->add_column('details', '<a class="btn btn-info btn-sm" ><span class="glyphicon glyphicon-eye-open"></span> {{ Lang::get("its/form.details") }}</a>
+            //         <input type="hidden" name="row" value="{{$id}}" id="row">')      
+            ->remove_column('id')
+            ->make();
+          
+       
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsImportEntry::where('id', '=', $value) -> update(array('awb_hbl_no' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}
+
+
+
+
+// use App\Http\Controllers\ItsController;
+// use App\Http\Requests\Its\ItsImportEntryRequest;
+// use App\Http\Requests\Its\ItsImportEntryEditRequest;
+// use App\Http\Requests\Its\ItsImportEntryDeleteRequest;
+// use Config;    
+// use Datatables;
+// use Hash;
+
+// class ItsImportEntryController extends ItsController {
+
+//     /*
+//     * Display a listing of the resource.
+//     *
+//     * @return Response
+//     */
+//     public function index()
+//     {
+//         // Show the page
+//         return view('its.its_import_entry.index');
+//     }
+
+//     /**
+//      * Show the form for creating a new resource.
+//      *
+//      * @return Response
+//      */
+//     public function getCreate() {
+//         //$gen_role_list = GenRole::all();
+//         // Selected groups
+//         return view('its.its_import_entry.create');
+//        //return view('admin.gen_user.create_edit', compact('gen_role_list', 'gen_user_role_list'));
+//     }
+
+//     // /**
+//     //  * Store a newly created resource in storage.
+//     //  *
+//     //  * @return Response
+//     //  */
+//     public function postCreate(ItsImportEntryRequest $itsImportEntryRequest) {
+//        return redirect('its/its_import_entry/create');
+//     }
+
+//     // /**
+//     //  * Show the form for editing the specified resource.
+//     //  *
+//     //  * @param $user
+//     //  * @return Response
+//     //  */
+//     // public function getEdit($id) {
+
+//     //     $gen_user = GenUser::find($id);
+//     //     $gen_role_list = GenRole::all();
+
+//     //     $gen_user_role_list = GenUserRole::where('gen_user_id','=',$gen_user->id)->lists('gen_role_id');
+//     //     //var_dump($gen_user_role_list);
+//     //     return view('admin.gen_user.create_edit', compact('gen_user', 'gen_role_list', 'gen_user_role_list'));
+//     // }
+
+//     // /**
+//     //  * Update the specified resource in storage.
+//     //  *
+//     //  * @param $user
+//     //  * @return Response
+//     //  */
+//     // public function postEdit(GenUserEditRequest $gen_user_edit_request, $id) {
+//     //     $gen_user = GenUser::find($id);
+//     //     $gen_user -> confirmed = $gen_user_edit_request->confirmed;
+
+//     //     $password = $gen_user_edit_request->password;
+//     //     $passwordConfirmation = $gen_user_edit_request->password_confirmation;
+
+//     //     if (!empty($password)) {
+//     //         if ($password === $passwordConfirmation) {
+//     //             $gen_user -> password = Hash::make($password);
+//     //         }
+//     //     }
+//     //     $gen_user -> save();
+//     //     GenUserRole::where('gen_user_id','=',$gen_user->id)->delete();
+//     //     foreach($gen_user_edit_request->roles as $item)
+//     //     {
+//     //         $gen_user_role = new AssignedRoles;
+//     //         $gen_user_role -> gen_role_id = $item;
+//     //         $gen_user_role -> gen_user_id = $gen_user_role -> id;
+//     //         $gen_user_role -> save();
+//     //     }
+//     // }
+//     // /**
+//     //  * Remove the specified resource from storage.
+//     //  *
+//     //  * @param $user
+//     //  * @return Response
+//     //  */
+
+//     // public function getDelete($id)
+//     // {
+//     //     $gen_user = GenUser::find($id);
+//     //     // Show the page
+//     //     return view('admin.gen_user.delete', compact('gen_user'));
+//     // }
+
+//     // /**
+//     //  * Remove the specified resource from storage.
+//     //  *
+//     //  * @param $user
+//     //  * @return Response
+//     //  */
+//     // public function postDelete(DeleteRequest $request,$id)
+//     // {
+//     //     $gen_user= GenUser::find($id);
+//     //     $gen_user->delete();
+//     // }
+
+//     // /**
+//     //  * Show a list of all the languages posts formatted for Datatables.
+//     //  *
+//     //  * @return Datatables JSON
+//     //  */
+//     public function data()
+//     {
+//         $its_import_entry_list = GenUser::select(array('its_import_entry.id','its_import_entry.registry_no'))
+//             ->orderBy('its_import_entry.registry_no', 'ASC');
+
+//         return Datatables::of($its_import_entry_list)
+//             -> edit_column('confirmed', '@if ($confirmed=="1") <span class="glyphicon glyphicon-ok"></span> @else <span class=\'glyphicon glyphicon-remove\'></span> @endif')
+//             ->add_column('actions', '<a href="{{{ URL::to(\'its/its_import_entry/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span>  {{ Lang::get("its/modal.edit") }}</a>
+//                     <a href="{{{ URL::to(\'its/its_import_entry/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/modal.delete") }}</a>
+//                 ')
+//             ->remove_column('id')
+
+//             ->make();
+//     }
+
+// }

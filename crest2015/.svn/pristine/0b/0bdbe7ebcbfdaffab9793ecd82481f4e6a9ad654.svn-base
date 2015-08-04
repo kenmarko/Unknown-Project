@@ -1,0 +1,1505 @@
+<!--<?php /* Web site Title */ ?>
+//<?php $__env->startSection('title'); ?>
+//<?php echo e(Lang::get('its/its_import_entry.create_import_entry')); ?> :: @parent
+//<?php $__env->stopSection(); ?>-->
+
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+    <h3> <?php echo e(Lang::get('its/its_import_entry.create_import_entry')); ?>
+
+        <div class="pull-right">
+                <a href="<?php echo e(URL::to('its/its_import_entry')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get('its/its_import_entry.import_entry_list')); ?></a>
+        </div>
+    </h3>
+</div>
+                    
+
+<!--<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#tab-general" data-toggle="tab"><?php echo e(Lang::get('admin/modal.general')); ?></a>
+    </li>
+</ul>-->
+<form class="form-horizontal" method="post" action="<?php echo e(URL::to('its/its_import_entry/create')); ?>" autocomplete="off">
+    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+    <div class="tab-content">
+        <h3> <?php echo e(Lang::get('its/its_import_entry.create_import_entry')); ?>
+
+        <div class="pull-right">
+                <a href="<?php echo e(URL::to('its/its_import_entry')); ?>" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> <?php echo e(Lang::get('its/its_import_entry.import_entry_list')); ?></a>
+        </div>
+    </h3>
+        <div class="tab-pane active" id="tab-general">
+            <br>
+            <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <!-- <div class="form-group <?php echo e($errors->has('ex_company_address') ? 'has-error' : ''); ?>">
+                                        <label type="text" name="ex_company_address" for="ex_company_address"><?php echo e(Lang::get('its/its_import_entry.ex_company_address')); ?></label>
+                                        <textarea type="tex" class="form-control" rows="8" name="ex_company_address" id="ex_company_address" value="<?php echo e(Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null)); ?>" ><?php echo e(Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null)); ?></textarea>
+                                        <?php echo $errors->first('ex_company_address', '<label class="control-label" for="ex_company_address">:message</label>'); ?>
+
+                                    </div> -->
+                                    <div class="form-group">
+                                        <label for="ex_company_address"><?php echo e(Lang::get('its/its_import_entry.ex_company_address')); ?></label>
+                                        <textarea class="form-control" rows="8" id="ex_company_address" name="ex_company_address" value="<?php echo e(Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null)); ?>" ><?php echo e(Input::old('ex_company_address', isset($its_import_entry) ? $its_import_entry->ex_company_address : null)); ?></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company_address"><?php echo e(Lang::get('its/its_import_entry.im_company_address')); ?></label>
+                                        <textarea class="form-control" rows="8" id="company_address" name="im_company_address" value="<?php echo e(Input::old('im_company_address', isset($its_import_entry) ? $its_import_entry->im_company_address : null)); ?>" ><?php echo e(Input::old('im_company_address', isset($its_import_entry) ? $its_import_entry->im_company_address : null)); ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="no"><?php echo e(Lang::get('its/its_import_entry.no')); ?></label>
+                                        <input type="text" class="form-control" id="no" name="no" value="<?php echo e(Input::old('no', isset($its_import_entry) ? $its_import_entry->no : null)); ?>">
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <div class="form-group">
+                                        <label for="importer_tin"><?php echo e(Lang::get('its/its_import_entry.broker_tin')); ?></label>
+                                        <input type="number" class="form-control" id="importer_tin" name="importer_tin" value="<?php echo e(Input::old('importer_tin', isset($its_import_entry) ? $its_import_entry->importer_tin : null)); ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                           
+                                
+                                     <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="declaration"><?php echo e(Lang::get('its/its_import_entry.declaration')); ?></label>
+                                        <input type="number" class="form-control" id="declaration" name="declaration" value="<?php echo e(Input::old('declaration', isset($its_import_entry) ? $its_import_entry->declaration : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="declaration"><?php echo e(Lang::get('its/its_import_entry.declaration_blank_a')); ?></label>
+                                        <input type="number" class="form-control" id="declaration">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="declaration"><?php echo e(Lang::get('its/its_import_entry.declaration_blank_b')); ?></label>
+                                        <input type="number" class="form-control" id="declaration">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                     <div id="its_customs_office_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_customs_office_code') ? 'has-error' : ''); ?>">
+                                                    <label for="its_customs_office_code"><?php echo e(Lang::get('its/its_import_entry.its_customs_office_code')); ?></label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="<?php echo e(Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null)); ?>">
+                                                    <?php echo $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>'); ?>   
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="<?php echo e(Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                   <div class="form-group">
+                                                    <label for="its_customs_office_name"><?php echo e(Lang::get('its/its_import_entry.customs_reference')); ?></label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_name" name="its_customs_office_name" value="<?php echo e(Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null)); ?>">
+                                                    </div>
+                                    </div>
+                                </div>
+
+
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="page_no"><?php echo e(Lang::get('its/its_import_entry.page')); ?></label>
+                                                <input type="text" class="form-control" id="page_no" name="page_no"value="<?php echo e(Input::old('page_no', isset($its_import_entry) ? $its_import_entry->page_no : null)); ?>">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label for="page"><?php echo e(Lang::get('its/its_import_entry.page_blank_a')); ?></label>
+                                                <input type="text" class="form-control" id="page">
+                                            </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="4"><?php echo e(Lang::get('its/its_import_entry.4')); ?></label>
+                                            <input type="number" class="form-control" id="4">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="customs_reference"><?php echo e(Lang::get('its/its_import_entry.customs_reference')); ?></label>
+                                        <input type="text" class="form-control" id="customs_reference" value="<?php echo e(Input::old('customs_reference', isset($its_import_entry) ? $its_import_entry->customs_reference : null)); ?>">
+                                    </div>
+                                    </div> -->
+                                    <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="customs_reference"><?php echo e(Lang::get('its/its_import_entry.customs_reference_blank_a')); ?></label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="customs_reference"><?php echo e(Lang::get('its/its_import_entry.customs_reference_blank_b')); ?></label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="registry_no"><?php echo e(Lang::get('its/its_import_entry.registry_no')); ?></label>
+                                        <input type="text" class="form-control" id="registry_no" name="registry_no" value="<?php echo e(Input::old('registry_no', isset($its_import_entry) ? $its_import_entry->registry_no : null)); ?>">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="item_count"><?php echo e(Lang::get('its/its_import_entry.item')); ?></label>
+                                            <input type="number" class="form-control" id="item_count" name="item_count" value="<?php echo e(Input::old('item_count', isset($its_import_entry) ? $its_import_entry->item_count : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="total_package"><?php echo e(Lang::get('its/its_import_entry.tot_pack')); ?></label>
+                                            <input type="text" class="form-control" id="total_package" name="total_package" value="<?php echo e(Input::old('total_package', isset($its_import_entry) ? $its_import_entry->total_package : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="reference_no"><?php echo e(Lang::get('its/its_import_entry.reference_number')); ?></label>
+                                            <input type="number" class="form-control" id="reference_no" name="reference_no" value="<?php echo e(Input::old('reference_no', isset($its_import_entry) ? $its_import_entry->reference_no : null)); ?>">
+                                        </div>
+                                    </div>
+
+                                <!--<div class="col-md-6">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div id="its_customs_office_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_customs_office_code') ? 'has-error' : ''); ?>">
+                                                    <label for="its_customs_office_code"><?php echo e(Lang::get('its/its_import_entry.its_customs_office_code')); ?></label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="<?php echo e(Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null)); ?>">
+                                                    <?php echo $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>'); ?>
+
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="<?php echo e(Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null)); ?>">
+                                            </div>
+                                        </div>
+                                         <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label for="its_customs_office_name"><?php echo e(Lang::get('its/its_import_entry.its_customs_office_name')); ?></label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_name" name="its_customs_office_name" value="<?php echo e(Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null)); ?>">
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="customs_reference"><?php echo e(Lang::get('its/its_import_entry.customs_reference')); ?></label>
+                                        <input type="text" class="form-control" id="customs_reference">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="registry_number"><?php echo e(Lang::get('its/its_import_entry.registry_number')); ?></label>
+                                        <input type="text" class="form-control" id="registry_number">
+                                    </div>
+                                </div>-->
+
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                            <label for="reference_number"><?php echo e(Lang::get('its/its_import_entry.reference_number_blank_a')); ?></label>
+                                            <input type="number" class="form-control" id="reference_number">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="crf"><?php echo e(Lang::get('its/its_import_entry.crf')); ?></label>
+                                        <textarea class="form-control" rows="3" id="crf" name="crf" value="<?php echo e(Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null)); ?>"><?php echo e(Input::old('crf', isset($its_import_entry) ? $its_import_entry->crf : null)); ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="crf"><?php echo e(Lang::get('its/its_import_entry.crf_number')); ?></label>
+                                        <!--<textarea class="form-control" rows="3" id="crf"></textarea>-->
+                                        <input type="number" class="form-control" name="crf_number" id="crf_number" value="<?php echo e(Input::old('crf_number', isset($its_import_entry) ? $its_import_entry->crf_number : null)); ?>">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="its_broker_att_in_fact_address"><?php echo e(Lang::get('its/its_import_entry.its_broker')); ?></label>
+                                        <textarea class="form-control" rows="8" id="its_broker_att_in_fact_address" name="its_broker_att_in_fact_address" value="<?php echo e(Input::old('its_broker_att_in_fact_address', isset($its_import_entry) ? $its_import_entry->its_broker_att_in_fact_address : null)); ?>"><?php echo e(Input::old('its_broker_att_in_fact_address', isset($its_import_entry) ? $its_import_entry->its_broker_att_in_fact_address : null)); ?></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                    <div class="form-group">
+                                        <label for="broker_tin"><?php echo e(Lang::get('its/its_import_entry.broker_tin')); ?></label>
+                                        <input type="number" class="form-control" id="broker_tin" name="broker_tin" value="<?php echo e(Input::old('broker_tin', isset($its_import_entry) ? $its_import_entry->broker_tin : null)); ?>">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-11">
+                                        <div class="form-group">
+                                            <label for="vessel_aircraft"><?php echo e(Lang::get('its/its_import_entry.vessel_aircraft')); ?></label>
+                                            <input type="text" class="form-control" id="vessel_aircraft" name="vessel_aircraft" value="<?php echo e(Input::old('vessel_aircraft', isset($its_import_entry) ? $its_import_entry->vessel_aircraft : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="ct"><?php echo e(Lang::get('its/its_import_entry.ct')); ?></label>
+                                            <input type="checkbox" class="form-control" id="ct" value="<?php echo e(Input::old('ct', isset($its_import_entry) ? $its_import_entry->ct : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div class="form-group">
+                                            <label for="local_carrier"><?php echo e(Lang::get('its/its_import_entry.local_carrier')); ?></label>
+                                            <input type="text" class="form-control" id="local_carrier" name="local_carrier" value="<?php echo e(Input::old('local_carrier', isset($its_import_entry) ? $its_import_entry->local_carrier : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">
+                                            <label for="local_carrier"><?php echo e(Lang::get('its/its_import_entry.local_carrier_blank_a')); ?></label>
+                                            <input type="text" class="form-control" id="local_carrier">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25"><?php echo e(Lang::get('its/its_import_entry.25')); ?></label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25"><?php echo e(Lang::get('its/its_import_entry.25_blank_a')); ?></label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25"><?php echo e(Lang::get('its/its_import_entry.26')); ?></label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="25"><?php echo e(Lang::get('its/its_import_entry.26_blank_a')); ?></label>
+                                            <input type="text" class="form-control" id="25">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="form-group">
+                                            <label for="transshipment_port"><?php echo e(Lang::get('its/its_import_entry.transshipment_port')); ?></label>
+                                            <input type="text" class="form-control" id="transshipment_port" name="transshipment_port" value="<?php echo e(Input::old('transshipment_port', isset($its_import_entry) ? $its_import_entry->transshipment_port : null)); ?>">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="port_of_destination"><?php echo e(Lang::get('its/its_import_entry.port_of_destination')); ?></label>
+                                <input type="text" class="form-control" id="port_of_destination" name="port_of_destination" value="<?php echo e(Input::old('port_of_destination', isset($its_import_entry) ? $its_import_entry->port_of_destination : null)); ?>">
+                            </div>
+                        </div>
+                        
+                       <div class="col-md-6">
+                            <div id="its_location_of_goods_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_location_of_goods_code') ? 'has-error' : ''); ?>">
+                                <label for="its_location_of_goods_code"><?php echo e(Lang::get('its/its_import_entry.its_location_of_goods_code')); ?></label>
+                                <input type="text" class="typeahead form-control" id="its_location_of_goods_code" name="its_location_of_goods_code" value="<?php echo e(Input::old('its_location_of_goods_code', isset($its_import_entry) ? $its_import_entry->its_location_of_goods_code : null)); ?>">
+                                <?php echo $errors->first('its_location_of_goods_code', '<label class="control-label" for="its_location_of_goods_code">:message</label>'); ?>   
+                                <input type="hidden" id="its_location_of_goods_id" name="its_location_of_goods_id" value="<?php echo e(Input::old('its_location_of_goods_id', isset($its_import_entry) ? $its_import_entry->its_location_of_goods_id : null)); ?>">
+                            </div>
+                            <!-- <div id="its_preferences_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_preferences_code') ? 'has-error' : ''); ?>">
+                                <label for="its_preferences_code"><?php echo e(Lang::get('its/its_import_entry.its_preferences_code')); ?></label>
+                                <input type="text" class="typeahead form-control" id="its_preferences_code" name="its_preferences_code" value="<?php echo e(Input::old('its_preferences_code', isset($its_import_entry) ? $its_import_entry->its_preferences_code : null)); ?>">
+                                <?php echo $errors->first('its_preferences_code', '<label class="control-label" for="its_preferences_code">:message</label>'); ?>   
+                                <input type="hidden" id="its_preferences_id" name="its_preferences_id" value="<?php echo e(Input::old('its_preferences_id', isset($its_import_entry) ? $its_import_entry->its_preferences_id : null)); ?>">
+                            </div> -->
+
+                        </div>
+
+                        <div class="col-md-12">
+                       <h3>Packages and Description of Goods</h3>
+                       <h4>Marks and Numbers and Container Number</h4>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                            <label for="marks_number_of_packages"><?php echo e(Lang::get('its/its_import_entry.marks_number_of_packages')); ?></label>
+                                            <input type="text" class="form-control" id="marks_number_of_packages" name="marks_number_of_packages" value="<?php echo e(Input::old('marks_number_of_packages', isset($its_import_entry) ? $its_import_entry->marks_number_of_packages : null)); ?>">
+                            </div>
+                        </div>
+                       <div class="col-md-3">
+                            <div class="form-group">
+                                            <label for="item_no"><?php echo e(Lang::get('its/its_import_entry.item_no')); ?></label>
+                                            <input type="text" class="form-control" id="item_no" name="item_no" value="<?php echo e(Input::old('item_no', isset($its_import_entry) ? $its_import_entry->item_no : null)); ?>">
+                            </div>
+                        </div>
+                       <div class="col-md-12">
+                            <div class="form-group">
+                                            <label for="number_and_kind"><?php echo e(Lang::get('its/its_import_entry.number_and_kind')); ?></label>
+                                            <input type="text" class="form-control" id="number_and_kind" name="number_and_kind" value="<?php echo e(Input::old('number_and_kind', isset($its_import_entry) ? $its_import_entry->number_and_kind : null)); ?>">
+                                        </div>
+                            </div>
+                       
+                       <div class="col-md-12">
+                            <div class="form-group">
+                                            <label for="containers_number"><?php echo e(Lang::get('its/its_import_entry.container_number')); ?></label>
+                                            <input type="text" class="form-control" id="container_no" name="container_no" value="<?php echo e(Input::old('container_no', isset($its_import_entry) ? $its_import_entry->container_no : null)); ?>">
+                                        </div>
+                            </div>
+                            <div class="col-md-12">
+                       <h3>Add Infos Doc/Product Cert. and Auth.</h3>
+                           </div>
+                       <div class="col-md-4">
+                            <div class="form-group">
+                                            <label for="oth_in_ev"><?php echo e(Lang::get('its/its_import_entry.oth_in_ev')); ?></label>
+                                            <input type="text" class="form-control" id="oth_in_ev" name="oth_in_ev" value="<?php echo e(Input::old('oth_in_ev', isset($its_import_entry) ? $its_import_entry->oth_in_ev : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-4">
+                            <div class="form-group">
+                                            <label for="ins_in_frt"><?php echo e(Lang::get('its/its_import_entry.ins_in_frt')); ?></label>
+                                            <input type="text" class="form-control" id="ins_in_frt" name="ins_in_frt" value="<?php echo e(Input::old('ins_in_frt', isset($its_import_entry) ? $its_import_entry->ins_in_frt : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-4">
+                            <div class="form-group">
+                                            <label for="fine"><?php echo e(Lang::get('its/its_import_entry.fine')); ?></label>
+                                            <input type="text" class="form-control" id="fine" name="fine" value="<?php echo e(Input::old('fine', isset($its_import_entry) ? $its_import_entry->fine : null)); ?>">
+                                        </div>
+                            </div>
+                       
+                       <div class="col-md-12">
+                       <div class="form-group">
+                                        <label for="a_d"><?php echo e(Lang::get('its/its_import_entry.a_d')); ?></label>
+                                        <textarea class="form-control" rows="3" id="a_d" name="a_d" value="<?php echo e(Input::old('a_d', isset($its_import_entry) ? $its_import_entry->a_d : null)); ?>"><?php echo e(Input::old('a_d', isset($its_import_entry) ? $its_import_entry->a_d : null)); ?></textarea>
+                                    </div>
+                       </div>
+                       
+                       <div class="col-md-6">
+                            <div class="form-group">
+                                            <label for="inv_no"><?php echo e(Lang::get('its/its_import_entry.inv_no')); ?></label>
+                                            <input type="text" class="form-control" id="inv_no" name="inv_no" value="<?php echo e(Input::old('inv_no', isset($its_import_entry) ? $its_import_entry->inv_no : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-6">
+                            <div class="form-group">
+                                            <label for="dump_bond"><?php echo e(Lang::get('its/its_import_entry.dump_bond')); ?></label>
+                                            <input type="text" class="form-control" id="dump_bond" name="dump_bond" value="<?php echo e(Input::old('dump_bond', isset($its_import_entry) ? $its_import_entry->dump_bond : null)); ?>">
+                                        </div>
+                            </div>
+                    <div class="col-md-12">
+                       <h3>Calculation of Taxes</h3>
+                           </div>
+                       <div class="col-md-2">
+                            <div class="form-group">
+                                            <label for="type"><?php echo e(Lang::get('its/its_import_entry.type')); ?></label>
+                                            <input type="text" class="form-control" id="type" name="type" value="<?php echo e(Input::old('type', isset($its_import_entry) ? $its_import_entry->type : null)); ?>">
+                                        </div>
+                            </div>
+                       
+                       
+                       <div class="col-md-2">
+                            <div class="form-group">
+                                            <label for="tax_base"><?php echo e(Lang::get('its/its_import_entry.tax_base')); ?></label>
+                                            <input type="text" class="form-control" id="tax-base" name="tax_base" value="<?php echo e(Input::old('tax_base', isset($its_import_entry) ? $its_import_entry->tax_base : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-2">
+                            <div class="form-group">
+                                            <label for="rate"><?php echo e(Lang::get('its/its_import_entry.rate')); ?></label>
+                                            <input type="text" class="form-control" id="rate" name="rate" value="<?php echo e(Input::old('rate', isset($its_import_entry) ? $its_import_entry->rate : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-2">
+                            <div class="form-group">
+                                            <label for="amount"><?php echo e(Lang::get('its/its_import_entry.amount')); ?></label>
+                                            <input type="text" class="form-control" id="amount" name="amount" value="<?php echo e(Input::old('amount', isset($its_import_entry) ? $its_import_entry->amount : null)); ?>">
+                                        </div>
+                            </div>
+                       <div class="col-md-2">
+                            <div class="form-group">
+                                            <label for="mp"><?php echo e(Lang::get('its/its_import_entry.mp')); ?></label>
+                                            <input type="text" class="form-control" id="mp" name="mp" value="<?php echo e(Input::old('mp', isset($its_import_entry) ? $its_import_entry->mp : null)); ?>">
+                                        </div>
+                            </div>      
+                       <div class="row">
+                       <div class="col-md-6">
+                       <div class="col-md-3">
+                            <div class="btn">
+                                            <button type="button" class="btn btn-default" id="calc_button"><span class="glyphicon glyphicon-ok-circle"></span><?php echo e(Lang::get("its/form.add_calculation")); ?></button>
+                                        </div>
+                           
+                        </div>
+                       </div>
+                           <div class="col-md-3">
+                           <form>
+                                <fieldset disabled>
+                                    <div class="form-group">
+                                        <label for="disabledTextInput">Total</label>
+                                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Total">
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div> 
+                           </div>
+                                
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="10"><?php echo e(Lang::get('its/its_import_entry.10')); ?></label>
+                                            <input type="number" class="form-control" id="10">
+                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="11"><?php echo e(Lang::get('its/its_import_entry.11')); ?></label>
+                                            <input type="number" class="form-control" id="11">
+                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="total_fio"><?php echo e(Lang::get('its/its_import_entry.total_fio')); ?></label>
+                                            <input type="number" class="form-control" id="total_fio" name="total_fio" value="<?php echo e(Input::old('total_fio', isset($its_import_entry) ? $its_import_entry->total_fio : null)); ?>">
+                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="t_rel"><?php echo e(Lang::get('its/its_import_entry.t_rel')); ?></label>
+                                            <input type="number" class="form-control" id="t_rel" name="t_rel" value="<?php echo e(Input::old('t_rel', isset($its_import_entry) ? $its_import_entry->t_rel : null)); ?>">
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                               <div class="col-md-6">
+                                    <div id="export_country_name_typeahead" class="tt-input-group form-group <?php echo e($errors->has('export_country_name') ? 'has-error' : ''); ?>">
+                                        <label for="export_country_name"><?php echo e(Lang::get('its/its_import_entry.export_country_name')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="export_country_name" name="export_country_name" value="<?php echo e(Input::old('export_country_name', isset($its_import_entry) ? $its_import_entry->export_country_name : null)); ?>">
+                                        <?php echo $errors->first('export_country_name', '<label class="control-label" for="export_country_name">:message</label>'); ?>   
+                                        <input type="hidden" id="export_country_id" name="export_country_id" value="<?php echo e(Input::old('export_country_id', isset($its_import_entry) ? $its_import_entry->export_country_id : null)); ?>">
+                                    </div>
+                                </div> 
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="export_country_code"><?php echo e(Lang::get('its/its_import_entry.export_country_code')); ?></label>
+                                            <input type="text" class="form-control" id="export_country_code" name="export_country_code" value="<?php echo e(Input::old('export_country_code', isset($its_import_entry) ? $its_import_entry->export_country_code : null)); ?>">
+                                        </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="country_of_destination_code"><?php echo e(Lang::get('its/its_import_entry.country_of_destination_code')); ?></label>
+                                            <input type="text" class="form-control" id="country_of_destination_code" name="country_of_destination_code" value="<?php echo e(Input::old('country_of_destination_code', isset($its_import_entry) ? $its_import_entry->country_of_destination_code : null)); ?>">
+                                        
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-6">
+                                    <div id="country_of_origin_typeahead" class="tt-input-group form-group <?php echo e($errors->has('country_of_origin') ? 'has-error' : ''); ?>">
+                                        <label for="country_of_origin"><?php echo e(Lang::get('its/its_import_entry.country_of_origin_id')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="country_of_origin" name="country_of_origin" value="<?php echo e(Input::old('country_of_origin_name', isset($its_import_entry) ? $its_import_entry->country_of_origin_name : null)); ?>">
+                                        <?php echo $errors->first('country_of_origin', '<label class="control-label" for="country_of_origin">:message</label>'); ?>   
+                                        <input type="hidden" id="country_of_origin_id" name="country_of_origin_id" value="<?php echo e(Input::old('country_of_origin_id', isset($its_import_entry) ? $its_import_entry->country_of_origin_id : null)); ?>">
+                                    </div>
+                                <!-- <div id="export_country_name_typeahead" class="tt-input-group form-group <?php echo e($errors->has('export_country_name') ? 'has-error' : ''); ?>">
+                                    <label for="export_country_name"><?php echo e(Lang::get('its/its_import_entry.export_country_name')); ?></label>
+                                    <input type="text" class="typeahead form-control" id="export_country_name" name="export_country_name" value="<?php echo e(Input::old('export_country_name', isset($its_import_entry) ? $its_import_entry->export_country_name : null)); ?>">
+                                    <?php echo $errors->first('export_country_name', '<label class="control-label" for="export_country_name">:message</label>'); ?>   
+                                    <input type="hidden" id="export_country_id" name="export_country_id" value="<?php echo e(Input::old('export_country_id', isset($its_import_entry) ? $its_import_entry->export_country_id : null)); ?>">
+                                    </div> -->
+                                </div>
+                                <div class="col-md-6">
+                                   <div id="country_of_destination_typeahead" class="tt-input-group form-group <?php echo e($errors->has('country_of_destination') ? 'has-error' : ''); ?>">
+                                        <label for="country_of_destination"><?php echo e(Lang::get('its/its_import_entry.country_of_destination')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="country_of_destination" name="country_of_destination" value="<?php echo e(Input::old('country_of_destination', isset($its_import_entry) ? $its_import_entry->country_of_destination : null)); ?>">
+                                        <?php echo $errors->first('country_of_destination', '<label class="control-label" for="country_of_destination">:message</label>'); ?>   
+                                        <input type="hidden" id="country_of_destination_id" name="country_of_destination_id" value="<?php echo e(Input::old('country_of_destination_id', isset($its_import_entry) ? $its_import_entry->country_of_destination_id : null)); ?>">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                     <div id="its_delivery_term_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_delivery_term_code') ? 'has-error' : ''); ?>">
+                                                    <label for="its_delivery_term_code"><?php echo e(Lang::get('its/its_import_entry.its_delivery_term_code')); ?></label>
+                                                    <input type="text" class="typeahead form-control" id="its_delivery_term_code" name="its_delivery_term_code" value="<?php echo e(Input::old('its_delivery_term_code', isset($its_import_entry) ? $its_import_entry->its_delivery_term_code : null)); ?>">
+                                                    <?php echo $errors->first('its_delivery_term_code', '<label class="control-label" for="its_delivery_term_code">:message</label>'); ?>   
+                                                    <input type="hidden" id="its_delivery_term_id" name="its_delivery_term_id" value="<?php echo e(Input::old('its_delivery_term_id', isset($its_import_entry) ? $its_import_entry->its_delivery_term_id : null)); ?>">
+                                    </div>
+                                </div>        
+                                    <div class="col-md-6">
+                                       <div class="form-group">
+                                                    
+                                                    <div>
+                                                        <label for="its_delivery_term_name"><?php echo e(Lang::get('its/its_import_entry.its_delivery_term_name')); ?></label>
+                                                        <input type="text" class="typeahead form-control" id="its_delivery_term_name" name="its_delivery_term_name" value="<?php echo e(Input::old('its_delivery_term_name', isset($its_import_entry) ? $its_import_entry->its_delivery_term_name : null)); ?>">
+                                                    </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="total_customs_value"><?php echo e(Lang::get('its/its_import_entry.total_customs_value')); ?></label>
+                                            <input type="text" class="form-control" id="total_customs_value" name="total_customs_value" value="<?php echo e(Input::old('total_customs_value', isset($its_import_entry) ? $its_import_entry->total_customs_value : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="exchange_rate"><?php echo e(Lang::get('its/its_import_entry.exchange_rate')); ?></label>
+                                            <input type="text" class="form-control" id="exchange_rate" name="exchange_rate" value="<?php echo e(Input::old('exchange_rate', isset($its_import_entry) ? $its_import_entry->exchange_rate : null)); ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="bank_transfer_id"><?php echo e(Lang::get('its/its_import_entry.bank_transfer_id')); ?></label>
+                                            <input type="text" class="form-control" id="bank_transfer_id" name="bank_transfer_id" value="<?php echo e(Input::old('bank_transfer_id', isset($its_import_entry) ? $its_import_entry->bank_transfer_id : null)); ?>">
+                                        </div>
+                                    </div>
+
+                                <div class="col-md-12">
+                                <h3>Financial and Banking Data</h3>
+                                </div>
+                                 <div class="col-md-6">
+                                     <div id="its_bank_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_bank_code') ? 'has-error' : ''); ?>">
+                                        <label for="its_bank_code"><?php echo e(Lang::get('its/its_import_entry.its_bank_code')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_bank_code" name="its_bank_code" value="<?php echo e(Input::old('its_bank_code', isset($its_import_entry) ? $its_import_entry->its_bank_code : null)); ?>">
+                                        <?php echo $errors->first('its_bank_code', '<label class="control-label" for="its_bank_code">:message</label>'); ?> 
+                                        <input type="hidden" id="its_bank_code_id" name="its_bank_code_id" value="<?php echo e(Input::old('its_bank_code_id', isset($its_import_entry) ? $its_import_entry->its_bank_code_id : null)); ?>">
+                                    </div>
+
+                                    <!-- <div id="its_customs_office_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_customs_office_code') ? 'has-error' : ''); ?>">
+                                                    <label for="its_customs_office_code"><?php echo e(Lang::get('its/its_import_entry.its_customs_office_code')); ?></label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="<?php echo e(Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null)); ?>">
+                                                    <?php echo $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>'); ?>   
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="<?php echo e(Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null)); ?>">
+                                    </div> -->
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="its_payment_term_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_payment_term') ? 'has-error' : ''); ?>">
+                                        <label for="its_payment_term"><?php echo e(Lang::get('its/its_import_entry.its_payment_term')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_payment_term" name="its_payment_term" value="<?php echo e(Input::old('its_payment_term', isset($its_payment_term) ? $its_payment_term->its_payment_term : null)); ?>">
+                                        <?php echo $errors->first('its_payment_term', '<label class="control-label" for="its_payment_term">:message</label>'); ?> 
+                                        <input type="hidden" id="its_payment_term_id" name="its_payment_term_id" value="<?php echo e(Input::old('its_payment_term_id', isset($its_import_entry) ? $its_import_entry->its_payment_term_id : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- <div id="its_bank_name_typeahead"class="tt-input-group form-group <?php echo e($errors->has('its_bank_name') ? 'has-error' : ''); ?>">
+                                        <label for="its_bank_name"><?php echo e(Lang::get('its/its_import_entry.its_bank_name')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_bank_name" name="its_bank_name" value="<?php echo e(Input::old('its_bank_name', isset($its_bank_name) ? $its_bank_name->its_bank_name : null)); ?>">
+                                        <?php echo $errors->first('bank_name', '<label class="control-label" for="bank_name">:message</label>'); ?> 
+                                        <input type="hidden" id="its_bank_name" name="its_bank_name" value="<?php echo e(Input::old('its_bank_name', isset($its_bank_name) ? $its_bank_name->bank_id : null)); ?>">
+                                        <div class="form-group">
+                                                    <label for="its_customs_office_name"><?php echo e(Lang::get('its/its_import_entry.customs_reference')); ?></label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_customs_office_name" name="its_customs_office_name" value="<?php echo e(Input::old('its_customs_office_name', isset($its_import_entry) ? $its_import_entry->its_customs_office_name : null)); ?>">
+                                                    </div>
+                                    </div>
+                                    </div> -->
+                                    <div class="form-group">
+                                                    <label for="its_bank_name"><?php echo e(Lang::get('its/its_import_entry.its_bank_name')); ?></label>
+                                                    <div>
+                                                        <input type="text" class="typeahead form-control" id="its_bank_name" name="its_bank_name" value="<?php echo e(Input::old('its_bank_name', isset($its_import_entry) ? $its_import_entry->its_bank_name : null)); ?>">
+                                                    </div>
+                                    </div>
+                                    </div>
+                                <div class="col-md-6">
+                                    <div id="its_bank_branch_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_bank_branch') ? 'has-error' : ''); ?>">
+                                        <label for="its_bank_branch"><?php echo e(Lang::get('its/its_import_entry.its_bank_branch')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_bank_branch" name="its_bank_branch" value="<?php echo e(Input::old('its_bank_branch', isset($its_bank_branch) ? $its_bank_branch->its_bank_branch : null)); ?>">
+                                        <?php echo $errors->first('its_bank_branch', '<label class="control-label" for="its_bank_branch">:message</label>'); ?> 
+                                        <input type="hidden" id="its_bank_branch_id" name="its_bank_branch_id" value="<?php echo e(Input::old('its_bank_branch_id', isset($its_import_entry) ? $its_import_entry->its_bank_branch_id : null)); ?>">
+                                    </div>
+                                    <!-- <div id="its_customs_office_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_customs_office_code') ? 'has-error' : ''); ?>">
+                                                    <label for="its_customs_office_code"><?php echo e(Lang::get('its/its_import_entry.its_customs_office_code')); ?></label>
+                                                    <input type="text" class="typeahead form-control" id="its_customs_office_code" name="its_customs_office_code" value="<?php echo e(Input::old('its_customs_office_code', isset($its_import_entry) ? $its_import_entry->its_customs_office_code : null)); ?>">
+                                                    <?php echo $errors->first('its_customs_office_code', '<label class="control-label" for="its_customs_office_code">:message</label>'); ?>   
+                                                    <input type="hidden" id="its_customs_office_id" name="its_customs_office_id" value="<?php echo e(Input::old('its_customs_office_id', isset($its_import_entry) ? $its_import_entry->its_customs_office_id : null)); ?>">
+                                    </div> -->
+
+                                </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="bank_ref_number"><?php echo e(Lang::get('its/its_import_entry.bank_ref_number')); ?></label>
+                                            <input type="text" class="form-control" id="bank_ref_number" name="bank_ref_number" value="<?php echo e(Input::old('bank_ref_number', isset($its_import_entry) ? $its_import_entry->bank_ref_number : null)); ?>">
+                                        </div>
+                                    </div>
+                                
+                                <div class="col-md-12">
+                                <div class="form-group">
+                                            <label for="hs_code_tar_spec"><?php echo e(Lang::get('its/its_import_entry.hs_code_tar_spec')); ?></label>
+                                            <input type="text" class="form-control" id="hs_code_tar_spec" name="hs_code_tar_spec" value="<?php echo e(Input::old('hs_code_tar_spec', isset($its_import_entry) ? $its_import_entry->hs_code_tar_spec : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                            <label for="country_of_origin_code"><?php echo e(Lang::get('its/its_import_entry.country_of_origin_code')); ?></label>
+                                            <input type="text" class="form-control" id="country_of_origin_code" name="country_of_origin_code" value="<?php echo e(Input::old('country_of_origin_code', isset($its_import_entry) ? $its_import_entry->country_of_origin_code : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                            <label for="item_gross_weight"><?php echo e(Lang::get('its/its_import_entry.item_gross_weight')); ?></label>
+                                            <input type="text" class="form-control" id="item_gross_weight" name="item_gross_weight" value="<?php echo e(Input::old('item_gross_weight', isset($its_import_entry) ? $its_import_entry->item_gross_weight : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-4">
+                                    <div id="its_preferences_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_preferences_code') ? 'has-error' : ''); ?>">
+                                        <label for="its_preferences_code"><?php echo e(Lang::get('its/its_import_entry.its_preferences_code')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_preferences_code" name="its_preferences_code" value="<?php echo e(Input::old('its_preferences_code', isset($its_import_entry) ? $its_import_entry->its_preferences_code : null)); ?>">
+                                        <?php echo $errors->first('its_preferences_code', '<label class="control-label" for="its_preferences_code">:message</label>'); ?>   
+                                        <input type="hidden" id="its_preferences_id" name="its_preferences_id" value="<?php echo e(Input::old('its_preferences_id', isset($its_import_entry) ? $its_import_entry->its_preferences_id : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                            <label for="procedure"><?php echo e(Lang::get('its/its_import_entry.procedure')); ?></label>
+                                            <input type="text" class="form-control" id="procedure" name="procedure" value="<?php echo e(Input::old('procedure', isset($its_import_entry) ? $its_import_entry->procedure : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                            <label for="item_net_wt"><?php echo e(Lang::get('its/its_import_entry.item_net_wt')); ?></label>
+                                            <input type="text" class="form-control" id="item_net_wt" name="item_net_wt" value="<?php echo e(Input::old('itwm_net_wt', isset($its_import_entry) ? $its_import_entry->itwm_net_wt : null)); ?>">
+                                    </div>
+                                </div>
+                                 <div class="col-md-4">
+                                     <div id="its_quota_code_typeahead" class="tt-input-group form-group <?php echo e($errors->has('its_quota_code') ? 'has-error' : ''); ?>">
+                                        <label for="its_quota_code"><?php echo e(Lang::get('its/its_import_entry.its_quota_code')); ?></label>
+                                        <input type="text" class="typeahead form-control" id="its_quota_code" name="its_quota_code" value="<?php echo e(Input::old('its_quota_code', isset($its_import_entry) ? $its_import_entry->its_quota_code : null)); ?>">
+                                        <?php echo $errors->first('its_quota_code', '<label class="control-label" for="its_quota_code">:message</label>'); ?>   
+                                        <input type="hidden" id="its_quota_id" name="its_quota_id" value="<?php echo e(Input::old('its_quota_id', isset($its_import_entry) ? $its_import_entry->its_quota_id : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                        <!-- <div class="form-group <?php echo e($errors->has('awb_hbl_no') ? 'has-error' : ''); ?>">
+                                            <label type="text" name="awb_hbl_no" for="awb_hbl_no" ><?php echo e(Lang::get('its/its_import_entry.awb_hbl_no')); ?></label>
+                                            <input type="text" class="form-control" name="awb_hbl_no" id="awb_hbl_no" value="<?php echo e(Input::old('awb_hbl_no', isset($its_import_entry) ? $its_import_entry->awb_hbl_no : null)); ?>" />
+                                            <?php echo $errors->first('awb_hbl_no', '<label class="control-label" for="awb_hbl_no">:message</label>'); ?>
+
+                                        </div> -->
+                                      <!--   <div class="form-group">
+                                            <label for="awb_hbl_no"><?php echo e(Lang::get('its/its_import_entry.awb_hbl_no')); ?></label>
+                                            <input type="text" class="form-control" id="awb_hbl_no" name="awb_hbl_no" value="<?php echo e(Input::old('awb_hbl_no', isset($its_import_entry) ? $its_import_entry->awb_hbl_no : null)); ?>">
+                                        </div> -->
+                                        <div class="form-group">
+                                            <label for="awb_hbl_no"><?php echo e(Lang::get('its/its_import_entry.awb_hbl_no')); ?></label>
+                                            <input type="text" class="form-control" id="awb_hbl_no" name="awb_hbl_no" value="<?php echo e(Input::old('awb_hbl_no', isset($its_import_entry) ? $its_import_entry->awb_hbl_no : null)); ?>">
+                                        </div>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                            <label for="suppl_units"><?php echo e(Lang::get('its/its_import_entry.suppl_units')); ?></label>
+                                            <input type="text" class="form-control" id="suppl_units" name="suppl_units" value="<?php echo e(Input::old('suppl_units', isset($its_import_entry) ? $its_import_entry->suppl_units : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                            <label for="customs_value"><?php echo e(Lang::get('its/its_import_entry.customs_value')); ?></label>
+                                            <input type="text" class="form-control" id="customs_value" name="customs_value" value="<?php echo e(Input::old('customs_value', isset($its_import_entry) ? $its_import_entry->customs_value : null)); ?>">
+                                        </div>
+                                    </div>
+                                 <div class="col-md-4">
+                                <div class="form-group">
+                                            <label for="valuation_method"><?php echo e(Lang::get('its/its_import_entry.valuation_method')); ?></label>
+                                            <input type="text" class="form-control" id="valuation_method" name="valuation_method" value="<?php echo e(Input::old('valuation_method', isset($its_import_entry) ? $its_import_entry->valuation_method : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="ai_code"><?php echo e(Lang::get('its/its_import_entry.ai_code')); ?></label>
+                                            <input type="text" class="form-control" id="ai_code" name="ai_code" value="<?php echo e(Input::old('ai_code', isset($its_import_entry) ? $its_import_entry->ai_code : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="adjustment"><?php echo e(Lang::get('its/its_import_entry.adjustment')); ?></label>
+                                            <input type="text" class="form-control" id="adjustment" name="adjustment" value="<?php echo e(Input::old('adjustment', isset($its_import_entry) ? $its_import_entry->adjustment : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-12">
+                                <div class="form-group">
+                                            <label for="dutiable_value"><?php echo e(Lang::get('its/its_import_entry.dutiable_value')); ?></label>
+                                            <input type="text" class="form-control" id="dutiable_value" name="dutiable_value" value="<?php echo e(Input::old('dutiable_value', isset($its_import_entry) ? $its_import_entry->dutiable_value : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="prepaid_account"><?php echo e(Lang::get('its/its_import_entry.prepaid_account')); ?></label>
+                                            <input type="text" class="form-control" id="prepaid_account" name="prepaid_account" value="<?php echo e(Input::old('prepaid_amount', isset($its_import_entry) ? $its_import_entry->prepaid_amount : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="id_of_warehouse"><?php echo e(Lang::get('its/its_import_entry.id_of_warehouse')); ?></label>
+                                            <input type="text" class="form-control" id="id_of_warehouse" name="id_of_warehouse" value="<?php echo e(Input::old('id_of_warehouse', isset($its_import_entry) ? $its_import_entry->id_of_warehouse : null)); ?>">
+                                        </div>
+                                    </div>
+                               
+                            </div>
+                        
+                        
+                        <div class="col-md-6">
+                            <div class="col-md-12">
+                                <h3>Accounting Details</h>
+                            </div>
+                               <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="mode_of_payment"><?php echo e(Lang::get('its/its_import_entry.mode_of_payment')); ?></label>
+                                        <input type="text" class="form-control" id="mode_of_payment" name="mode_of_payment" value="<?php echo e(Input::old('mode_of_payment', isset($its_import_entry) ? $its_import_entry->mode_of_payment : null)); ?>">
+                                    </div>
+                                </div>
+                                
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                                <label for="assessment_number"><?php echo e(Lang::get('its/its_import_entry.assessment_number')); ?></label>
+                                                <input type="text" class="form-control" id="assessment_number" name="assessment_number" value="<?php echo e(Input::old('assessment_number', isset($its_import_entry) ? $its_import_entry->assessment_number : null)); ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="date"><?php echo e(Lang::get('its/its_import_entry.date')); ?></label>
+                                            <input type="text" class="form-control" id="date" name="date" value="<?php echo e(Input::old('date', isset($its_import_entry) ? $its_import_entry->date : null)); ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="receipt_number"><?php echo e(Lang::get('its/its_import_entry.receipt_number')); ?></label>
+                                            <input type="text" class="form-control" id="receipt_number" name="receipt_number" value="<?php echo e(Input::old('receipt_number', isset($its_import_entry) ? $its_import_entry->receipt_number : null)); ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="date"><?php echo e(Lang::get('its/its_import_entry.date')); ?></label>
+                                            <input type="text" class="form-control" id="date" name="date" value="<?php echo e(Input::old('date', isset($its_import_entry) ? $its_import_entry->date : null)); ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="guarantee"><?php echo e(Lang::get('its/its_import_entry.guarantee')); ?></label>
+                                            <input type="text" class="form-control" id="guarantee" name="guarantee" value="<?php echo e(Input::old('guarantee', isset($its_import_entry) ? $its_import_entry->guarantee : null)); ?>">
+                                        </div>
+                                    </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="date"><?php echo e(Lang::get('its/its_import_entry.date')); ?></label>
+                                            <input type="text" class="form-control" id="date" name="date" value="<?php echo e(Input::old('date', isset($its_import_entry) ? $its_import_entry->date : null)); ?>">
+                                        </div>
+                                    </div>              
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                            <label for="total_fee"><?php echo e(Lang::get('its/its_import_entry.total_fees')); ?></label>
+                                            <input type="text" class="form-control" id="total_fee" name="total_fee" value="<?php echo e(Input::old('total_fee', isset($its_import_entry) ? $its_import_entry->total_fee : null)); ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                            <label for="total_assessment"><?php echo e(Lang::get('its/its_import_entry.total_assessment')); ?></label>
+                                            <input type="text" class="form-control" id="total_assessment" name="total_assessment" value="<?php echo e(Input::old('total_assessment', isset($its_import_entry) ? $its_import_entry->total_assessment : null)); ?>">
+                                    </div>
+                                </div>
+                            </div>        
+                           
+                                
+                            
+                            <div class="col-md-12">
+                                <div class="col-md-7"> <h3>Authorization</h3>
+                                    <p>So we hereby certify that the information contained in all the pages  of the Declaration and the documents submitted are to the bset of our knowledge and belief true and correct.</p>
+                                 <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="its_broker"><?php echo e(Lang::get('its/its_import_entry.broker')); ?></label>
+                                        <input type="text" class="form-control" id="its_broker" name="its_broker" value="<?php echo e(Input::old('its_broker', isset($its_import_entry) ? $its_import_entry->its_broker : null)); ?>">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="date"><?php echo e(Lang::get('its/its_import_entry.date')); ?></label>
+                                            <input type="text" class="form-control" id="date" name="date" value="<?php echo e(Input::old('date', isset($its_import_entry) ? $its_import_entry->date : null)); ?>">
+                                        </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                <div class="form-group">
+                                            <label for="importer_att_in_fact"><?php echo e(Lang::get('its/its_import_entry.importer_att_in_fact')); ?></label>
+                                            <input type="text" class="form-control" id="importer_att_in_fact" name="importer_att_in_fact" value="<?php echo e(Input::old('importer_att_in_fact', isset($its_import_entry) ? $its_import_entry->importer_att_in_fact : null)); ?>">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <br>
+                                    <br>
+                                    <br>
+                                    
+                                    <p>Subscribed and sworn to before me 
+                                    <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        Administering Officer/Notary Public
+                                    </p>
+                                </div>
+                            </div>
+                            </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="control_at_office"><?php echo e(Lang::get('its/its_import_entry.control_at_office')); ?></label>
+                                            <input type="text" class="form-control" id="control_at_office" name="control_at_office" value="<?php echo e(Input::old('control_at_office', isset($its_import_entry) ? $its_import_entry->control_at_office : null)); ?>">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                    <div class="form-group">
+                                            <label for="code"><?php echo e(Lang::get('its/its_import_entry.code')); ?></label>
+                                            <input type="text" class="form-control" id="code" name="code" value="<?php echo e(Input::old('code', isset($its_import_entry) ? $its_import_entry->code : null)); ?>">
+                                    </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                    <div class="form-group">
+                                            <label for="office_of_destination"><?php echo e(Lang::get('its/its_import_entry.office_of_destination')); ?></label>
+                                            <input type="text" class="form-control" id="office_of_destination" name="office_of_destination" value="<?php echo e(Input::old('office_of_destination', isset($its_import_entry) ? $its_import_entry->office_of_destination : null)); ?>">
+                                    </div>
+                            </div>
+                                    
+                        </div>
+                    </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                            <label for="control_at_office"><?php echo e(Lang::get('its/its_import_entry.control_at_office')); ?></label>
+                                            <input type="text" class="form-control" id="control_at_office" name="control_at_office" value="<?php echo e(Input::old('control_at_office', isset($its_import_entry) ? $its_import_entry->control_at_office : null)); ?>">
+                                        </div>
+                                </div>
+                                    
+                                    <div class="col-md-2">
+                                <div class="form-group">
+                                            <label for="stamp"><?php echo e(Lang::get('its/its_import_entry.stamp')); ?></label>
+                                            <input type="text" class="form-control" id="stamp" name="stamp" value="<?php echo e(Input::old('stamp', isset($its_import_entry) ? $its_import_entry->stamp : null)); ?>">
+                                        </div>
+                                </div>
+                                    
+                                    <div class="col-md-5">
+                                <div class="form-group">
+                                            <label for="place_and_date"><?php echo e(Lang::get('its/its_import_entry.place_and_date')); ?></label>
+                                            <input type="text" class="form-control" id="place_and_date" name="place_and_date" value="<?php echo e(Input::old('place_and_date', isset($its_import_entry) ? $its_import_entry->place_and_date : null)); ?>">
+                                        </div>
+                                </div>
+                                    <div class="col-md-6">
+                                <div class="form-group">
+                                            <label for="signature"><?php echo e(Lang::get('its/its_import_entry.signature')); ?></label>
+                                            <input type="text" class="form-control" id="signature" name="signature" value="<?php echo e(Input::old('signature', isset($its_import_entry) ? $its_import_entry->signature : null)); ?>">
+                                        </div>
+                                </div>
+                                    
+                                    </div>
+            
+            
+            
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-6">  
+                        <button type="reset" class="btn btn-sm btn-warning close_popup">
+                            <span class="glyphicon glyphicon-ban-circle"></span>  <?php echo e(Lang::get("its/form.cancel")); ?>
+
+                        </button>
+                        <button type="reset" class="btn btn-sm btn-default">
+                            <span class="glyphicon glyphicon-remove-circle"></span>  <?php echo e(Lang::get("its/form.reset")); ?>
+
+                        </button>
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <span class="glyphicon glyphicon-ok-circle"></span><?php echo e(Lang::get("its/form.create")); ?>
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</form>
+
+
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<script type="text/javascript">
+    $(function() {
+
+                /** rmd 2015-03-07
+                *********** start of  country dropdwon ********************************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var gen_country_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../admin/gen_country/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (gen_country_list) {
+                                    console.log(gen_country_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(gen_country_list, function (gen_country) {
+                                        //console.log(country); //debugging
+                                        return {
+                                            code:gen_country.code,
+                                            name:gen_country.name,
+                                            id: gen_country.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+                gen_country_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#export_country_name_typeahead .typeahead').typeahead(null, {
+                  name: 'gen_country_list',
+                  displayKey: 'name',
+                  source: gen_country_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, gen_country, name) {
+                        console.log(gen_country); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#export_country_id").val(gen_country.id);
+                        //automatically assign value to export_county_code
+                        $("#export_country_code").val(gen_country.code);
+                    });
+
+            /*********** end of  country dropdwon ********************************************/
+
+
+
+            /********
+                RMD 2015-03-07
+                START OF OFFICE CODE ->  typeahead
+            *************************************************************************/
+                var its_customs_office_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_customs_office/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_customs_office_list) {
+                                    console.log(its_customs_office_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_customs_office_list, function (its_customs_office) {
+                                        //console.log(its_customs_office); //debugging
+                                        return {
+                                            code:its_customs_office.code,
+                                            name:its_customs_office.name,
+                                            id: its_customs_office.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_customs_office_list.initialize();
+                 
+                //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_customs_office_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_customs_office_list',
+                  displayKey: 'code',
+                  source: its_customs_office_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_customs_office, name) {
+                        console.log(its_customs_office); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#its_customs_office_id").val(its_customs_office.id);
+                        //automatically assign value to export_county_code
+                        $("#its_customs_office_name").val(its_customs_office.name);
+                    });
+
+            /********
+                END OF OFFICE CODE ->  typeahead
+            *************************************************************************/
+
+            /******************** start of  bank dropdwon ********************************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var its_bank_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_bank/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_bank_list) {
+                                    console.log(its_bank_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_bank_list, function (its_bank) {
+                                        //console.log(bank); //debugging
+                                        return {
+                                            code:its_bank.code,
+                                            name:its_bank.name,
+                                            id: its_bank.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+                its_bank_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_bank_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_bank_list',
+                  displayKey: 'code',
+                  source: its_bank_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_bank, name) {
+                        console.log(its_bank); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#its_bank_id").val(its_bank.id);
+                        //automatically assign value to export_county_code
+                        $("#its_bank_code").val(its_bank.code);
+                        $("#its_bank_name").val(its_bank.name);
+                    });
+
+            /********************************* end of  bank dropdwon ********************************************/
+
+             /*************** START OF Delivery Term ->  typeahead*************************************/
+                var its_delivery_term_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_delivery_term/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_delivery_term_list) {
+                                    console.log(its_delivery_term_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_delivery_term_list, function (its_delivery_term) {
+                                        //console.log(its_delivery_term); //debugging
+                                        return {
+                                            code:its_delivery_term.code,
+                                            name:its_delivery_term.name,
+                                            id: its_delivery_term.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_delivery_term_list.initialize();
+                 
+                //its_delivery_term_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_delivery_term_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_delivery_term_list',
+                  displayKey: 'code',
+                  source: its_delivery_term_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_delivery_term, name) {
+                        console.log(its_delivery_term); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="its_delivery_term_id" name="its_delivery_term_id">
+                        $("#its_delivery_term_id").val(its_delivery_term.id);
+                        //automatically assign value to export_county_code
+                        $("#its_delivery_term_name").val(its_delivery_term.name);
+
+                    });
+
+            /************************ END OF Delivery Term ->  typeahead*********************************************************/
+
+
+              /* start of  payment term dropdwon ************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var its_payment_term_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_payment_term/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_payment_term_list) {
+                                    console.log(its_payment_term_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_payment_term_list, function (its_payment_term) {
+                                        //console.log(bank); //debugging
+                                        return {
+                                            code:its_payment_term.code,
+                                            name:its_payment_term.name,
+                                            id: its_payment_term.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+                its_payment_term_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_payment_term_typeahead .typeahead').typeahead(null, {
+                  name: 'its_payment_term_list',
+                  displayKey: 'name',
+                  source: its_payment_term_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_payment_term, name) {
+                        console.log(its_payment_term); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#its_payment_term").val(its_payment_term.id);
+                        //automatically assign value to export_county_code
+                        $("#its_payment_term").val(its_payment_term.name);
+                        
+                    });
+
+            /* end of  payment term dropdwon ***********/
+
+            /* start of  country of origin dropdwon *********************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var gen_country_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../admin/gen_country/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (gen_country_list) {
+                                    console.log(gen_country_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(gen_country_list, function (gen_country) {
+                                        //console.log(country); //debugging
+                                        return {
+                                            code:gen_country.code,
+                                            name:gen_country.name,
+                                            id: gen_country.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+                gen_country_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#country_of_origin_typeahead .typeahead').typeahead(null, {
+                  name: 'gen_country_list',
+                  displayKey: 'name',
+                  source: gen_country_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, gen_country, name) {
+                        console.log(gen_country); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#country_of_origin_id").val(gen_country.id);
+                        //automatically assign value to export_county_code
+                        // $("#country_of_origin").val(gen_country.name);
+                        $("#country_of_origin_code").val(gen_country.code);
+                    });
+                // //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                // $('#export_country_name_typeahead .typeahead').typeahead(null, {
+                //   name: 'gen_country_list',
+                //   displayKey: 'name',
+                //   source: gen_country_list.ttAdapter()
+                // }).bind("typeahead:selected", function(obj, gen_country, name) {
+                //         console.log(gen_country); //debugging on browsers console
+                //         //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                //         $("#export_country_id").val(gen_country.id);
+                //         //automatically assign value to export_county_code
+                //         $("#export_country_code").val(gen_country.code);
+                //     });
+
+            /* end of  country of origin dropdwon *********************************/
+
+            /* start of  country of destination dropdwon *********************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var gen_country_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../admin/gen_country/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (gen_country_list) {
+                                    console.log(gen_country_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(gen_country_list, function (gen_country) {
+                                        //console.log(country); //debugging
+                                        return {
+                                            code:gen_country.code,
+                                            name:gen_country.name,
+                                            id: gen_country.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+                gen_country_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#country_of_destination_typeahead .typeahead').typeahead(null, {
+                  name: 'gen_country_list',
+                  displayKey: 'name',
+                  source: gen_country_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, gen_country, name) {
+                        console.log(gen_country); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#country_of_destination_id").val(gen_country.id);
+                        //automatically assign value to export_county_code
+                        $("#country_of_destination").val(gen_country.name);
+                        $("#country_of_destination_code").val(gen_country.code);
+                    });
+
+            /******** end of  country of destination dropdwon *********************************/
+
+            /*********** start of  bank branch dropdwon ************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var its_bank_branch_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.name);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_bank_branch/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_bank_branch_list) {
+                                    console.log(its_bank_branch_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_bank_branch_list, function (its_bank_branch) {
+                                        //console.log(bank); //debugging
+                                        return {
+                                            code:its_bank_branch.code,
+                                            name:its_bank_branch.name,
+                                            id: its_bank_branch.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+                 
+                // kicks off the loading/processing of `local` and `prefetch`
+               its_bank_branch_list.initialize();
+                 
+                //export_country_name_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_bank_branch_typeahead .typeahead').typeahead(null, {
+                  name: 'its_bank_branch_list',
+                  displayKey: 'name',
+                  source: its_bank_branch_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_bank_branch, name) {
+                        console.log(its_bank_branch); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="export_country_id" name="export_country_id">
+                        $("#its_bank_branch").val(its_bank_branch.id);
+                        //automatically assign value to export_county_code
+                        $("#its_bank_branch").val(its_bank_branch.name);
+                        
+                    });
+
+            /* end of  bank branch dropdwon ***********/
+
+             /******************** start of  its_preferences dropdwon ********************************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var its_preferences_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_preferences/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_preferences_list) {
+                                    console.log(its_preferences_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_preferences_list, function (its_preferences) {
+                                        //console.log(its_delivery_term); //debugging
+                                        return {
+                                            code:its_preferences.code,
+                                            name:its_preferences.name,
+                                            id: its_preferences.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_preferences_list.initialize();
+                 
+                //its_delivery_term_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_preferences_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_preferences_list',
+                  displayKey: 'code',
+                  source: its_preferences_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_preferences, name) {
+                        console.log(its_preferences); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="its_delivery_term_id" name="its_delivery_term_id">
+                        $("#its_preferences_id").val(its_preferences.id);
+                        //automatically assign value to export_county_code
+                        //$("#its_delivery_term_name").val(its_quota.name);
+                    });
+
+            /********************************* end of  its_preferences dropdwon ********************************************/
+
+            /*************** START OF Quota ->  typeahead*************************************/
+                var its_quota_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_quota/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_quota_list) {
+                                    console.log(its_quota_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_quota_list, function (its_quota) {
+                                        //console.log(its_delivery_term); //debugging
+                                        return {
+                                            code:its_quota.code,
+                                            name:its_quota.name,
+                                            id: its_quota.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_quota_list.initialize();
+                 
+                //its_delivery_term_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_quota_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_quota_list',
+                  displayKey: 'code',
+                  source: its_quota_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_quota, name) {
+                        console.log(its_quota); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="its_delivery_term_id" name="its_delivery_term_id">
+                        $("#its_quota_id").val(its_quota.id);
+                        //automatically assign value to export_county_code
+                        //$("#its_delivery_term_name").val(its_quota.name);
+                    });
+
+            /************************ END OF Quota ->  typeahead*********************************************************/
+
+            /******************** start of  Location of Goods dropdwon ********************************************/
+                //option 3 data is loaded from db via controller
+                //https://twitter.github.io/typeahead.js/examples/
+               var its_location_of_goods_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            return Bloodhound.tokenizers.whitespace(datum.code);
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        prefetch: {
+                            // url points to a json file that contains an array of country names, see
+                            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+                            url: '../../its/its_location_of_goods/dataJson',
+                            // the json file contains an array of strings, but the Bloodhound
+                            // suggestion engine expects JavaScript objects so this converts all of
+                            // those strings
+                             filter: function (its_location_of_goods_list) {
+                                    console.log(its_location_of_goods_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(its_location_of_goods_list, function (its_location_of_goods) {
+                                        //console.log(its_delivery_term); //debugging
+                                        return {
+                                            code:its_location_of_goods.code,
+                                            name:its_location_of_goods.name,
+                                            id: its_location_of_goods.id
+                                        };
+                                    });
+                            }
+                        }
+                });
+
+                its_location_of_goods_list.initialize();
+                 
+                //its_delivery_term_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+                $('#its_location_of_goods_code_typeahead .typeahead').typeahead(null, {
+                  name: 'its_location_of_goods_list',
+                  displayKey: 'code',
+                  source: its_location_of_goods_list.ttAdapter()
+                }).bind("typeahead:selected", function(obj, its_location_of_goods, name) {
+                        console.log(its_location_of_goods); //debugging on browsers console
+                        //assign value to our hidden field -  <input type="hidden" id="its_delivery_term_id" name="its_delivery_term_id">
+                        $("#its_location_of_goods_id").val(its_location_of_goods.id);
+                        //automatically assign value to export_county_code
+                        //$("#its_delivery_term_name").val(its_quota.name);
+                    });
+
+            /********************************* end of   Location of Goods dropdwon ********************************************/
+
+
+
+
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('its.layouts.default_full_page', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

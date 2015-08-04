@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('province_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="province_name">{!! Lang::get('province.province_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="province_name" id="province_name" value="{{{ Input::old('province_name', isset($province) ? $province->province_name : null) }}}" />
+			{!! $errors->first('province_name', '<label class="control-label" for="province_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('country_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="country_id">{!! Lang::get('province.country_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="country_id" id="country_id" value="{{{ Input::old('country_id', isset($province) ? $province->country_id : null) }}}" />
+			{!! $errors->first('country_id', '<label class="control-label" for="country_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_default') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_default">{!! Lang::get('province.is_default') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_default" id="is_default" value="{{{ Input::old('is_default', isset($province) ? $province->is_default : null) }}}" />
+			{!! $errors->first('is_default', '<label class="control-label" for="is_default">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

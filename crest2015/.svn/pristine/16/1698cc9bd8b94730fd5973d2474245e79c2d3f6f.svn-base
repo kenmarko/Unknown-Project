@@ -1,0 +1,176 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\ProgramCourse;
+use App\Http\Requests\ProgramCourseRequest;
+use App\Http\Requests\ProgramCourseEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ProgramCourseController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ProgramCourse::where('program_id','LIKE','%$term%').orWhere('course_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ProgramCourse::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('program_course.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('program_course.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ProgramCourseRequest $program_course_request) {
+
+        $program_course = new ProgramCourse();
+        $program_course -> program_id = $program_course_request->program_id;
+        $program_course -> course_id = $program_course_request->course_id;
+        // $program_course -> created_by_id = Auth::id();
+        $program_course -> save();
+
+        $success = \Lang::get('program_course.create_success').' : '.$program_course->program_course_name ; 
+        return redirect('program_course/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $program_course = ProgramCourse::find($id);
+       //var_dump($its_customs_office);
+        return view('program_course/edit',compact('program_course'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ProgramCourseEditRequest $program_course_edit_request, $id) {
+      
+        $program_course = ProgramCourse::find($id);
+        $program_course -> program_id = $program_course_edit_request->program_id;
+        $program_course -> course_id = $program_course_edit_request->course_id;
+        // $program_course -> updated_by_id = Auth::id();
+        $program_course -> save();
+
+        return redirect('program_course');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $program_course = ProgramCourse::find($id);
+        // Show the page
+        return view('program_course/delete', compact('program_course'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $program_course = ProgramCourse::find($id);
+        $program_course->delete();
+        return redirect('program_course');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $program_course_list = ProgramCourse::join('program','program_course.program_id','=','program.id')
+              ->join('course','program_course.course_id','=','course.id')
+              ->select(array('program_course.id','program.program_name','course.description'))
+              ->orderBy('program_course.program_id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($program_course_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'program_course/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'program_course/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ProgramCourse::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

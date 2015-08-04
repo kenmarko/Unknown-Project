@@ -1,0 +1,46 @@
+@extends('its.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("its/its_delivery_term.its_delivery_term") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+	<h3> {{{ Lang::get("its/its_delivery_term.its_delivery_term") }}}
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="{{{ URL::to('its/its_delivery_term') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("its/its_delivery_term.its_delivery_term_list") }}</a>
+	        </div>
+		</div>
+	</h3>
+</div>
+
+<form class="form-horizontal" method="post" action="{{ URL::to('its/its_delivery_term/create') }}" autocomplete="off">
+	@include('its.its_delivery_term.form')
+	<div class="col-md-12">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("its/form.create") }}
+	            </button>	
+	            <button type="reset" class="btn btn-sm btn-default">
+	                <span class="glyphicon glyphicon-remove-circle"></span>  {{ Lang::get("its/form.reset") }}
+	            </button>	
+	 			<a href="{{{ URL::to('its/its_delivery_term') }}}" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("its/form.cancel") }}
+	       		</a>
+	        </div>
+	    </div>
+	</div>	
+</form>
+@stop
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#permission").select2()
+	});
+</script>
+@stop

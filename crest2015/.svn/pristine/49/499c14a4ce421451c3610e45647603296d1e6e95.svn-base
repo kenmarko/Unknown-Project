@@ -1,0 +1,198 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('scheduler_code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="scheduler_code">{!! Lang::get('scheduler.batch') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="scheduler_code" id="scheduler_code" value="{{{ Input::old('scheduler_code', isset($scheduler) ? $scheduler->scheduler_code : null) }}}" />
+			{!! $errors->first('scheduler_code', '<label class="control-label" for="scheduler_code">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="scheduler_name">{!! Lang::get('scheduler.course') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="scheduler_name" id="scheduler_name" value="{{{ Input::old('scheduler_name', isset($scheduler) ? $scheduler->scheduler_name : null) }}}" />
+			{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="scheduler_name">{!! Lang::get('scheduler.room') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="scheduler_name" id="scheduler_name" value="{{{ Input::old('scheduler_name', isset($scheduler) ? $scheduler->scheduler_name : null) }}}" />
+			{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<div class="col-md-3">
+	    </div>
+
+		<div class="col-md-7">
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.monday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.tuesday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.wednesday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.thursday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.friday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" />
+				<label class="control-label" for="scheduler_name">{!! Lang::get('scheduler.saturday') !!}</label>
+				{!! $errors->first('scheduler_name', '<label class="control-label" for="scheduler_name">:message</label>')!!}
+			</div>
+			
+		</div>
+		<div class="col-md-2">
+			<button id="add_time" class="btn btn-sm btn-success">
+	            <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("scheduler.add_time_range") }}
+	        </button>
+	    </div>
+	</div>
+	<div id="time_start" class="time_start form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<div class="col-md-3">
+			<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_start') !!}</label>
+	    </div>
+
+		<div class="col-md-7">
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+
+		</div>
+		<div class="col-md-2">
+	    </div>
+	</div>
+	<div id="time_end" class="form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<div class="col-md-3">
+			<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_end') !!}</label>
+	    </div>
+
+		<div class="col-md-7">
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-2">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+
+		</div>
+		<div class="col-md-2">
+	    </div>
+	</div>
+	<div class="col-md-12">
+			<div class="col-md-5">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.date_start') !!}</label>
+			</div>
+			<div class="col-md-3">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.date_end') !!}</label>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-2">
+				<div class="col-md-2"></div>
+				<button class="btn btn-sm btn-success col-md-10" >
+		            <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("scheduler.add_date_range") }}
+		        </button>
+		    </div>
+	</div>
+	<div id="time_range" class="form-group {{{ $errors->has('scheduler_name') ? 'has-error' : '' }}}">
+		<div class="col-md-3">
+	    </div>
+		<div class="col-md-7">
+			<div class="col-md-5">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-5">
+				<input class="col-md-11" type="text" name="description" id="description" value="{{{ Input::old('description', isset($course) ? $course->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+			</div>
+		</div>
+		<div class="col-md-2">
+	    </div>
+	</div>
+	<div class="col-md-12">
+		<div class="col-md-12">
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="col-md-7">
+		</div>
+		<div class="col-md-5">
+			<button class="btn btn-sm  btn-primary iframe">
+				<!-- <span class="glyphicon glyphicon-list"></span> -->
+				 {{ Lang::get("scheduler.save") }}
+	        </button>
+		</div>
+	</div>
+</div>
+
+
+{{-- Scripts --}}
+@section('scripts')
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $("helo").clone().appendTo("body");
+    });
+});
+</script>
+@stop

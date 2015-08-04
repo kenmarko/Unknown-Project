@@ -1,0 +1,14 @@
+ <?php
+
+return [
+    'program' => 'Program',
+    'program_name' => 'Name',
+    'program_code' => 'Code',
+    'classification_id' => 'Classification',
+    'is_active' => 'Active',
+    'create_program'=>'Create New Program',
+    'edit_program'=>'Edit Program',
+    'delete_program'=>'Delete Program',
+    'create_success'=>'You have successfully created new Program',
+    'program_list'=>'Program List',
+ ]; 

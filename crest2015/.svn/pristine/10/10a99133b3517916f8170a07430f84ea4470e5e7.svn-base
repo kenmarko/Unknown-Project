@@ -1,0 +1,12 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('trainee_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="trainee_name">{!! Lang::get('payment.trainee_id') !!}</label>
+		<input type="hidden" name="trainee_id" id="trainee_id" value="0" />
+		<div class="col-md-10">
+				<input class="typeahead form-control" type="text" name="trainee_name" id="trainee_name" value="" />
+			{!! $errors->first('trainee_id', '<label class="control-label" for="trainee_name">:message</label>')!!}
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('corporate_entity_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="corporate_entity_name">{!! Lang::get('corporate_entity.corporate_entity_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="corporate_entity_name" id="corporate_entity_name" value="{{{ Input::old('corporate_entity_name', isset($corporate_entity) ? $corporate_entity->corporate_entity_name : null) }}}" />
+			{!! $errors->first('corporate_entity_name', '<label class="control-label" for="corporate_entity_name">:message</label>')!!}
+
+		</div>
+	</div>
+	
+</div>
+
+

@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'schedule_type' => 'Schedule Type',
+    'schedule_type_code' => 'Schedule Type Code',
+    'schedule_type_name' => 'Schedule Type Name',
+    'create_schedule_type'=>'Create New Schedule Type',
+    'edit_schedule_type'=>'Edit Schedule Type',
+    'delete_schedule_type'=>'Delete Schedule Type',
+    'create_success'=>'You have successfully created new Schedule Type',
+    'schedule_type_list'=>'Schedule Type List',
+ ]; 

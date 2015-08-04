@@ -1,0 +1,177 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsPaymentTerm;
+use App\Http\Requests\Its\ItsPaymentTermRequest;
+use App\Http\Requests\Its\ItsPaymentTermEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class ItsPaymentTermController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsPaymentTerm::where('code','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsPaymentTerm::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('its.its_payment_term.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+      $its_attached_document = ItsAttachedDocument::find($id);
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_payment_term.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsPaymentTermRequest $its_payment_term_request) {
+
+        $its_payment_term = new ItsPaymentTerm();
+        $its_payment_term -> code = $its_payment_term_request->code;
+        $its_payment_term -> name = $its_payment_term_request->name;
+        $its_payment_term -> created_by_id = Auth::id();
+        $its_payment_term -> save();
+
+        $success = \Lang::get('its/its_payment_term.create_success').' : '.$its_payment_term->name ; 
+        return redirect('its/its_payment_term/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_payment_term = ItsPaymentTerm::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_payment_term/edit',compact('its_payment_term'));
+      
+    }
+
+  
+
+    /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsPaymentTermEditRequest $its_payment_term_edit_request, $id) 
+    {
+      
+        $its_payment_term = ItsPaymentTerm::find($id);
+        $its_payment_term -> code = $its_payment_term_edit_request->code;
+        $its_payment_term -> name = $its_payment_term_edit_request->name;
+        $its_payment_term -> updated_by_id = Auth::id();
+        $its_payment_term -> save();
+
+
+        return redirect('its/its_payment_term');
+    }
+  
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+
+    public function getDelete($id)
+     {
+        $its_payment_term = ItsPaymentTerm::find($id);
+        // Show the page
+        return view('its/its_payment_term/delete', compact('its_payment_term'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_payment_term = ItsPaymentTerm::find($id);
+        $its_payment_term->delete();
+        return redirect('its/its_payment_term');
+    }
+ /**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $its_payment_term_list = ItsPaymentTerm::select(array('its_payment_term.id','its_payment_term.code','its_payment_term.name'))
+              ->orderBy('its_payment_term.name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($its_payment_term_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'its/its_payment_term/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'its/its_payment_term/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsPaymentTerm::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

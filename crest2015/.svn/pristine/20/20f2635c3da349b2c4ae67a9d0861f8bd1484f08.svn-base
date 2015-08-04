@@ -1,0 +1,524 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('created_at') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="created_at">{!! Lang::get('payment.created_at') !!}</label>
+		<div class="col-md-10">
+			<label class="control-label" type="date" name="created_at" id="created_at" value="{{{ Input::old('created_at', isset($payment) ? $payment->created_at : null) }}}" />
+			{!! date('Y-m-d')!!}
+			{!! $errors->first('created_at', '<label class="control-label" for="created_at">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('receipt_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="receipt_no">{!! Lang::get('payment.receipt_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="receipt_no" id="receipt_no" value="{{{ Input::old('receipt_no', isset($payment) ? $payment->receipt_no : null) }}}" placeholder="Receipt no will be from the current receipt number range" />
+			{!! $errors->first('receipt_no', '<label class="control-label" for="receipt_no">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- Fetch person_name after joining from two(2) tables -->
+	<div class="form-group {{{ $errors->has('trainee_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="trainee_name">{!! Lang::get('payment.trainee_id') !!}</label>
+		<input type="hidden" name="trainee_id" id="trainee_id" value="0" />
+		<div class="col-md-10">
+			@if($action == 1)
+				<input class="typeahead form-control" type="text" name="trainee_name" id="trainee_name" value="{{{ $person->first_name. " ".$person->middle_name. " ".$person->last_name  }}}" />		
+			@else
+				<input class="typeahead form-control" type="text" name="trainee_name" id="trainee_name" value="" />
+			@endif
+			{!! $errors->first('trainee_id', '<label class="control-label" for="trainee_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('payment_status_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="payment_status_id">{!! Lang::get('payment.payment_status_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_status_id" id="payment_status_id" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($payment_status_list as $payment_status)					
+						@if($payment_status->id == $payment->id) -->
+					   <!-- ^Column to dropdown   ^Table Name     -->
+						<!-- <option name="payment_status_id" value="{{{ $payment_status->id }}}" selected>{{{ $payment_status->payment_status_name }}}</option>
+						@else
+						<option name="payment_status_id" value="{{{ $payment_status->id }}}">{{{ $payment_status->payment_status_name }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($payment_status_list as $payment_status)
+						<option name="payment_status_id" value="{{{ $payment_status->id }}}" >{{{ $payment_status->payment_status_name }}}</option>
+
+					@endforeach
+
+	
+				@endif
+			</select> -->
+
+			<!-- <input class="form-control" type="text" name="payment_status_id" id="payment_status_id" value="{{{ Input::old('payment_status_id', isset($payment) ? $payment->payment_status_id : null) }}}" readonly /> -->
+			<!-- {!! $errors->first('payment_status_id', '<label class="control-label" for="payment_status_id">:message</label>')!!}
+
+		</div>
+	</div> -->
+
+	<div class="form-group {{{ $errors->has('payment_status_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="payment_status_id" style="margin-right:20px">{!! Lang::get('payment.payment_status_id') !!}</label>
+		@foreach($payment_status_list as $payment_status)
+			<div><input onclick="discount()" type="radio" id="payment_status_id" name="payment_status_id" value="{{{ $payment_status->id }}}">{{{ $payment_status->payment_status_name }}}</div>
+		
+		@endforeach
+		{!! $errors->first('payment_status_id', '<label class="control-label" for="payment_status_id">:message</label>')!!}
+	</div>
+
+
+	<div class="form-group {{{ $errors->has('payment_type_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="payment_type_id">{!! Lang::get('payment.payment_type_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_type_id" id="payment_type_id" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($payment_type_list as $payment_type)					
+						@if($payment_type->id == $payment->id)
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="payment_type_id" value="{{{ $payment_type->id }}}" selected>{{{ $payment_type->payment_type_name }}}</option>
+						@else
+						<option name="payment_type_id" value="{{{ $payment_type->id }}}">{{{ $payment_type->payment_type_name }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($payment_type_list as $payment_type)
+						<option name="payment_type_id" value="{{{ $payment_type->id }}}" >{{{ $payment_type->payment_type_name }}}</option>
+
+					@endforeach
+
+	
+				@endif
+			</select>
+			{!! $errors->first('payment_type_id', '<label class="control-label" for="payment_type_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<input type = "hidden" name="amount_balance" id="amount_balance" />
+	<div class="form-group {{{ $errors->has('balance') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="balance">{!! Lang::get('payment.balance') !!}</label>
+		<div class="col-md-10">
+			<!-- <input class="form-control" type="text" name="balance" id="balance" value="{{{ Input::old('balance', isset($payment) ? $payment->balance : null) }}}" /> -->
+			<input class="form-control" type="text" name="balance" id="balance" value="{{{ Input::old('balance', isset($payment) ? $payment->balance : null) }}}" />
+			{!! $errors->first('balance', '<label class="control-label" for="balance">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('discount_detail') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="discount_detail">{!! Lang::get('payment.discount_detail') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="discount_detail" id="discount_detail" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($discount_detail_list as $discount_detail)					
+						@if($discount_detail->id == $payment->id)
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="discount_detail" value="{{{ $discount_detail->id }}}" selected>{{{ $discount_detail->discount_name }}}</option>
+						@else
+						<option name="discount_detail" value="{{{ $discount_detail->id }}}">{{{ $discount_detail->discount_name }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($discount_detail_list as $discount_detail)
+						<option name="discount_detail" value="{{{ $discount_detail->id }}}" >{{{ $discount_detail->discount_name }}}</option>
+
+					@endforeach
+
+	
+				@endif
+			</select>
+			{!! $errors->first('discount_detail', '<label class="control-label" for="discount_detail">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('cash_tendered') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="cash_tendered">{!! Lang::get('payment.cash_tendered') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="cash_tendered" id="cash_tendered" value="{{{ Input::old('cash_tendered', isset($payment) ? $payment->cash_tendered : null) }}}" />
+			{!! $errors->first('cash_tendered', '<label class="control-label" for="cash_tendered">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('amount') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="amount">{!! Lang::get('payment.amount_to_pay') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="amount" id="amount" value="{{{ Input::old('amount', isset($payment) ? $payment->amount : null) }}}" />
+			{!! $errors->first('amount', '<label class="control-label" for="amount">:message</label>')!!}
+
+		</div>
+	</div>
+	
+	<div class="form-group {{{ $errors->has('payment_mode_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="payment_mode_id">{!! Lang::get('payment.payment_mode_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="payment_mode_id" id="payment_mode_id" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($payment_mode_list as $payment_mode)					
+						@if($payment_mode->id == $payment->id)
+					<!--    ^Column to dropdown   ^Table Name     -->
+						<option name="payment_mode_id" value="{{{ $payment_mode->id }}}" selected>{{{ $payment_mode->payment_mode_name }}}</option>
+						@else
+						<option name="payment_mode_id" value="{{{ $payment_mode->id }}}">{{{ $payment_mode->payment_mode_name }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($payment_mode_list as $payment_mode)
+						<option name="payment_mode_id" value="{{{ $payment_mode->id }}}" >{{{ $payment_mode->payment_mode_name }}}</option>
+
+					@endforeach
+
+	
+				@endif
+			</select>
+			{!! $errors->first('payment_mode_id', '<label class="control-label" for="payment_mode_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- input to store label values -->
+	<input type = "hidden" id="change" name="change" value="" />
+	<div class="form-group {{{ $errors->has('change') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="change">{!! Lang::get('payment.change') !!}</label>
+		<div class="col-md-10">
+			<label class="control-label" type="text" name="change_label" id="change_label" value="{{{ Input::old('change', isset($payment) ? $payment->change : '') }}}" />
+			{!! $errors->first('change', '<label class="control-label" for="change">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+	
+
+	<div class="container" id="printPayment" style="font-family:courier">
+        <div class="col-md-12">
+        	
+			<div class="col-md-12"><img class="center-block" src="../../public/assets/site/images/crest_banner.png"></div>
+		
+			<div class="col-md-6">{!! Lang::get('payment.created_at') !!} : <label id="created_at_print"></label></div>
+			<div class="col-md-6">{!! Lang::get('payment.receipt_no') !!} : <label id="receipt_no_print"></label></div>
+			<div class="col-md-12">{!! Lang::get('payment.trainee_id') !!} : <label id="trainee_name_print"></label></div>
+			<div class="col-md-12">&nbsp;</div>
+		
+		
+                <div class="col-md-6"><strong>{!! Lang::get('payment.particular') !!}</strong></div>
+                <div class="col-md-6"><strong>{!! Lang::get('payment.amount') !!}</strong></div>
+        
+               
+               		<div class="col-md-6">PSCRB</div>
+                	<div class="col-md-6">4300.00</div>
+                	<div class="col-md-6">BT</div>
+                    <div class="col-md-6">4500.00</div>
+                    <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-12">&nbsp;</div>
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="col-md-4 text-right col-md-pull-1">8800.00</div>
+                    <div class="col-md-4 "><strong>{!! Lang::get('payment.subtotal') !!}</strong></div>
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="col-md-4 text-right col-md-pull-1">440.00</div>
+                    <div class="col-md-4 "><strong>{!! Lang::get('payment.discount_detail') !!}</strong></div>
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="col-md-4 text-right col-md-pull-1">8360.00</div>
+                    <div class="col-md-4"><strong>{!! Lang::get('payment.total') !!}</strong></div><br />
+                    <div class="col-md-4">&nbsp;</div>
+                    <div class="col-md-4 text-right col-md-pull-1"><label id="cash_tendered_print"></label></div>
+                    <div class="col-md-4 "><strong>{!! Lang::get('payment.cash_tendered') !!}</strong></div>
+
+                    <div class="col-md-8 text-right col-md-pull-1"><label id="change_print"></label></div>
+                    <div class="col-md-4 "><strong>{!! Lang::get('payment.change') !!}</strong></div>
+                  
+                    <div class="col-md-12 text-right"><button type="button" id="print_me" class="btn btn-primary">Print</button></div>
+                   
+            	
+            	
+                	<div class="col-md-4">{!! Lang::get('payment.payment_type_id') !!} : <label id="payment_type_name_print"></label></div>
+                	<div class="col-md-4">{!! Lang::get('payment.payment_status_id') !!} : <label id="payment_status_name_print"></label></div>
+                	<div class="col-md-4">{!! Lang::get('payment.payment_mode_id') !!} : <label id="payment_mode_name_print"></label></div>
+                	<div class="col-md-12">{!! Lang::get('payment.cashier') !!} : <label id="admin_name_print"></label></div>
+                
+                <div class="col-md-4">&nbsp;</div>
+             
+        </div>
+	</div>
+                                    
+                               
+
+@section('scripts')
+
+<script>
+
+	$('#cash_tendered').keyup(function(){
+		var amount = $('#amount').val();
+		var balance = $('#balance').val();
+		var cash_tendered = $('#cash_tendered').val();
+		var change = parseInt(cash_tendered) - parseInt(amount);
+		var amount_balance = parseInt(balance) - parseInt(amount);
+		$('#amount_balance').val(amount_balance);
+		$('#change_label').text(change);
+		$('#change').val(change);
+	});
+
+	// $('#payment_status_id').keyup
+	function discount(){
+		var payment_status_id = $("input[name=payment_status_id]:checked").val();
+
+		if(payment_status_id == 1 ){ 
+			var balance = $('#balance').val();
+			$('#amount').val(balance - (0.05 * balance));
+		}
+		else
+		{
+			var balance = $('#balance').val();
+			var partial = parseInt(balance) * .50;
+			$('#amount').val(partial);
+		}
+
+		
+
+		// if(change >= 0)
+		// {
+		// 	$("#payment_status_id").val("Full Payment");
+		// }
+		// else
+		// {
+		// 	$("#payment_status_id").val("Partial Payment");
+		// }
+
+		// testing
+		// var status_list= new Array();
+		// var payment_status_list = document.getElementById('payment_status_list_id');
+		// for (i = 0; i < payment_status_list.options.length; i++) {
+		//    listArray[i] = payment_status_list .options[i].value;
+		// }
+
+	}
+	// );
+
+
+</script>
+
+
+<script>
+$(document).ready(function() {
+
+		$("#printPayment").hide();
+
+        $("#cash_tendered").decimalOnly();
+        $("#amount").decimalOnly();
+        $("#receipt_no").numericOnly();
+        $("#cash").decimalOnly();
+         
+         });
+
+
+
+
+		$("#savePayment").click(function(){
+
+			var created_at = $("#created_at").text();
+			var trainee_name = $("#trainee_name").val();
+			// var payment_status_name = $("#payment_status_id option:selected").text();
+			// var payment_status_name = alert($('div#payment_status_id').text());
+			var payment_status_name = alert($(this).find('#payment_status_id').text());
+			var receipt_no = $("#receipt_no").val();
+			var payment_type_name = $("#payment_type_id option:selected").text();
+			var balance = $("#balance").val();
+			var cash_tendered = $("#cash_tendered").val();
+			var amount = $("#amount").val();
+			var payment_mode_name = $("#payment_mode_id option:selected").text();
+			var change = $("#change").val();
+			var admin_name = $("#admin_id").val();
+
+			$("#created_at_print").text(created_at);
+			$("#trainee_name_print").text(trainee_name);
+			$("#payment_status_name_print").text(payment_status_name);
+			$("#receipt_no_print").text(receipt_no);
+			$("#payment_type_name_print").text(payment_type_name);
+			$("#balance_print").text(balance);
+			$("#cash_tendered_print").text(cash_tendered);
+			$("#amount_print").text(amount);
+			$("#payment_mode_name_print").text(payment_mode_name);
+			$("#change_print").text(change);
+			$("#admin_name_print").text(admin_name);
+
+
+			$("#printPayment").show();
+ });
+
+
+			//ajax call here
+			// $.ajax()
+		// 	$.ajax(
+  //                   {
+  //                       url:'../../payment/create',
+  //                       type:'post',
+  //                       data: 
+  //                           { 
+  //                               'form_no': $("#form_no").val(),
+  //                               'inv_no': $("#inv_no").val(),
+  //                               'loa_no': $("#loa_no").val(),
+  //                               'expired_date': $("#expired_date").val(),
+  //                               'surety_bond_no': $("#surety_bond_no").val(),
+  //                               'use_of_goods': $("#use_of_goods").val(),
+  //                               'currency': $("#currency").val(),
+  //                               'supplier_name_address': $("#supplier_name_address").val(),
+  //                               'internal_revenue_taxes': $("#internal_revenue_taxes").val(),
+  //                               'date_of_delivery_zone': $("#date_of_delivery_zone").val(),
+  //                               'carrier': $("#carrier").val(),
+  //                               'field1': $("#field1").val(),
+  //                               'field2': $("#field2").val(),
+  //                               'no_of_packages_units': $("#no_of_packages_units_"+i).val(),
+  //                               'marks_and_numbers': $("#marks_and_numbers_"+i).val(),
+  //                               'description_of_commodities': $("#description_of_commodities_"+i).val(),
+  //                               'quantity': $("#quantity_"+i).val(),
+  //                               'measurement': $("#measurement_"+i).val(),
+  //                               'unit_value': $("#unit_value_"+i).val(),
+  //                               'total_value': $("#total_value_"+i).val()
+                                
+                                  
+  //                           },
+  //                       async:false
+  //                   }
+  //               ).done(function( data ) {
+                    
+  //                   $("#message").html(' Entry No.'+i+' was successfully saved.');
+  //                   $("#farm_in_entry_form_"+i).remove();
+  //                   $("#form_no").val(null);
+  //                   $("#inv_no").val(null);
+  //                   $("#loa_no").val(null);
+  //                   $("#expired_date").val(null);
+  //                   $("#surety_bond_no").val(null);
+  //                   $("#use_of_goods").val(null);
+  //                   $("#currency").val(null);
+  //                   $("#supplier_name_address").val(null);
+  //                   $("#internal_revenue_taxes").val(null);
+  //                   $("#date_of_delivery_zone").val(null);
+  //                   $("#carrier").val(null);
+  //                   $("#field1").val(null);
+  //                   $("#field2").val(null);
+
+  //               });
+
+  //           }
+
+		// });
+
+</script>
+
+
+
+
+<script type="text/javascript">
+    $(function() {
+            var substringMatcher = function(strs) {
+                      return function findMatches(q, cb) {
+                        var matches, substringRegex;
+                     
+                        // an array that will be populated with substring matches
+                        matches = [];
+                     
+                        // regex used to determine if a string contains the substring `q`
+                        substrRegex = new RegExp(q, 'i');
+                     
+                        // iterate through the pool of strings and for any string that
+                        // contains the substring `q`, add it to the `matches` array
+                        $.each(strs, function(i, str) {
+                          if (substrRegex.test(str)) {
+                            matches.push(str);
+                          }
+                        });
+                     
+                        cb(matches);
+                      };
+                    };
+
+
+            /********
+                RMD 2015-03-07
+                START OF AWB_HBL_No ->  typeahead
+            *************************************************************************/
+                var trainee_list = new Bloodhound({
+                        datumTokenizer: function (datum) {
+                            //return Bloodhound.tokenizers.whitespace(datum.trainee_name);
+                               var tokens = [];
+                                //the available string is 'name' in your datum
+                                var stringSize = datum.trainee_name.length;
+                                //multiple combinations for every available size
+                                //(eg. dog = d, o, g, do, og, dog)
+                                for (var size = 1; size <= stringSize; size++){          
+                                  for (var i = 0; i+size<= stringSize; i++){
+                                      tokens.push(datum.trainee_name.substr(i, size));
+                                  }
+                                }
+
+                                return tokens;    
+
+
+                        },
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        limit: 10,
+                        remote:{
+                        	url:'../trainee/dataJson?query=%QUERY',
+                        	filter: function (trainee_list) {
+                                      // alert('this is an alert script from create');
+                                  // console.log(trainee_list); //debugging
+                                    // Map the remote source JSON array to a JavaScript object array
+                                    return $.map(trainee_list, function (trainee) {
+                                        console.log(trainee); //debugging
+                                        return {
+                                            trainee_name: trainee.last_name + ', '+trainee.first_name + ' ' + trainee.middle_name + ' - ' + trainee.trainee_no,
+                                            id: trainee.id
+                                        };
+                                    });
+                             }
+                        }
+
+                });
+
+                trainee_list.initialize();
+                 console.log(trainee_list);
+
+                //its_customs_office_code_typeahead   -- this is the id of the div element that handles typeahead for export country name
+               // $('#trainee_trainee_no_typeahead .typeahead').typeahead(null, {
+                  $('#trainee_name').typeahead(
+                    {
+                      hint: true,
+                      highlight: true,
+                      minLength: 1
+                    }, 
+                    {
+                        trainee_name: 'trainee_list',
+                         displayKey: 'trainee_name',
+                        source: trainee_list.ttAdapter()
+                        
+
+                    }
+
+                    ).bind("typeahead:selected", function(obj, trainee, trainee_no) {
+                        console.log(trainee);
+                       $("#trainee_id").val(trainee.id);
+                       $("#trainee_name").val(trainee.trainee_name);
+
+
+                    });
+
+                   /********
+                END OF AWB_HBL_NO ->  typeahead
+            *************************************************************************/
+
+
+                   
+    });
+
+
+</script>
+
+
+@stop

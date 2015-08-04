@@ -1,0 +1,11 @@
+ <?php
+
+return [
+    'admission_requirement' => 'Admission Requirement',
+    'admission_requirement_name' => 'Admission Requirement Name',
+    'create_admission_requirement'=>'Create New Admission Requirement',
+    'edit_admission_requirement'=>'Edit Admission Requirement',
+    'delete_admission_requirement'=>'Delete Admission Requirement',
+    'create_success'=>'You have successfully created new Admission Requirement',
+    'admission_requirement_list'=>'Admission Requirement List',
+ ]; 

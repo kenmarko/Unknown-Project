@@ -1,0 +1,36 @@
+<?php
+
+use App\Models\Generic\GenPerson;
+use App\Models\Generic\GenGender;
+use App\Models\Generic\GenUser;
+
+use Illuminate\Database\Seeder;
+
+class GenUserTableSeeder extends Seeder {
+
+    public function run()
+    {
+
+        DB::table('gen_user')->delete();
+        DB::table('gen_person')->delete();    
+
+        $gen_person = new GenPerson;
+        $gen_person->last_name = 'descartin';
+        $gen_person->first_name = 'reagan';
+        $gen_person->gen_gender_id = GenGender::where('name', '=', 'Male')->first()->gen_gender_id;
+        $gen_person->save();    
+
+        var_dump($gen_person);  
+
+        $gen_user = new GenUser;
+        $gen_user->email = 'admin@admin.com';
+        $gen_user->password = Hash::make('admin');
+        $gen_user->confirmed= 1;
+        $gen_user->confirmation_code= md5(microtime().Config::get('app.key'));
+        $gen_user->gen_person_id = $gen_person->id;
+        $gen_user->save();
+
+       
+    }
+
+}

@@ -1,0 +1,14 @@
+ <?php
+
+return [
+    'semester_level' => 'Semester Level',
+    'semester_level_no' => 'Semester Level No',
+    'semester_level_name' => 'Semester Level Name',
+    'classification_id' => 'Classification',
+    'classification_level_id' => 'Classification Level',
+    'create_semester_level'=>'Create New Semester Level',
+    'edit_semester_level'=>'Edit Semester Level',
+    'delete_semester_level'=>'Delete Semester Level',
+    'create_success'=>'You have successfully created new Semester Level',
+    'semester_level_list'=>'Semester Level List',
+ ]; 

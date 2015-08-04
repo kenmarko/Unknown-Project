@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'deduction' => 'Deduction',
+    'deduction_name' => 'Deduction Name',
+    'is_active' => 'Active',
+    'create_deduction'=>'Create New Deduction',
+    'edit_deduction'=>'Edit Deduction',
+    'delete_deduction'=>'Delete Deduction',
+    'create_success'=>'You have successfully created new Deduction',
+    'deduction_list'=>'Deduction List',
+ ]; 

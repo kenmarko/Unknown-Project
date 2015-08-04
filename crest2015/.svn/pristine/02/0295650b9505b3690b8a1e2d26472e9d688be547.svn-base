@@ -1,0 +1,11 @@
+ <?php
+
+return [
+    'record' => 'Record',
+    'record_name' => 'Record Name',
+    'create_record'=>'Create New Record',
+    'edit_record'=>'Edit Record',
+    'delete_record'=>'Delete Record',
+    'create_success'=>'You have successfully created new Record',
+    'record_list'=>'Record List',
+ ]; 

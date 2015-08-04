@@ -1,0 +1,60 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
+<!-- <div class="col-md-12">
+	<div class="form-group {{{ $errors->has('its_tagging_procedure_version_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="its_tagging_procedure_version_id">{!! Lang::get('its/its_tagging_procedure.version') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="number" name="its_tagging_procedure_version_id" id="its_tagging_procedure_version_id" value="{{{ Input::old('its_tagging_procedure_version_id', isset($its_tagging_procedure) ? $its_tagging_procedure->its_tagging_procedure_version_id : null) }}}" />
+			{!! $errors->first('its_tagging_procedure_version_id', '<label class="control-label" for="its_tagging_procedure_version_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div> -->
+
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('step') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="step">{!! Lang::get('its/its_tagging_procedure.step') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="step" id="step" value="{{{ Input::old('step', isset($its_tagging_procedure) ? $its_tagging_procedure->step : null) }}}" />
+			{!! $errors->first('step', '<label class="control-label" for="step">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="name">{!! Lang::get('its/its_tagging_procedure.name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="name" id="name" value="{{{ Input::old('name', isset($its_tagging_procedure) ? $its_tagging_procedure->name : null) }}}" />
+			{!! $errors->first('name', '<label class="control-label" for="name">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('description') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="description">{!! Lang::get('its/its_tagging_procedure.description') !!}</label>
+			<div class="col-md-10">
+				<input class="form-control" type="text" name="description" id="description" value="{{{ Input::old('description', isset($its_tagging_procedure) ? $its_tagging_procedure->description : null) }}}" />
+				{!! $errors->first('description', '<label class="control-label" for="description">:message</label>')!!}
+
+			</div>
+	</div>
+</div>
+
+<!-- <div class="col-md-12">
+	<div class="form-group {{{ $errors->has('roles') ? 'has-error' : '' }}}">
+			<label class="col-md-2 control-label" for="roles">{{ Lang::get('its/its_tagging_procedure.roles') }}</label>
+			<div class="col-md-10">
+				<select name="roles[]" id="roles" multiple style="width:100%;" tabindex="5">
+					@foreach ($gen_role_list as $gen_role)
+					<option value="{{{ $gen_role->gen_role_id }}}"{{{ ( array_search($gen_role->gen_role_id, $its_tagging_procedure_role_list ) !== false && array_search($gen_role->gen_role_id, $its_tagging_procedure_role_list ) >= 0 ? ' selected="selected"' : '') }}}>{{{ $gen_role->name }}}</option>
+					@endforeach
+				</select>
+
+				<span class="help-block"> {{ Lang::get('its/its_tagging_procedure.roles_info') }} </span>
+			</div>
+		</div>
+</div> -->

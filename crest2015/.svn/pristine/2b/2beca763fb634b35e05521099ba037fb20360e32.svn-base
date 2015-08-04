@@ -1,0 +1,141 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('classification_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_id">{!! Lang::get('curriculum.classification_name') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="classification_id" id="classification_id" tabindex="4">
+				@if($action == 1)
+					@foreach($classification_list as $classification)
+						@if($classification->id == $curriculum->id)
+						<option name="classification_id" value="{{{ $classification->id }}}" selected>{{{ $classification->classification_name }}}</option>
+						@else
+						<option name="classification_id" value="{{{ $classification->id }}}">{{{ $classification->classification_name }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($classification_list as $classification)
+						<option name="classification_id" value="{{{ $classification->id }}}" >{{{ $classification->classification_name }}}</option>
+
+					@endforeach
+
+				@endif
+
+
+
+			<!-- @if($action==1)
+				@foreach($classification_list as $classification)
+					@if($curriculum->program_id == $classification->id)
+					<option name="classification_id" value="{{{ $classification->id }}}" selected>{{{ $classification->classification.classification_name  }}}</option>
+					@endif
+					<option name="classification_id" value="{{{ $classification->id }}}" >{{{ $classification->classification_name  }}}</option>
+				@endforeach	
+			@else
+				@foreach($classification_list as $classification)
+					<option name="classification_id" value="{{{ $classification->id }}}" >{{{ $classification->classification_name  }}}</option>
+				@endforeach
+			@endif -->
+			</select>
+			{!! $errors->first('classification_id', '<label class="control-label" for="classification_id)">:message</label>')!!}
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('program_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="program_id">{!! Lang::get('curriculum.program_name') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="program_id" id="program_id" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($program_list as $program)
+						@if($program->id == $curriculum->id)
+						<option name="program_id" value="{{{ $program->id }}}" selected>{{{ $program->program_code }}}</option>
+						@else
+						<option name="program_id" value="{{{ $program->id }}}">{{{ $program->program_code }}}</option>
+						@endif
+					@endforeach
+				@else
+					<option name="" value="" selected></option>
+					@foreach($program_list as $program)
+						<option name="program_id" value="{{{ $program->id }}}" >{{{ $program->program_code }}}</option>
+
+					@endforeach
+
+	
+				@endif
+			</select>
+			{!! $errors->first('program_id', '<label class="control-label" for="program_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_id">{!! Lang::get('curriculum.term_name') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="term_id" id="term_id" tabindex="4">
+			
+				@if($action == 1)
+					@foreach($term_list as $term)
+						@if($term->id == $curriculum_term->id)
+						<option name="term_id" value="{{{ $term->id }}}" selected>{{{ $term->term_name }}}</option>
+						@else
+						<option name="term_id" value="{{{ $term->id }}}">{{{ $term->term_name }}}</option>
+						@endif
+					@endforeach
+			
+				@else
+					<option name="" value="" selected></option>
+					@foreach($term_list as $term)
+						<option name="term_id" value="{{{ $term->id }}}" >{{{ $term->term_name }}}</option>
+
+					@endforeach
+
+				@endif
+			{!! $errors->first('term_id', '<label class="control-label" for="term_id">:message</label>')!!}
+			</select>
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('curriculum.is_active') !!}</label>
+		<div class="col-md-10">
+			<!-- {{ $default = Input::old('is_active', isset($curriculum_list) ? $curriculum_list->is_active : null) }} -->
+			@if ($default == '1')
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data"  value="1" checked />
+			@elseif ($default == '0')
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1"/>
+			@else
+				<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked/>
+			@endif
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+
+</div>
+
+
+@section('scripts')
+<script type="text/javascript">
+	$(function() {
+		$("#classification_id").change(function(){
+
+			 // $.ajax({
+			 //        url: '/program/dataJson',
+			 //        data: { 'is_active':1 , 'classification_id': $(this).val() },
+			 //        type: "GET", dataType: "json",async:false,
+			 //        success: function (data) {
+			 //         		$("#program_id").empty();
+			 //                $.map(data, function (item) {
+			 //                        $("#program_id").append($("<option/>").val(item.value).text(item.text));
+			                    
+			 //                });
+			 //            }
+			       
+			 //    });	
+
+			selectListChange('program_id','/program/dataJson',  { 'is_active':1 , 'classification_id': $(this).val() } ,'Please select a Program')
+			selectListChange('term_id','/term/dataJson',  { 'is_active':1 , 'classification_id': $(this).val() } ,'Please select a Term')
+
+
+		});
+	});
+</script>
+
+@stop

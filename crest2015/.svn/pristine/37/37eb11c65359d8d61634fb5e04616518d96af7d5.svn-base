@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('education_category_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="education_category_name">{!! Lang::get('education_category.education_category_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="education_category_name" id="education_category_name" value="{{{ Input::old('education_category_name', isset($education_category) ? $education_category->education_category_name : null) }}}" />
+			{!! $errors->first('education_category_name', '<label class="control-label" for="education_category_name">:message</label>')!!}
+
+		</div>
+	</div>
+
+</div>
+
+

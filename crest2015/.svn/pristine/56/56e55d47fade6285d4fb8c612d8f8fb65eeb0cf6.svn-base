@@ -1,0 +1,140 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('first_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="first_name">{!! Lang::get('office_employee.first_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="first_name" id="first_name" value="{{{ Input::old('first_name', isset($office_employee) ? $office_employee->first_name : null) }}}" />
+			{!! $errors->first('first_name', '<label class="control-label" for="first_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('middle_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="middle_name">{!! Lang::get('office_employee.middle_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="middle_name" id="middle_name" value="{{{ Input::old('middle_name', isset($office_employee) ? $office_employee->middle_name : null) }}}" />
+			{!! $errors->first('middle_name', '<label class="control-label" for="middle_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('last_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="last_name">{!! Lang::get('office_employee.last_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="last_name" id="last_name" value="{{{ Input::old('last_name', isset($office_employee) ? $office_employee->last_name : null) }}}" />
+			{!! $errors->first('last_name', '<label class="control-label" for="last_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('suffix_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="suffix_id">{!! Lang::get('office_employee.suffix_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="suffix_id" id="suffix_id" tabindex="4">
+			@if($action==1)
+				@foreach($suffix_list as $suffix)
+					@if($office_employee->suffix_id == $suffix->id)
+					<option name="suffix_id" value="{{{ $suffix->id }}}" selected>{{{ $suffix->suffix_name  }}}</option>
+					@else
+					<option name="suffix_id" value="{{{ $suffix->id }}}" >{{{ $suffix->suffix_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($suffix_list as $suffix)
+					<option name="suffix_id" value="{{{ $suffix->id }}}" >{{{ $suffix->suffix_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('suffix_id', '<label class="control-label" for="suffix_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('birthdate') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="birthdate">{!! Lang::get('office_employee.birthdate') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="birthdate" id="birthdate" value="{{{ Input::old('birthdate', isset($office_employee) ? $office_employee->birthdate : null) }}}" />
+			{!! $errors->first('birthdate', '<label class="control-label" for="birthdate">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('religion_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="religion_id">{!! Lang::get('office_employee.religion_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="religion_id" id="religion_id" tabindex="4">
+			@if($action==1)
+				@foreach($religion_list as $religion)
+					@if($office_employee->religion_id == $religion->id)
+					<option name="religion_id" value="{{{ $religion->id }}}" selected>{{{ $religion->religion_name  }}}</option>
+					@else
+					<option name="religion_id" value="{{{ $religion->id }}}" >{{{ $religion->religion_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($religion_list as $religion)
+					<option name="religion_id" value="{{{ $religion->id }}}" >{{{ $religion->religion_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('religion_id', '<label class="control-label" for="religion_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('gender_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="gender_id">{!! Lang::get('office_employee.gender_id') !!}</label>
+		<div class="col-md-10">
+			<input type="radio" id="gender_id" name="gender_id" value="male" checked>Male
+			<br>
+			<input type="radio" id="gender_id" name="gender_id" value="female">Female
+			{!! $errors->first('gender_id', '<label class="control-label" for="gender_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('civil_status_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="civil_status_id">{!! Lang::get('office_employee.civil_status_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="civil_status_id" id="civil_status_id" value="{{{ Input::old('civil_status_id', isset($office_employee) ? $office_employee->civil_status_id : null) }}}" />
+			{!! $errors->first('civil_status_id', '<label class="control-label" for="civil_status_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('citizenship_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="citizenship_id">{!! Lang::get('office_employee.citizenship_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="citizenship_id" id="citizenship_id" tabindex="4">
+			@if($action==1)
+				@foreach($citizenship_list as $citizenship)
+					@if($office_employee->citizenship_id == $citizenship->id)
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" selected>{{{ $citizenship->citizenship_name  }}}</option>
+					@else
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" >{{{ $citizenship->citizenship_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($citizenship_list as $citizenship)
+					<option name="citizenship_id" value="{{{ $citizenship->id }}}" >{{{ $citizenship->citizenship_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('citizenship_id', '<label class="control-label" for="citizenship_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('blood_type_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="blood_type_id">{!! Lang::get('office_employee.blood_type_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="blood_type_id" id="blood_type_id" value="{{{ Input::old('blood_type_id', isset($office_employee) ? $office_employee->blood_type_id : null) }}}" />
+			{!! $errors->first('blood_type_id', '<label class="control-label" for="blood_type_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('office_employee.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($office_employee) ? $office_employee->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

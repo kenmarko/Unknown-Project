@@ -1,0 +1,29 @@
+@media print {
+	table {	font-size: 10px;
+	}
+}
+@page {
+  size:  5.5in 8.5in US-Statement;
+}
+
+
+#searchinput {
+    width: 200px;
+}
+#searchclear {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    height: 14px;
+    margin: auto;
+    font-size: 14px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+
+
+/*$("#searchclear").click(function(){
+    $("#searchinput").val('');
+});*/

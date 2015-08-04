@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'time_range_classification' => 'Time Range Classification',
+    'classification_id' => 'Classification',
+    'time_range_id' => 'Time Range',
+    'term_id' => 'Term',
+    'create_time_range_classification'=>'Create New Time Range Classification',
+    'edit_time_range_classification'=>'Edit Time Range Classification',
+    'delete_time_range_classification'=>'Delete Time Range Classification',
+    'create_success'=>'You have successfully created new Time Range Classification',
+    'time_range_classification_list'=>'Time Range Classification List',
+ ]; 

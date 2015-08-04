@@ -1,0 +1,15 @@
+<?php
+
+return [
+	'its_customs_office' => 'Customs Office',
+    'code' => 'Code',
+    // 'icon' => 'Icon',
+    'its_customs_office' => 'Customs Office',
+    'create_customs_office'=>'Create New Customs Office',
+    'edit_customs_office'=>'Edit Customs Office',
+    'delete_customs_office'=>'Delete Customs Office',
+   'create_success'=>'You have successfully created new Customs Office',
+    'its_customs_office_list'=>'Customs Office List',
+    'name'=>'Name'
+    
+];

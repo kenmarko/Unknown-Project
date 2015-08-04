@@ -1,0 +1,23 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('class_grade_approval_remark_name') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="class_grade_approval_remark_name"><?php echo Lang::get('class_grade_approval_remark.class_grade_approval_remark_name'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="class_grade_approval_remark_name" id="class_grade_approval_remark_name" value="<?php echo e(Input::old('class_grade_approval_remark_name', isset($class_grade_approval_remark) ? $class_grade_approval_remark->class_grade_approval_remark_name : null)); ?>" />
+			<?php echo $errors->first('class_grade_approval_remark_name', '<label class="control-label" for="class_grade_approval_remark_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('is_active') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="is_active"><?php echo Lang::get('class_grade_approval_remark.is_active'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="<?php echo e(Input::old('is_active', isset($class_grade_approval_remark) ? $class_grade_approval_remark->is_active : null)); ?>" />
+			<?php echo $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

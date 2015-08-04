@@ -1,0 +1,14 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('blood_type_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="blood_type_name">{!! Lang::get('blood_type.blood_type_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="blood_type_name" id="blood_type_name" value="{{{ Input::old('blood_type_name', isset($blood_type) ? $blood_type->blood_type_name : null) }}}" />
+			{!! $errors->first('blood_type_name', '<label class="control-label" for="blood_type_name">:message</label>')!!}
+
+		</div>
+	</div>
+
+</div>
+
+

@@ -1,0 +1,21 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('curriculum_course_category_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="curriculum_course_category_name">{!! Lang::get('curriculum_course_category.curriculum_course_category_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="curriculum_course_category_name" id="curriculum_course_category_name" value="{{{ Input::old('curriculum_course_category_name', isset($curriculum_course_category) ? $curriculum_course_category->curriculum_course_category_name : null) }}}" />
+			{!! $errors->first('curriculum_course_category_name', '<label class="control-label" for="curriculum_course_category_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('program_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="program_id">{!! Lang::get('curriculum_course_category.program_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="program_id" id="program_id" value="{{{ Input::old('program_id', isset($curriculum_course_category) ? $curriculum_course_category->program_id : null) }}}" />
+			{!! $errors->first('program_id', '<label class="control-label" for="program_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

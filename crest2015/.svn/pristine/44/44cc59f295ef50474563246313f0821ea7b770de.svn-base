@@ -1,0 +1,170 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\AdmissionRequirement;
+use App\Http\Requests\AdmissionRequirementRequest;
+use App\Http\Requests\AdmissionRequirementEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class AdmissionRequirementController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = AdmissionRequirement::where('admission_requirement_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = AdmissionRequirement::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('admission_requirement.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('admission_requirement.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(AdmissionRequirementRequest $admission_requirement_request) {
+
+        $admission_requirement = new AdmissionRequirement();
+        $admission_requirement -> admission_requirement_name = $admission_requirement_request->admission_requirement_name;
+        $admission_requirement -> save();
+
+        $success = \Lang::get('admission_requirement.create_success').' : '.$admission_requirement->admission_requirement_name ; 
+        return redirect('admission_requirement/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $admission_requirement = AdmissionRequirement::find($id);
+       //var_dump($its_customs_office);
+        return view('admission_requirement/edit',compact('admission_requirement'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(AdmissionRequirementEditRequest $admission_requirement_edit_request, $id) {
+      
+        $admission_requirement = AdmissionRequirement::find($id);
+        $admission_requirement -> admission_requirement_name = $admission_requirement_edit_request->admission_requirement_name;
+        $admission_requirement -> save();
+
+        return redirect('admission_requirement');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $admission_requirement = AdmissionRequirement::find($id);
+        // Show the page
+        return view('admission_requirement/delete', compact('admission_requirement'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $admission_requirement = AdmissionRequirement::find($id);
+        $admission_requirement->delete();
+        return redirect('admission_requirement');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $admission_requirement_list = AdmissionRequirement::select(array('admission_requirement.id','admission_requirement.admission_requirement_name'))
+              ->orderBy('admission_requirement.id', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($admission_requirement_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'admission_requirement/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'admission_requirement/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                AdmissionRequirement::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

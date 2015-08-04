@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head id="Starter-Site">
+
+        <meta charset="UTF-8">
+
+        <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+        <title> Import Tracking System :: <?php echo $__env->yieldContent('title'); ?></title>
+
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <meta name="description" content="" />
+        <meta name="google-site-verification" content="">
+        <meta name="DC.title" content="Laravel 5 Starter Site">
+        <meta name="DC.subject" content="">
+        <meta name="DC.creator" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+       <!-- <link href="<?php echo e(asset('assets/its/css/bootstrap.min.css')); ?>" rel="stylesheet">-->
+       <link href="<?php echo e(asset('assets/its/css/bootstrap.css')); ?>" rel="stylesheet">
+       
+        <link href="<?php echo e(asset('assets/its/css/plugins/metisMenu/metisMenu.min.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(asset('assets/its/css/sb-admin-2.css')); ?>" rel="stylesheet">
+
+        <link href="<?php echo e(asset('assets/its/css/jquery.dataTables.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(asset('assets/its/css/dataTables.bootstrap.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(asset('assets/its/css/colorbox.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(asset('assets/its/css/typeahead.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(asset('assets/its/font-awesome-4.2.0/css/font-awesome.min.css')); ?>" rel="stylesheet" type="text/css">
+
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <link rel="shortcut icon" href="<?php echo e(asset('assets/its/ico/favicon.ico')); ?>">
+
+    </head>
+    <body>
+    <div id="wrapper">
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="<?php echo URL::to('/its/dashboard'); ?>">Import Tracking System</a>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="btn account dropdown-toggle" data-toggle="dropdown" href="#">
+                            <div class="user">
+                                <span class="hello"> <?php echo e(Lang::get('its/its.welcome')); ?>!</span>
+                                <span class="name"> <?php echo e(Auth::user()->email); ?></span>
+                            </div> </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="<?php echo e(URL::to('/')); ?>"><i class="glyphicon glyphicon-home"></i> <?php echo e(Lang::get('admin/admin.homepage')); ?></a>
+                                </li>
+                                <li>
+                                    <a href="<?php echo e(URL::to('auth/logout')); ?>"><i class="glyphicon glyphicon-off"></i> <?php echo e(Lang::get('site/site.logout')); ?></a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+         
+                </nav>
+  
+                    <div id="full-page-wrapper">
+                        <div class="row">
+                                <?php echo $__env->make('notifications', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+                                <!-- <?php echo $__env->yieldContent('content'); ?> -->
+                        </div>
+                    </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <footer>
+            <p>
+                <span style="text-align:left;float:left">&copy; 2014 <a href="#">Laravel 5 Starter Site</a></span>
+                <span class="hidden-phone" style="text-align:right;float:right">Powered by: <a href="http://laravel.com/" alt="Laravel 5.0">Laravel 5.0</a></span>
+            </p>
+
+        </footer>
+        <!--[if !IE]>-->
+        <script src="<?php echo e(asset('assets/its/js/jquery-2.1.1.min.js')); ?>"></script>
+        <!--<![endif]-->
+        <!--[if IE]>
+        <script src="<?php echo e(asset('assets/its/js/jquery-1.11.1.min.js')); ?>"></script>
+        <![endif]-->
+        <script src="<?php echo e(asset('assets/its/js/jquery-migrate-1.2.1.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/bootstrap.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/jquery-ui.1.11.2.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/plugins/metisMenu/metisMenu.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/sb-admin-2.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/jquery.dataTables.min.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/dataTables.bootstrap.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/bootstrap-dataTables-paging.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/datatables.fnReloadAjax.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/jquery.colorbox.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/modal.js')); ?>"></script>
+        <script src="<?php echo e(asset('assets/its/js/typeahead.bundle.js')); ?>"></script>
+
+
+        <?php echo $__env->yieldContent('scripts'); ?>
+    </body>
+</html>

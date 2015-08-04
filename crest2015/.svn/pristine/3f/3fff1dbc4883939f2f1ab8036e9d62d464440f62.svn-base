@@ -1,0 +1,20 @@
+<li >
+    <a href="{{URL::to('information/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("information.dashboard") }}}</span></a>
+</li>
+<li >
+    <a href="{{URL::to('information/enrollment/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("information.enrollment") }}}</span></a>
+</li>
+<li >
+    <a href="{{URL::to('information/trainee/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("information.trainee") }}}</span></a>
+</li>
+<li >
+    <a href="{{URL::to('information/make_up/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("information.make_up") }}}</span></a>
+</li>
+<li >
+    <a href="{{URL::to('information/rescedule/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("information.reschedule") }}}</span></a>
+</li>

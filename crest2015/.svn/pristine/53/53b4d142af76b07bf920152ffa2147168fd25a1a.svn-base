@@ -1,0 +1,8 @@
+<li >
+    <a href="{{URL::to('scheduler/')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("scheduler.dashboard") }}}</span></a>
+</li>
+<li >
+    <a href="{{URL::to('scheduler/create')}}" {{ (Request::is('site/users') ? ' class=active' : '') }}>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> {{{  Lang::get("scheduler.create") }}}</span></a>
+</li>

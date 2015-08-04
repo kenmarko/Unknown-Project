@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'session' => 'Session',
+    'session_name' => 'Session Name',
+    'create_session'=> 'Create New Session',
+    'time_from_id' => 'Time From',
+    'time_to_id' => 'Time To',
+    'edit_session'=>'Edit Session',
+    'delete_session'=>'Delete Session',
+    'create_success'=>'You have successfully created new Session',
+    'session_list'=>'Session List',
+ ]; 

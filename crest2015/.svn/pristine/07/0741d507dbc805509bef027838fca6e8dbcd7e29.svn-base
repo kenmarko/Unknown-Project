@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('program_group_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="program_group_id">{!! Lang::get('program_section_group.program_group_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="program_group_id" id="program_group_id" value="{{{ Input::old('program_group_id', isset($program_section_group) ? $program_section_group->program_group_id : null) }}}" />
+			{!! $errors->first('program_group_id', '<label class="control-label" for="program_group_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('section_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="section_id">{!! Lang::get('program_section_group.section_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="section_id" id="section_id" value="{{{ Input::old('section_id', isset($program_section_group) ? $program_section_group->section_id : null) }}}" />
+			{!! $errors->first('section_id', '<label class="control-label" for="section_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('teacher_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="teacher_id">{!! Lang::get('program_section_group.teacher_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="teacher_id" id="teacher_id" value="{{{ Input::old('teacher_id', isset($program_section_group) ? $program_section_group->teacher_id : null) }}}" />
+			{!! $errors->first('teacher_id', '<label class="control-label" for="teacher_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

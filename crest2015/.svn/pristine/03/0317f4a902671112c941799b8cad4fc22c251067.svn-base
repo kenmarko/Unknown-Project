@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('person_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="person_id">{!! Lang::get('term_type.person_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="person_id" id="person_id" value="{{{ Input::old('person_id', isset($term_type) ? $term_type->person_id : null) }}}" />
+			{!! $errors->first('person_id', '<label class="control-label" for="person_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('position_desired') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="position_desired">{!! Lang::get('term_type.position_desired') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="position_desired" id="position_desired" value="{{{ Input::old('position_desired', isset($term_type) ? $term_type->position_desired : null) }}}" />
+			{!! $errors->first('position_desired', '<label class="control-label" for="position_desired">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('date_available_to_start') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="date_available_to_start">{!! Lang::get('term_type.date_available_to_start') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="date_available_to_start" id="date_available_to_start" value="{{{ Input::old('date_available_to_start', isset($term_type) ? $term_type->date_available_to_start : null) }}}" />
+			{!! $errors->first('date_available_to_start', '<label class="control-label" for="date_available_to_start">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

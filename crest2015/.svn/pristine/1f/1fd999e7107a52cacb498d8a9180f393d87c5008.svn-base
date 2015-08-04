@@ -1,0 +1,86 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('term_no') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_no">{!! Lang::get('term.term_no') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="term_no" id="term_no" value="{{{ Input::old('term_no', isset($term) ? $term->term_no : null) }}}" />
+			{!! $errors->first('term_no', '<label class="control-label" for="term_no">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_name">{!! Lang::get('term.term_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="term_name" id="term_name" value="{{{ Input::old('term_name', isset($term) ? $term->term_name : null) }}}" />
+			{!! $errors->first('term_name', '<label class="control-label" for="term_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('academic_year_from') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="academic_year_from">{!! Lang::get('term.academic_year_from') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="academic_year_from" id="academic_year_from" value="{{{ Input::old('academic_year_from', isset($term) ? $term->academic_year_from : null) }}}" />
+			{!! $errors->first('academic_year_from', '<label class="control-label" for="academic_year_from">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('academic_year_to') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="academic_year_to">{!! Lang::get('term.academic_year_to') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="academic_year_to" id="academic_year_to" value="{{{ Input::old('academic_year_to', isset($term) ? $term->academic_year_to : null) }}}" />
+			{!! $errors->first('academic_year_to', '<label class="control-label" for="academic_year_to">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_name">{!! Lang::get('term.classification_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_name" id="classification_name" value="{{{ Input::old('classification_name', isset($term) ? $curriculum->classification_name : null) }}}" />
+			{!! $errors->first('classification_name', '<label class="control-label" for="classification_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_type_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_type_id">{!! Lang::get('term.term_type_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="term_type_id" id="term_type_id" value="{{{ Input::old('term_type_id', isset($term) ? $term->term_type_id : null) }}}" />
+			{!! $errors->first('term_type_id', '<label class="control-label" for="term_type_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_enrollment') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_enrollment">{!! Lang::get('term.is_enrollment') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_enrollment" id="is_enrollment" value="{{{ Input::old('is_enrollment', isset($term) ? $term->is_enrollment : null) }}}" />
+			{!! $errors->first('is_enrollment', '<label class="control-label" for="is_enrollment">:message</label>')!!}
+
+		</div>
+	</div>
+	<!-- <div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('term.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($term) ? $term->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div> -->
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('term.is_active') !!}</label>
+		<div class="col-md-10" style="padding-top:7px;">
+			<?php
+			$default = Input::old('is_active', isset($term) ? $term->is_active : null);
+			if($default == '1'){
+			echo '<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" checked />';
+			}
+			else
+			{
+			echo '<input type="checkbox" name="is_active" id="is_active" class="reset-data" value="1" />';
+			}
+			?>
+		</div>
+
+ 	 </div>
+
+</div>
+
+

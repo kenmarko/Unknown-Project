@@ -1,0 +1,60 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('curriculum_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="curriculum_id">{!! Lang::get('curriculum_course.curriculum_id') !!}</label>
+		<div class="col-md-10">
+			<select class="form-control" name="curriculum_id" id="curriculum_id" tabindex="4">
+			@if($action==1)
+				@foreach($curriculum_list as $curriculum)
+					@if($curriculum_course->curriculum_id == $curriculum->id)
+					<option name="curriculum_id" value="{{{ $curriculum->id }}}" selected>{{{ $curriculum->curriculum_name  }}}</option>
+					@else
+					<option name="curriculum_id" value="{{{ $curriculum->id }}}" >{{{ $curriculum->curriculum_name  }}}</option>
+					@endif
+					@endforeach	
+			@else
+					<option name="" value="" ></option>
+				@foreach($curriculum_list as $curriculum)
+					<option name="curriculum_id" value="{{{ $curriculum->id }}}" >{{{ $curriculum->curriculum_name  }}}</option>
+				@endforeach
+			@endif
+			</select>
+			{!! $errors->first('curriculum_id', '<label class="control-label" for="curriculum_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('semester_level_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="semester_level_id">{!! Lang::get('curriculum_course.semester_level_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="semester_level_id" id="semester_level_id" value="{{{ Input::old('semester_level_id', isset($curriculum_course) ? $curriculum_course->semester_level_id : null) }}}" />
+			{!! $errors->first('semester_level_id', '<label class="control-label" for="semester_level_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('classification_level_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="classification_level_id">{!! Lang::get('curriculum_course.classification_level_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="classification_level_id" id="classification_level_id" value="{{{ Input::old('classification_level_id', isset($curriculum_course) ? $curriculum_course->classification_level_id : null) }}}" />
+			{!! $errors->first('classification_level_id', '<label class="control-label" for="classification_level_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('curriculum_course_category_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="curriculum_course_category_id">{!! Lang::get('curriculum_course.curriculum_course_category_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="curriculum_course_category_id" id="curriculum_course_category_id" value="{{{ Input::old('curriculum_course_category_id', isset($curriculum_course) ? $curriculum_course->curriculum_course_category_id : null) }}}" />
+			{!! $errors->first('curriculum_course_category_id', '<label class="control-label" for="curriculum_course_category_id">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('term_type_id') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="term_type_id">{!! Lang::get('curriculum_course.term_type_id') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="term_type_id" id="term_type_id" value="{{{ Input::old('term_type_id', isset($curriculum_course) ? $curriculum_course->term_type_id : null) }}}" />
+			{!! $errors->first('term_type_id', '<label class="control-label" for="term_type_id">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

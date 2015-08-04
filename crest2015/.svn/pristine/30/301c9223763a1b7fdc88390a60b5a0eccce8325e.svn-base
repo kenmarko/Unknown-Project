@@ -1,0 +1,23 @@
+ <?php
+
+return [
+    'temp_trainee' => 'Trainee',
+    'trainee_no' => 'Trainee No',
+    'last_name' => 'Last Name',
+    'first_name' => 'First Name',
+    'middle_name' => 'Middle Name',
+    'suffix_id' => 'Suffix',
+    'birth_date' => 'Birthdate',
+    'birth_place' => 'Place of Birth',
+    'date' => 'Date',
+    'address' => 'Address',
+    'rank_id' => 'Rank',
+    'contact_no' => 'Contact Number',
+    'email' => 'Email Address',
+    'is_active' => 'Active',
+    'create_temp_trainee'=>'Create New Trainee',
+    'edit_temp_trainee'=>'Edit Trainee',
+    'delete_temp_trainee'=>'Delete Trainee',
+    'create_success'=>'You have successfully created new Trainee',
+    'temp_trainee_list'=>'Trainee List',
+ ]; 

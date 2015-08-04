@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'person_credential' => 'Person Credential',
+    'person_id' => 'Person',
+    'credential_id' => 'Credential',
+    'file_id' => 'File',
+    'create_person_credential'=>'Create New Person Credential',
+    'edit_person_credential'=>'Edit Person Credential',
+    'delete_person_credential'=>'Delete Person Credential',
+    'create_success'=>'You have successfully created new Person Credential',
+    'person_credential_list'=>'Person Credential List',
+ ]; 

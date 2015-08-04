@@ -1,0 +1,11 @@
+ <?php
+
+return [
+    'payment_type' => 'Payment Type',
+    'payment_type_name' => 'Payment Type Name',
+    'create_payment_type'=>'Create New Payment Type',
+    'edit_payment_type'=>'Edit Payment Type',
+    'delete_payment_type'=>'Delete Payment Type',
+    'create_success'=>'You have successfully created new Payment Type',
+    'payment_type_list'=>'Payment Type List',
+ ]; 

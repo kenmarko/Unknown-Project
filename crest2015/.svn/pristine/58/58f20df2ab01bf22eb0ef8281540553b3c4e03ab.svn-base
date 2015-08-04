@@ -1,0 +1,334 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("scheduler.scheduler") }}} :: @parent
+@stop
+
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+	<h3> {{{ Lang::get("scheduler.scheduler") }}}
+		<div class="pull-right">
+			<div class="pull-right">
+	            <a href="{{{ URL::to('scheduler') }}}" class="btn btn-sm  btn-primary iframe"><span class="glyphicon glyphicon-list"></span> {{ Lang::get("scheduler.scheduler_list") }}</a>
+	        </div>
+		</div>
+	</h3>
+</div>
+
+<form class="form-horizontal col-md-16" >
+	@include('scheduler_dashboard/scheduler.form')
+	<div class="col-md-16">
+		<div class="form-group">
+			<label class="col-md-3 control-label" for="actions">&nbsp;</label>
+			<div class="col-md-9">	
+	 			<!-- <button type="submit" class="btn btn-sm btn-success">
+	                <span class="glyphicon glyphicon-ok-circle"></span> {{ Lang::get("form.create") }}
+	            </button>	
+	            <button type="reset" class="btn btn-sm btn-default">
+	                <span class="glyphicon glyphicon-remove-circle"></span>  {{ Lang::get("form.reset") }}
+	            </button>	
+	 			<a href="{{{ URL::to('scheduler') }}}" class="btn btn-sm btn-warning close_popup">
+	                <span class="glyphicon glyphicon-ban-circle"></span>  {{ Lang::get("form.cancel") }}
+	       		</a> -->
+	        </div>
+	    </div>
+	</div>	
+</form>
+
+<input type="hidden" id="time_range_count" value="1">
+<input type="hidden" id="date_range_count" value="1">
+@stop
+@section('scripts')
+	
+	<script id="time_range_template" type="application/html-template">
+	<div id="<<time_range_id>>">	
+		<div class="time_start form-group">
+			<div class="col-md-3">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_start') !!}<<start_count_no>></label>
+		    </div>
+
+			<div class="col-md-7">
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_monday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_tuesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_wednesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_thursday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_friday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_start_saturday>>" value="" />
+				</div>
+
+			</div>
+			<div class="col-md-2">
+		    </div>
+		</div>   
+		<div class="time_end form-group">
+			<div class="col-md-3">
+				<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.time_end') !!}<<end_count_no>></label>
+		    </div>
+
+			<div class="col-md-7">
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_monday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_tuesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_wednesday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_thursday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_friday>>" value="" />
+				</div>
+				<div class="col-md-2">
+					<input class="form-control col-md-11" type="text" id="<<time_end_saturday>>" value="" />
+				</div>
+
+			</div>
+			<div class="col-md-2">
+		    </div>
+		</div>
+	</div>
+	</script>
+
+	<script id="date_range_template" type="application/html-template">
+		<div id="<<date_range_id>>" class="form-group"> 
+			<div class="col-md-12 form-group">
+					<div class="col-md-5">
+						<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.date_start') !!}<<date_to_count>></label>
+					</div>
+					<div class="col-md-3">
+						<label class="col-md-12 control-label" for="scheduler_name">{!! Lang::get('scheduler.date_end') !!}<<date_from_count>></label>
+					</div>
+					<div class="col-md-2"></div>
+					<div class="col-md-2">
+				    </div>
+			</div>
+			<div class="col-md-12 form-group">
+				<div class="col-md-3">
+			    </div>
+				<div class="col-md-7">
+					<div class="col-md-5">
+						<input class="form-control col-md-11 datepicker" type="text" id="<<date_range_from>>" value="" />
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-5">
+						<input class="form-control col-md-11 datepicker" type="text" id="<<date_range_to>>" value="" />
+					</div>
+				</div>
+				<div class="col-md-2">
+			    </div>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/javascript">
+		$(function(){
+
+			var time_range_count = $("#time_range_count").val();
+			var date_range_count = $("#date_range_count").val();
+			generateTimeRange(time_range_count);
+			generateDateRange(date_range_count);
+			generateDatePicker();
+
+		});
+
+
+		// function generateTimeRange(time_range_count)
+		// {
+	
+		// 		var time_range_id = "#time_range_id"+time_range_count;
+		// 		if($(time_range_id).html()==null)
+		// 		{
+		// 			//generate template here
+		// 			for(var i=1; i<= $("#time_range_count").val(); i++)
+		//        			{
+		// 					var template = $("#time_range_template").clone().html();
+		// 					var html = template
+		// 						.replace('<<time_start_monday>>','time_start_monday_'+i)
+		// 						.replace('<<time_start_tuesday>>','time_start_tuesday_'+i)
+		// 						.replace('<<time_start_wednesday>>','time_start_wednesday_'+i)
+		// 						.replace('<<time_start_thursday>>','time_start_thursday_'+i)
+		// 						.replace('<<time_start_friday>>','time_start_friday_'+i)
+		// 						.replace('<<time_start_saturday>>','time_start_saturday_'+i)
+		// 						.replace('<<time_end_monday>>','time_end_monday_'+i)
+		// 						.replace('<<time_end_tuesday>>','time_end_tuesday_'+i)
+		// 						.replace('<<time_end_wednesday>>','time_end_wednesday_'+i)
+		// 						.replace('<<time_end_thursday>>','time_end_thursday_'+i)
+		// 						.replace('<<time_end_friday>>','time_end_friday_'+i)
+		// 						.replace('<<time_end_saturday>>','time_end_saturday_'+i)
+		// 						.replace('<<start_count_no>>'," "+i)
+		// 						.replace('<<end_count_no>>'," "+i);
+		// 					// alert(html);
+		// 					$("#time_range_container").append(html);
+		// 				}
+		// 		}
+		// }
+		
+		function generateTimeRange(time_range_count)
+		{
+	
+			var time_range_count = $("#time_range_count").val();
+			var i = parseInt(time_range_count);
+			var template = $("#time_range_template").clone().html();
+			var html = template
+				.replace('<<time_start_monday>>','time_start_monday_'+i)
+				.replace('<<time_start_tuesday>>','time_start_tuesday_'+i)
+				.replace('<<time_start_wednesday>>','time_start_wednesday_'+i)
+				.replace('<<time_start_thursday>>','time_start_thursday_'+i)
+				.replace('<<time_start_friday>>','time_start_friday_'+i)
+				.replace('<<time_start_saturday>>','time_start_saturday_'+i)
+				.replace('<<time_end_monday>>','time_end_monday_'+i)
+				.replace('<<time_end_tuesday>>','time_end_tuesday_'+i)
+				.replace('<<time_end_wednesday>>','time_end_wednesday_'+i)
+				.replace('<<time_end_thursday>>','time_end_thursday_'+i)
+				.replace('<<time_end_friday>>','time_end_friday_'+i)
+				.replace('<<time_end_saturday>>','time_end_saturday_'+i)
+				.replace('<<start_count_no>>'," "+i)
+				.replace('<<end_count_no>>'," "+i);
+			// alert(html);
+			$("#time_range_container").append(html);
+
+		}
+
+		// function generateDateRange(date_range_count)
+		// {
+	
+		// 		var date_range_id = "#date_range_id"+date_range_count;
+		// 		if($(date_range_id).html()==null)
+		// 		{
+		// 			//generate template here
+		// 			for(var i=1; i<= $("#date_range_count").val(); i++)
+		//        			{
+		// 					var template = $("#date_range_template").clone().html();
+		// 					var html = template
+		// 						.replace('<<date_range_id>>','date_range_'+i)
+		// 						.replace('<<date_range_from>>','date_range_from_'+i)
+		// 						.replace('<<date_range_to>>','date_range_to_'+i)
+		// 						.replace('<<date_to_count>>',' '+i)
+		// 						.replace('<<date_from_count>>',' '+i);
+		// 					// alert(html);
+		// 					$("#date_range_container").append(html);
+		// 				}
+		// 		}
+		// }
+
+		function generateDateRange(date_range_count)
+		{
+			var date_range_count = $("#date_range_count").val();
+			var i = parseInt(date_range_count);
+			var template = $("#date_range_template").clone().html();
+			var html = template
+				.replace('<<date_range_id>>','date_range_'+i)
+				.replace('<<date_range_from>>','date_range_from_'+i)
+				.replace('<<date_range_to>>','date_range_to_'+i)
+				.replace('<<date_to_count>>',' '+i)
+				.replace('<<date_from_count>>',' '+i);
+			// alert(html);
+			$("#date_range_container").append(html);
+
+		}
+
+		// js for date picker and user validation
+		// $(function() {
+
+		// // $("#day_from").numericOnly();
+		// // $("#default_training_fee").decimalOnly();
+		// // $(".validate").validator();
+		// 	$('.datepicker').datepicker(
+		// 	{ 	
+		// 		format: "yyyy-mm-dd",
+		// 		orientation: "top left",
+		// 		autoclose: true,
+		// 	})
+		// });
+		function generateDatePicker()
+		{
+			$('.datepicker').datepicker(
+			{ 	
+				format: "yyyy-mm-dd",
+				orientation: "top left",
+				autoclose: true,
+			})
+
+
+		}
+
+	</script>
+	<script>
+			$("#add_time").click(function(){
+		  		// var a = $("#time_range_count").val();
+				// var b = parseInt(a)+parseInt(1);
+				// $("#time_range_container").empty();
+				// $("#time_range_count").val(b);
+				// var time_range_count = $("#time_range_count").val();
+				// generateTimeRange(time_range_count);
+				var time_range_count = $("#time_range_count").val();
+				time_range_count = parseInt(time_range_count)+parseInt(1);
+				$("#time_range_count").val(time_range_count);
+				generateTimeRange(time_range_count);
+		    });
+
+		    $("#add_date").click(function(){
+				// var a = $("#date_range_count").val();
+				// var b = parseInt(a)+parseInt(1);
+				// $("#date_range_container").empty();
+				// $("#date_range_count").val(b);
+				var date_range_count = $("#date_range_count").val();
+				date_range_count = parseInt(date_range_count)+parseInt(1);
+				$("#date_range_count").val(date_range_count);
+				generateDateRange(date_range_count);
+				generateDatePicker();
+
+		    });
+
+		    $("#save_update").click(function(){
+		        for(var i=1; i<= $("#date_range_count").val(); i++)
+		        {      
+		                $.ajax( 
+		                    {
+		                        url:'../../public/scheduler/create',
+		                        type:'post',
+		                        data:
+		                            {  
+		                                'course_id': $("#course_id").val(),
+		                                'batch': $("#batch").val(),
+		                                'start': $("#date_range_from_"+i).val(),
+		                                'end': $("#date_range_to_"+i).val()     
+		                            },
+		                        async:false		                    }
+		                ).done(function( data ) {
+		                    
+		                    // $("#date_range_"+i).remove();
+		                    // $("#message").html('Date Range.'+i+' was successfully saved.');
+
+		                });
+		           	$("#date_range_from_"+i).val('');
+		           	$("#date_range_to_"+i).val('');
+
+		        }
+		    });
+
+			// Date.prototype.getMonthWeek = function(){
+			//     var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay();
+			//     return Math.ceil((this.getDate() + firstDay)/7);
+			// }
+
+			// $("#result").html("Today is week " + new Date().getMonthWeek() );
+
+	</script>
+@stop

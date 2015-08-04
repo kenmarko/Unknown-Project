@@ -1,0 +1,81 @@
+<?php /* Web site Title */ ?>
+<?php $__env->startSection('title'); ?>
+<?php echo e(Lang::get("employee.employee")); ?> :: @parent
+<?php $__env->stopSection(); ?>
+<?php /* Content */ ?>
+<?php $__env->startSection('content'); ?>
+<div class="page-header">
+		<h2>
+			<?php echo e(Lang::get("employee.employee")); ?>
+
+
+		<div class="pull-right">
+			<a href="<?php echo e(URL::to('employee/create')); ?>" class="btn btn-sm  btn-primary"><span class="glyphicon glyphicon-plus-sign"></span>  <?php echo e(Lang::get('employee.create_employee')); ?></a>
+		</div>
+
+		</h2>
+	</div>
+
+	<table id="table" class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th><?php echo e(Lang::get("employee.employee_no")); ?></th>
+				<th> <?php echo e(Lang::get("employee.person_id")); ?></th>
+				<th> <?php echo e(Lang::get("employee.role_id")); ?></th>
+				<th> <?php echo e(Lang::get("employee.sss")); ?></th>
+				<th> <?php echo e(Lang::get("employee.tin")); ?></th>
+				<th> <?php echo e(Lang::get("employee.pagibig")); ?></th>
+				<th> <?php echo e(Lang::get("employee.philhealth")); ?></th>
+				<th> <?php echo e(Lang::get("employee.date_employed")); ?></th>
+				<th> <?php echo e(Lang::get("employee.employment_status_id")); ?></th>
+				<th> <?php echo e(Lang::get("employee.tax_status_code_id")); ?></th>
+				<th> <?php echo e(Lang::get("employee.bank_account_no")); ?></th>
+				<th> <?php echo e(Lang::get("employee.corporate_entity_id")); ?></th>
+				<th> <?php echo e(Lang::get("employee.is_active")); ?></th>
+				<th><?php echo e(Lang::get("site.action")); ?></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+<?php $__env->stopSection(); ?>
+    
+<?php /* Scripts */ ?>
+<?php $__env->startSection('scripts'); ?>
+	<script type="text/javascript">
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#table').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+
+				"bProcessing": true,
+		        "bServerSide": true,
+		        "sAjaxSource": "<?php echo e(URL::to('employee/data/')); ?>",
+		        "fnDrawCallback": function ( oSettings ) {
+	           		
+	     		}
+			});
+			var startPosition;
+           var endPosition;
+           $("#table tbody").sortable({
+            cursor : "move",
+                start : function(event, ui) {
+                    startPosition = ui.item.prevAll().length + 1;
+               },
+               update : function(event, ui) {
+                    endPosition = ui.item.prevAll().length + 1;
+                    var navigationList = "";
+                    $('#table #row').each(function(i) {
+                        navigationList = navigationList + ',' + $(this).val();
+                    });
+                    $.getJSON("<?php echo e(URL::to('employee/reorder')); ?>", {
+                        list : navigationList
+                    }, function(data) {
+                    });
+                }
+            });
+		});
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('site.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

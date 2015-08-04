@@ -1,0 +1,23 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('barangay_name_name') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="barangay_name_name"><?php echo Lang::get('barangay.barangay_name'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="barangay_name_name" id="barangay_name_name" value="<?php echo e(Input::old('barangay_name_name', isset($barangay_name) ? $barangay_name->barangay_name_name : null)); ?>" />
+			<?php echo $errors->first('barangay_name_name', '<label class="control-label" for="barangay_name_name">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('municipality_city_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="municipality_city_id"><?php echo Lang::get('barangay.municipality_city_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="municipality_city_id" id="municipality_city_id" value="<?php echo e(Input::old('municipality_city_id', isset($barangay_name) ? $barangay_name->municipality_city_id : null)); ?>" />
+			<?php echo $errors->first('municipality_city_id', '<label class="control-label" for="municipality_city_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+</div>
+
+

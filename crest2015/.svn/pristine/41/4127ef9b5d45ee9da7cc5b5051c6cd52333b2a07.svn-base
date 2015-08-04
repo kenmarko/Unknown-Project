@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'adjustment' => 'Adjustment',
+    'adjustment_name' => 'Adjustment Name',
+    'is_deduction' => 'Deduction',
+    'is_active' => 'Active',
+    'create_adjustment'=>'Create New Adjustment',
+    'edit_adjustment'=>'Edit Adjustment',
+    'delete_adjustment'=>'Delete Adjustment',
+    'create_success'=>'You have successfully created new Adjustment',
+    'adjustment_list'=>'Adjustment List',
+ ]; 

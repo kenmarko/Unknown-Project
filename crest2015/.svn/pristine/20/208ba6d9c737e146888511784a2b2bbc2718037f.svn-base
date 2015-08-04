@@ -1,0 +1,192 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Department;
+use App\Models\College;
+use App\Http\Requests\DepartmentRequest;
+use App\Http\Requests\DepartmentEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class DepartmentController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Department::where('department_name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Department::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('department.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        $college_list = College::orderBy('college.college_name')->get();
+        $action = 0;
+        // Show the page
+        return view('department.create',compact('college_list','action'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(DepartmentRequest $department_edit_request) {
+
+        $department = new Department();
+        $department -> department_name = $department_edit_request->department_name;
+        $department -> college_id = $department_edit_request->college_id;
+        $department -> chair_id = $department_edit_request->chair_id;
+        $department -> is_active = $department_edit_request->is_active;
+        // $department -> created_by_id = Auth::id();
+        $department -> save();
+
+        $success = \Lang::get('department.create_success').' : '.$department-> department_name = $department_edit_request->department_name;
+        return redirect('department/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $department = Department::find($id);
+       //var_dump($its_customs_office);
+        $college_list = College::orderBy('college.college_name')->get();
+        $action = 1;
+        return view('department/edit',compact('department','college_list','action'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(DepartmentEditRequest $department_edit_request, $id) {
+      
+        $department = Department::find($id);
+        $department -> department_name = $department_edit_request->department_name;
+        $department -> college_id = $department_edit_request->college_id;
+        $department -> chair_id = $department_edit_request->chair_id;
+        $department -> is_active = $department_edit_request->is_active;
+        // $department -> updated_by_id = Auth::id();
+        $department -> save();
+
+        return redirect('department');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $department = Department::find($id);
+        $college_list = College::orderBy('college.college_name')->get();
+        $action = 1;
+        // Show the page
+        return view('department/delete', compact('department','college_list','action'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $department = Department::find($id);
+        $department->delete();
+        return redirect('department');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $department_list = Department::join('college','department.college_id','=','college.id')
+              ->select(array('department.id','department.department_name','college.college_code','department.chair_id','department.is_active'))
+              ->orderBy('department.department_name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($department_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'department/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'department/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('is_active','@if($is_active == 1)
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                      @else
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                      @endif
+
+                        ')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Department::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

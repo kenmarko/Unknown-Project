@@ -1,0 +1,12 @@
+ <?php
+
+return [
+    'employment_status' => 'Employment Status',
+    'employment_status_name' => 'Employment Status Name',
+    'is_active' => 'Active',
+    'create_employment_status'=>'Create New Employment Status',
+    'edit_employment_status'=>'Edit Employment Status',
+    'delete_employment_status'=>'Delete Employment Status',
+    'create_success'=>'You have successfully created new Employment Status',
+    'employment_status_list'=>'Employment Status List',
+ ]; 

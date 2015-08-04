@@ -1,0 +1,24 @@
+<!-- <li >
+    <a href="<?php echo e(URL::to('information/')); ?>" <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.dashboard")); ?></span></a>
+</li> -->
+<li >
+    <a href="<?php echo e(URL::to('information/')); ?>" <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.enrollment")); ?></span></a>
+</li>
+<li >
+    <a href="<?php echo e(URL::to('information/trainee/')); ?>" <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.trainee")); ?></span></a>
+</li>
+<li >
+    <a  <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.make_up")); ?></span></a>
+</li>
+<li >
+    <a  <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.reschedule")); ?></span></a>
+</li>
+<!-- <li >
+    <a href="<?php echo e(URL::to('information/course_requirement/')); ?>" <?php echo e((Request::is('site/users') ? ' class=active' : '')); ?>>
+    <i class="fa fa-dashboard fa-fw"></i><span class="hidden-sm text"> <?php echo e(Lang::get("information.assign_requirements")); ?></span></a>
+</li> -->

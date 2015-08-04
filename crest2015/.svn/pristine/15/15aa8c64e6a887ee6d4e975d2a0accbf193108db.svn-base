@@ -1,0 +1,13 @@
+ <?php
+
+return [
+    'school' => 'School',
+    'school_name' => 'School Name',
+    'is_default' => 'Default',
+    'is_active' => 'Active',
+    'create_school'=>'Create New School',
+    'edit_school'=>'Edit School',
+    'delete_school'=>'Delete School',
+    'create_success'=>'You have successfully created new School',
+    'school_list'=>'School List',
+ ]; 

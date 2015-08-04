@@ -1,0 +1,451 @@
+<?php namespace App\Http\Controllers\Its;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\ItsController;
+use App\Models\Its\ItsImportEntryContainer;
+use App\Models\Its\ItsImportEntry;
+use App\Http\Requests\Its\ItsImportEntryContainerRequest;
+use App\Http\Requests\Its\ItsImportEntryContainerEditRequest;
+use App\Http\Requests\Its\DeleteRequest;
+use App\Http\Requests\Its\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+use DB;
+
+class ItsImportEntryContainerController extends ItsController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = ItsImportEntryContainer::where('code','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = ItsImportEntryContainer::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('its.its_import_entry_container.index');
+    }
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        return view('its.its_import_entry_container.create');
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(ItsImportEntryContainerRequest $its_import_entry_container_request) {
+
+        $its_import_entry_container = new ItsImportEntryContainer();
+        $its_import_entry_container -> container_no = $its_import_entry_container_request->container_no;
+        $its_import_entry_container -> description = $its_import_entry_container_request->description;
+        
+
+
+        $its_import_entry_container_request->awb_hbl_no;
+
+
+        $its_import_entry = ItsImportEntry::where("awb_hbl_no","=",  $its_import_entry_container_request->awb_hbl_no)->get();
+
+        if($its_import_entry ==null)
+        {
+           redirect('its/its_import_entry_container/create')->withError("AWB HBL NO not FOUND"); 
+
+        }
+        else
+        {
+
+          $its_import_entry_container->its_import_entry_id = $its_import_entry->id;
+
+          // $its_import_entry_container -> name = $its_import_entry_container_request->name;
+          $its_import_entry_container -> created_by_id = Auth::id();
+          $its_import_entry_container -> save();
+
+          $success = \Lang::get('its/its_import_entry_container.create_success').' : '.$its_import_entry_container->container_no ; 
+          return redirect('its/its_import_entry_container/create')->withSuccess( $success);
+      }
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $its_import_entry_container = ItsImportEntryContainer::find($id);
+       //var_dump($its_customs_office);
+        return view('its/its_import_entry_container/edit',compact('its_import_entry_container'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(ItsImportEntryContainerRequest $its_import_entry_container_request, $id) {
+      
+        $its_import_entry_container = ItsImportEntryContainer::find($id);
+         $its_import_entry_container -> awb_hbl_no = $its_import_entry_container_request->awb_hbl_no;
+         $its_import_entry_container -> container_no = $its_import_entry_container_request->container_no;
+         $its_import_entry_container -> description = $its_import_entry_container_request->description;
+        // $its_import_entry_container -> name = $its_import_entry_container_request->name;
+        $its_import_entry_container -> updated_by_id = Auth::id();
+        $its_import_entry_container -> save();
+
+        return redirect('its/its_import_entry_container');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $its_import_entry_container = ItsImportEntryContainer::find($id);
+        // Show the page
+        return view('its/its_import_entry_container/delete', compact('its_import_entry_container'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $its_import_entry_container = ItsImportEntryContainer::find($id);
+        $its_import_entry_container->delete();
+        return redirect('its/its_import_entry_container');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+public function TagReleased()
+{
+
+                $its_import_entry_container_list = ItsImportEntryContainer::with('its_tagging')->get();
+
+                   //iterate each import entry containers
+
+
+               foreach($its_import_entry_container_list as  $its_import_entry_container) 
+                 {
+                   //count the total tagging procedures
+                      $tagging_procedure_count = $its_import_entry_container->its_tagging->count();
+
+                      //count the tagging procedures with tagged_released = 1 
+                      $tagged_released_count = $its_import_entry_container->its_tagging()->where('tagged_released','=',1)->count();
+
+                   
+                        
+                      if($tagging_procedure_count == $tagged_released_count)
+                      {
+                        $status = "Full";
+                      }
+
+                      $status = "Partial";
+                   }
+              return $status;
+
+
+}
+public function TagReceived()
+{
+
+                $its_import_entry_container_list = ItsImportEntryContainer::with('its_tagging')->get();
+
+                   //iterate each import entry containers
+
+
+               foreach($its_import_entry_container_list as  $its_import_entry_container) 
+                 {
+                   //count the total tagging procedures
+                      $tagging_procedure_count = $its_import_entry_container->its_tagging->count();
+
+                      //count the tagging procedures with tagged_released = 1 
+                      $tagged_received_count = $its_import_entry_container->its_tagging()->where('tagged_received','=',1)->count();
+
+                   
+                        
+                      if($tagging_procedure_count == $tagged_received_count)
+                      {
+                        $status = "Full";
+                      }
+
+                      $status = "Partial";
+                   }
+              return $status;
+
+
+}
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+       //   $its_import_entry_container_list = ItsImportEntryContainer::select(array('its_import_entry_container.id', 'its_import_entry_container.container_no', 'its_import_entry_container.description'))
+         //     ->orderBy('its_import_entry_container.container_no', 'ASC');
+
+     //$its_import_entry_container_list = ItsImportEntryContainer::with("its_import_entry")->get();
+     //print $its_import_entry_container_list->count()."COUNT";
+
+        $its_import_entry_container_list =ItsImportEntryContainer::join('its_import_entry','its_import_entry_container.its_import_entry_id','=', 'its_import_entry.id')
+        ->select(array('its_import_entry_container.id', 'its_import_entry.awb_hbl_no','its_import_entry_container.container_no', 'its_import_entry_container.description', 'its_import_entry_container.tagged_released'))
+        ->orderBy('its_import_entry_container.container_no', 'ASC');
+
+       
+ 
+         return Datatables::of($its_import_entry_container_list)
+           
+            ->edit_column('tagged_released', '@if($tagged_released==1) FULL @else PARTIAL @endif')
+           // ->edit_column('tagged_received', '')
+             ->add_column('tagging', '<a href="{{{ URL::to(\'its/its_tagging/\' . $container_no . \'/index\' ) }}}" class="btn btn-info btn-sm" ><span class="glyphicon glyphicon-eye-open"></span> {{ Lang::get("its/form.view") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->add_column('actions', '<a href="{{{ URL::to(\'its/its_import_entry_container/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'its/its_import_entry_container/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                ItsImportEntryContainer::where('id', '=', $value) -> update(array('container_no' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}
+
+// use Illuminate\Http\Response;
+// use App\Http\Controllers\ItsController;
+// use App\Models\Its\ItsImportEntryContainer;
+// use App\Http\Requests\Its\ItsImportEntryContainerRequest;
+// use App\Http\Requests\Its\ItsImportEntryContainerEditRequest;
+// use App\Http\Requests\Its\DeleteRequest;
+// use App\Http\Requests\Its\ReorderRequest;
+// use Illuminate\Support\Facades\Auth;
+// use Datatables;
+// use Config;    
+// use Hash;
+
+// class ItsImportEntryContainerController extends ItsController {
+   
+
+//     /*
+//     return a list of country in json format based on a term
+//     **/
+//     public function search(){
+//       $term = Input::get('term');
+//       $result = ItsImportEntryContainer::where('code','LIKE','%$term%').orWhere('name','LIKE','%$term%')->get();
+//       return Response::json($result);
+//     }
+
+//     public function dataJson(){
+//       $result = ItsImportEntryContainer::where('is_active',1)->get();
+//       return response()->json($result);
+//     }
+
+//  /**
+//    * Display a listing of the resource.
+//    *
+//    * @return Response
+//    */
+//    public function index()
+//     {
+//         // Show the page
+//         return view('its.its_import_entry_container.index');
+//     }
+
+
+
+//       /**
+//        * Show the form for creating a new resource.
+//    *
+//      * @return Response
+//    */
+//      public function getCreate() {
+//          // Get all the available permissions
+  
+//          // Show the page
+//          return view('its.its_import_entry_container.create');
+//      }
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @return Response
+//     */
+//      public function postCreate(ItsImportEntryContainerRequest $its_import_entry_request) {
+
+//         $its_import_entry_container = new ItsImportEntryContainer();
+//         $its_import_entry_container -> container_no = $its_import_entry_container_request->container_no;
+
+//         $its_import_entry_container -> created_by_id = Auth::id();
+
+//         //just add asssignments here
+//         //$its_import_entry -> broker_tin = $its_import_entry_request->broker_tin;
+//         // $its_import_entry -> its_broker = $its_import_entry_request->its_broker;
+//         // $its_import_entry -> broker_tin = $its_import_entry_request->broker_tin;
+//         //$its_import_entry -> 
+
+//         //please continue - i will observe
+
+
+
+//         $its_import_entry_container -> save();
+
+//         $success = \Lang::get('its/its_import_entry_container.create_success').' : '.$its_import_entry_container->container_no ; 
+//         return redirect('its/its_import_entry/create')->withSuccess( $success);
+//     }
+
+// //  /**
+// //    * Show the form for editing the specified resource.
+// //    *
+// //    * @param  int  $id
+// //    * @return Response
+// //    */
+// //     public function getEdit($id) {
+// //         $its_import_entry_container = ItsImportEntryContainer::find($id);
+// //        //var_dump($its_customs_office);
+// //         return view('its/its_import_entry/edit',compact('its_import_entry'));
+      
+// //     }
+
+// //   /**
+// //    * Update the specified resource in storage.
+// //    *
+// //    * @param  int  $id
+// //    * @return Response
+// //    */
+// //     public function postEdit(ItsImportEntryRequest $its_import_entry_request, $id) {
+      
+// //         $its_import_entry = ItsImportEntry::find($id);
+// //         $its_import_entry -> registry_no = $its_import_entry_request->registry_no;
+// //         //$its_import_entry -> name = $its_import_entry_request->name;
+// //         $its_import_entry -> updated_by_id = Auth::id();
+// //         $its_import_entry -> save();
+
+// //         return redirect('its/its_import_entry');
+// //     }
+
+  
+// // /**
+// //      * Remove the specified resource from storage.
+// //      *
+// //      * @param $id
+// //      * @return Response
+// //      */
+     
+
+// //     public function getDelete($id)
+// //      {
+// //         $its_import_entry = ItsImportEntry::find($id);
+// //         // Show the page
+// //         return view('its/its_import_entry/delete', compact('its_import_entry'));
+// //     }
+
+// //  /**
+// //      * Remove the specified resource from storage.
+// //      *
+// //      * @param $id
+// //      * @return Response
+// //      */
+// //     public function postDelete(DeleteRequest $request,$id)
+// //     {
+// //         $its_import_entry = ItsImportEntry::find($id);
+// //         $its_import_entry->delete();
+// //         return redirect('its/its_import_entry');
+// //     }
+// /**
+//      * Show a list of all the languages posts formatted for Datatables.
+//      *
+//      * @return Datatables JSON
+//      */
+//  public function data()
+//     {
+//        // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+//           $its_import_entry_container = ItsImportEntryContainer::select(array('its_import_entry_container.id','its_import_entry_container.container_no'))
+//               ->orderBy('its_import_entry_container.container_no', 'ASC');
+//            // ->select(array('gen_language.name', 'gen_language.lang_code',
+//             //'_gen_language.icon as icon'));
+//        // $gen_language_list = GenLanguage::all();  //successfully  rseturned data from db
+//         //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+//          return Datatables::of($its_import_entry_container)
+//             ->add_column('actions', '<a href="{{{ URL::to(\'its/its_tagging/\' . $id . \'/..\' ) }}}" class="btn btn-primary btn-sm" > {{ Lang::get("its/form.tag") }}</a>
+//                     <input type="hidden" name="row" value="{{$id}}" id="row">')
+//              // ->add_column('tagged_released', '<a href="{{{ URL::to(\'/its/its_tagging/\' ) }}}" class="btn btn-info btn-sm" > {{ Lang::get("its/form.tag") }}</a>
+//              //        <input type="hidden" name="row" value="{{$id}}" id="row">')
+//              // ->add_column('tagged_received', '<a href="{{{ URL::to(\'/its/its_tagging/\' ) }}}" class="btn btn-info btn-sm" > {{ Lang::get("its/form.tags") }}</a>
+//              //        <input type="hidden" name="row" value="{{$id}}" id="row">')
+//             ->remove_column('id')
+//             ->make();
+//     }
+//    /**
+//      * Reorder items
+//      *
+//      * @param items list
+//      * @return items from @param
+//      */
+//     public function getReorder(ReorderRequest $request) {
+//         $list = $request->list;
+//         $items = explode(",", $list);
+//         $order = 1;                 
+//         foreach ($items as $value) {
+//             if ($value != '') {
+//                 ItsImportEntryContainer::where('id', '=', $value) -> update(array('container_no' => $order));
+//                 $order++;
+//             }
+//         }
+//         return $list;
+//     }
+
+
+// }

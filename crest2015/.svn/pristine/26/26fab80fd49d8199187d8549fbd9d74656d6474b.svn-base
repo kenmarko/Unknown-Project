@@ -1,0 +1,187 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\Session;
+use App\Models\Time;
+use App\Http\Requests\SessionRequest;
+use App\Http\Requests\SessionEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class SessionController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Session::where('session_name','LIKE','%$term%').orWhere('time_from_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Session::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('session.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+        $time_list = Time::orderBy('time.time_session','ASC')->get();
+        // Show the page
+        $action = 0;
+        return view('session.create',compact('action','time_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(SessionRequest $session_request) {
+
+        $session = new Session();
+        $session -> session_name = $session_request->session_name;
+        $session -> time_from_id = $session_request->time_from_id;
+        $session -> time_to_id = $session_request->time_to_id;
+        // $session -> created_by_id = Auth::id();
+        $session -> save();
+
+        $success = \Lang::get('session.create_success').' : '.$session->session_name ; 
+        return redirect('session/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $session = Session::find($id);
+        $time_list = Time::orderBy('time.time_session','ASC')->get();
+        $action = 1;
+        return view('session/edit',compact('session','time_list','action'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(SessionEditRequest $session_edit_request, $id) {
+      
+        $session = Session::find($id);
+        $session -> session_name = $session_edit_request->session_name;
+        $session -> time_from_id = $session_edit_request->time_from_id;
+        $session -> time_to_id = $session_edit_request->time_to_id;
+        // $session -> updated_by_id = Auth::id();
+        $session -> save();
+
+        return redirect('session');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $session = Session::find($id);
+        // Show the page
+        $time_list = Time::orderBy('time.time_session','ASC')->get();
+        $action = 1;
+        return view('session/delete', compact('session','time_list','action'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $session = Session::find($id);
+        $session->delete();
+        return redirect('session');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $session_list = Session::leftJoin('time as time_from','session.time_from_id','=','time_from.id')
+              ->leftJoin('time as time_to','session.time_to_id','=','time_to.id')
+              ->select(array('session.id','session.session_name','time_from.time_description as time_from_id','time_from.time_session as session_from','time_to.time_session as session_to','time_to.time_description as time_to_id'))
+              ->orderBy('session.session_name', 'ASC');
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+    
+        return Datatables::of($session_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'session/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'session/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->editColumn('time_from_id','{{ $time_from_id."&nbsp;".$session_from }}')
+            ->editColumn('time_to_id','{{ $time_to_id."&nbsp;".$session_to }}')
+            ->removeColumn('session_from')
+            ->removeColumn('session_to')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Session::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

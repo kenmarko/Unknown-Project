@@ -1,0 +1,33 @@
+<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>" />
+<div class="col-md-12">
+	<div class="form-group <?php echo e($errors->has('person_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="person_id"><?php echo Lang::get('person_credential.person_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="person_id" id="person_id" value="<?php echo e(Input::old('person_id', isset($person_credential) ? $person_credential->person_id : null)); ?>" />
+			<?php echo $errors->first('person_id', '<label class="control-label" for="person_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('credential_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="credential_id"><?php echo Lang::get('person_credential.credential_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="credential_id" id="credential_id" value="<?php echo e(Input::old('credential_id', isset($person_credential) ? $person_credential->credential_id : null)); ?>" />
+			<?php echo $errors->first('credential_id', '<label class="control-label" for="credential_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+	<div class="form-group <?php echo e($errors->has('file_id') ? 'has-error' : ''); ?>">
+		<label class="col-md-2 control-label" for="file_id"><?php echo Lang::get('person_credential.file_id'); ?></label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="file_id" id="file_id" value="<?php echo e(Input::old('file_id', isset($person_credential) ? $person_credential->file_id : null)); ?>" />
+			<?php echo $errors->first('file_id', '<label class="control-label" for="file_id">:message</label>'); ?>
+
+
+		</div>
+	</div>
+
+</div>
+
+

@@ -1,0 +1,250 @@
+<?php namespace App\Http\Controllers;
+
+use Illuminate\Http\Response;
+use App\Models\Course;
+use App\Models\Guardian;
+use App\Models\Person;
+use App\Models\Trainee;
+use App\Models\Suffix;
+use App\Models\Rank;
+use App\Models\CourseRequirement;
+use App\Models\Requirement;
+use App\Http\Requests\EnrollmentRequest;
+use App\Http\Requests\EnrollmentEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;  
+use Datatables;
+use Config;    
+use Hash;
+
+class EnrollmentController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = Enrollment::where('description','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = Enrollment::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        $course_list = Course::orderBy('course.course_code')->get();
+        return view('information_dashboard/enrollment.index',compact('course_list'));
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getEnroll() {
+        // Show the page
+        $action = 0;
+        $course_requirement_list = CourseRequirement::orderBy('course_requirement.course_id')->get();
+        $requirement_list = Requirement::orderBy('requirement.description')->get();
+        $course_list = Course::orderBy('course.description','ASC')->get();
+        $suffix_list = Suffix::orderBy('suffix.suffix_name')->get();
+        $rank_list = Rank::orderBy('rank.rank_name')->get();
+        return view('information_dashboard/enrollment.enroll',compact('course_list','course_requirement_list','action','requirement_list','suffix_list','rank_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postEnroll(EnrollmentRequest $enrollment_request) {
+
+
+        $person = new Person();
+
+        $count = Person::all()->count();
+        $person_id = Person::max('person.id');
+        if($count > 0)
+        {
+          $person_id = $person_id + 1;
+        }
+        else
+        {
+          $person_id = 1;
+        }
+
+        $person -> id = $person_id;
+        $person -> first_name = $enrollment_request->first_name;
+        $person -> last_name = $enrollment_request->last_name;
+        $person -> middle_name = $enrollment_request->middle_name;
+        $person -> suffix_id = $enrollment_request->suffix_id;
+        $person -> birth_date = $enrollment_request->birth_date;
+        $person -> birth_place = $enrollment_request->birth_place;
+
+
+        $guardian = new Guardian();
+        $count = Guardian::all()->count();
+        $guardian_id = Guardian::max('guardian.id');
+        if($count > 0)
+        {
+          $guardian_id = $guardian_id + 1;
+        }
+        else
+        {
+          $guardian_id = 1;
+        }
+
+        $guardian -> id = $guardian_id;
+        $guardian -> first_name = $enrollment_request -> guardian_first_name;
+        $guardian -> last_name = $enrollment_request -> guardian_last_name;
+        $guardian -> middle_name = $enrollment_request -> guardian_middle_name;
+        $guardian -> contact_no = $enrollment_request -> guardian_contact;
+        $guardian -> address = $enrollment_request -> guardian_address;
+
+
+        $trainee = new Trainee();
+        $count = Trainee::all()->count();
+        $trainee_id = Trainee::max('trainee.trainee_no');
+        if($count > 0)
+        {
+          $trainee_id = $trainee_id + 1;
+        }
+        else
+        {
+          $trainee_id = 1;
+        }
+        
+
+        $trainee -> trainee_no =$trainee_id;
+        $trainee -> person_id = $person->id;
+        $trainee -> email_address = $enrollment_request->email_address;
+        $trainee -> rank_id = $enrollment_request->rank_id;
+        $trainee -> contact_no = $enrollment_request->contact_no;
+        $trainee -> course_finished = $enrollment_request->course_finished;
+        $trainee -> school_graduated = $enrollment_request->school_graduated;
+        $trainee -> school_address = $enrollment_request->school_address;
+        $trainee -> guardian_id = $guardian->id;
+
+
+        $guardian -> save();
+        $trainee -> save();
+        $person -> save();
+        $success = \Lang::get('enrollment.create_success').' : '.$person->first_name. " ".$person->middle_name. " ".$person->last_name. " ".$person->suffix_id; 
+        return redirect('information/enrollment/enroll')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $trainee = Trainee::find($id);
+        return view('enrollment/edit',compact('trainee'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(PersonEditRequest $person_edit_request, $id) {
+      
+        $person = Person::find($id);
+        $person -> last_name = $person_edit_request->last_name;
+        $person -> middle_name = $person_edit_request->middle_name;
+        $person -> first_name = $person_edit_request->first_name;
+        $person -> suffix_id = $person_edit_request->suffix_id;
+        $person -> birth_date = $person_edit_request->birth_date;
+        $person -> birth_place = $person_edit_request->birth_place;
+        $person -> email_address = $person_edit_request->email_address;
+        $person -> rank = $person_edit_request->rank;
+        $person -> contact_no = $person_edit_request->contact_no;
+        $person -> course_finished = $person_edit_request->course_finished;
+        $book -> save();
+
+        return redirect('enrollment');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $trainee = Trainee::find($id);
+        // Show the page
+        return view('enrollment/delete', compact('trainee'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $trainee = Trainee::find($id);
+        $trainee->delete();
+        return redirect('enrollment');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+             $book_list = Course::select(array('course.id','course.description','course.day_from','course.day_to','course.max_batch','course.min_capacity','course.max_capacity','course.default_training_fee'))
+              ->orderBy('course.id', 'ASC');
+     
+        return Datatables::of($book_list)
+            ->add_column('actions', '<a href="{{{ URL::to(\'dashboard/book/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("form.edit") }}</a>
+                    <a href="{{{ URL::to(\'dashboard/book/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->remove_column('id')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                Book::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}

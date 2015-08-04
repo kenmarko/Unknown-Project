@@ -1,0 +1,28 @@
+<?php
+
+
+use App\Models\Generic\GenGender;
+
+use Illuminate\Database\Seeder;
+
+class GenGenderTableSeeder extends Seeder {
+
+    public function run()
+    {
+        DB::table('gen_gender')->delete();
+
+        $gen_gender_arr = array(
+            array(
+                'name'       => 'Male',
+                'code' => 'M'
+            ),
+             array(
+                'name'       => 'Female',
+                'code' => 'F'
+            )
+        );
+
+        DB::table('gen_gender')->insert( $gen_gender_arr );
+    }
+
+}

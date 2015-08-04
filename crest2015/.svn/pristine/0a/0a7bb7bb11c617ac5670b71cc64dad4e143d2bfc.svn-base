@@ -1,0 +1,76 @@
+@extends('site.layouts.default')
+
+{{-- Web site Title --}}
+@section('title')
+{{{ Lang::get("employee.employee") }}} :: @parent
+@stop
+{{-- Content --}}
+@section('content')
+<div class="page-header">
+		<h2>
+			{{{ Lang::get("employee.employee") }}}
+
+		</h2>
+	</div>
+
+	<table id="table" class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>{{ Lang::get("employee.employee_no") }}</th>
+				<th> {{ Lang::get("employee.person_id") }}</th>
+				<th> {{ Lang::get("employee.sss") }}</th>
+				<th> {{ Lang::get("employee.tin") }}</th>
+				<th> {{ Lang::get("employee.pagibig") }}</th>
+				<th> {{ Lang::get("employee.philhealth") }}</th>
+				<th> {{ Lang::get("employee.date_employed") }}</th>
+				<th> {{ Lang::get("employee.employment_status_id") }}</th>
+				<th> {{ Lang::get("employee.tax_status_code_id") }}</th>
+				<th> {{ Lang::get("employee.bank_account_no") }}</th>
+				<th> {{ Lang::get("employee.corporate_entity_id") }}</th>
+				<th> {{ Lang::get("employee.is_active") }}</th>
+				<th>{{ Lang::get("site.action") }}</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+@stop
+    
+{{-- Scripts --}}
+@section('scripts')
+	<script type="text/javascript">
+		var oTable;
+		$(document).ready(function() {
+			oTable = $('#table').dataTable( {
+				"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-6'i><'col-md-6'p>>",
+				"sPaginationType": "bootstrap",
+
+				"bProcessing": true,
+		        "bServerSide": true,
+		        "sAjaxSource": "{{ URL::to('employee/data/') }}",
+		        "fnDrawCallback": function ( oSettings ) {
+	           		
+	     		}
+			});
+			var startPosition;
+           var endPosition;
+           $("#table tbody").sortable({
+            cursor : "move",
+                start : function(event, ui) {
+                    startPosition = ui.item.prevAll().length + 1;
+               },
+               update : function(event, ui) {
+                    endPosition = ui.item.prevAll().length + 1;
+                    var navigationList = "";
+                    $('#table #row').each(function(i) {
+                        navigationList = navigationList + ',' + $(this).val();
+                    });
+                    $.getJSON("{{ URL::to('employee/reorder') }}", {
+                        list : navigationList
+                    }, function(data) {
+                    });
+                }
+            });
+		});
+	</script>
+@stop

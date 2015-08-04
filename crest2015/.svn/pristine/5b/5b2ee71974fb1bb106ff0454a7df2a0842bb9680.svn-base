@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.4.final using JasperReports Library version 6.0.4  -->
+<!-- 2015-05-11T13:53:58 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportGen" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e8f19170-271c-4c19-8f8a-30968bac296c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL"/>
+	<queryString language="SQL">
+		<![CDATA[Select * from erp2015.its_import_entry]]>
+	</queryString>
+	<field name="awb_hbl_no" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="its_broker" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ex_company_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="im_company_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="125">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="145" backcolor="#FFFFFF" uuid="048ba374-2641-4aa6-ae3e-80446092fee5"/>
+				<image>
+					<reportElement x="120" y="10" width="61" height="70" uuid="d74db88a-3d84-42f4-87e5-b501ba145a87"/>
+					<imageExpression><![CDATA["C:/wamp/www/erp2015/public/BOC.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement x="212" y="10" width="160" height="21" forecolor="#000000" uuid="46f1e2de-306a-4b0f-a042-d802378adde7"/>
+					<textElement>
+						<font size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Republic of the Philippines]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="210" y="21" width="160" height="21" forecolor="#000000" uuid="0ad60516-bc05-4fe3-a07a-4da88f4b4d77"/>
+					<textElement>
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Department of Finance]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="241" y="54" width="73" height="21" forecolor="#000000" uuid="302351cd-c79d-4ce8-9ddf-db4a4ec41e3c"/>
+					<textElement>
+						<font size="12" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cebu - PEZA]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="201" y="34" width="213" height="30" forecolor="#000000" uuid="cb3a0a58-4f65-4850-a94f-16200c95a930"/>
+					<textElement>
+						<font size="18" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Bureau of Customs]]></text>
+				</staticText>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="430" y="90" width="144" height="20" forecolor="#000000" uuid="46cf0709-73c1-49d4-9fbf-dfbdcd01e689"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="111" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="dd50099a-ebcb-4ed7-9234-c39bbc1ecbec"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AWB/WBL No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="111" y="0" width="182" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="d769d137-edeb-47ed-813e-8965cfc210f4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Broker]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="293" y="0" width="130" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="70213ce8-0449-44d8-a601-f62e53306847"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Expoter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="0" width="130" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="c6e452ad-9051-4c70-9afe-a08cecfb116f"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Importer]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="1" y="0" width="555" height="1" uuid="fbc7818d-1e59-4367-a5d5-d423339400b2"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="1" y="18" width="555" height="1" uuid="b6c94b4d-2c38-42b2-9cb3-f60f897f9def"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="c5d3436c-d5e6-4e7b-84d5-34c075395592"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="111" height="20" uuid="fad23411-5ded-4ee5-b526-9ab2f26b3193"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{awb_hbl_no}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="111" y="0" width="182" height="20" uuid="967ad81d-ab90-4eca-a5f7-48414739a277"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{its_broker}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="293" y="0" width="130" height="20" uuid="9afa787d-910a-45cb-b8e7-50de7f5e5a8c"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ex_company_address}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="423" y="0" width="130" height="20" uuid="10603ebc-536c-4721-bf75-eaedbf4c7c71"/>
+				<textElement textAlignment="Left">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{im_company_address}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="-35" width="1" height="54" uuid="63d9922b-05e4-4f9c-8bdd-5c95a8c078b1"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="111" y="-35" width="1" height="54" uuid="266b6cd1-6fc6-420b-929a-00d687a978eb"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="293" y="-35" width="1" height="54" uuid="7f7d58e2-24f7-41e9-b78d-98357664f00e"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="422" y="-35" width="1" height="54" uuid="862bfeba-99db-47b3-b789-ad2f02138723"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="555" y="-35" width="1" height="54" uuid="94b7f39b-b9fd-453a-8aae-8922e4eebd7d"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="ee70ec7a-a201-4722-bf52-5f3d1f0766f8"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="3a8d8c81-5fc6-46d6-9f85-ba6ea8e93fa4"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

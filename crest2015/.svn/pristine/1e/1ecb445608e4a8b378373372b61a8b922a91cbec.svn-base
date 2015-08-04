@@ -1,0 +1,21 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="name">{!! Lang::get('its/its_bank.name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="name" id="name" value="{{{ Input::old('name', isset($its_bank) ? $its_bank->name : null) }}}" />
+			{!! $errors->first('name', '<label class="control-label" for="name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('code') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="code">{!! Lang::get('its/its_bank.code') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="code" id="code" value="{{{ Input::old('code', isset($its_bank) ? $its_bank->code : null) }}}" />
+			{!! $errors->first('code', '<label class="control-label" for="code">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

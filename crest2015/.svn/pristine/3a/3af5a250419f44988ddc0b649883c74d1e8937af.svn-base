@@ -1,0 +1,29 @@
+<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+<div class="col-md-12">
+	<div class="form-group {{{ $errors->has('adjustment_name') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="adjustment_name">{!! Lang::get('adjustment.adjustment_name') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="adjustment_name" id="adjustment_name" value="{{{ Input::old('adjustment_name', isset($adjustment) ? $adjustment->adjustment_name : null) }}}" />
+			{!! $errors->first('adjustment_name', '<label class="control-label" for="adjustment_name">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_deduction') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_deduction">{!! Lang::get('adjustment.is_deduction') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_deduction" id="is_deduction" value="{{{ Input::old('is_deduction', isset($adjustment) ? $adjustment->is_deduction : null) }}}" />
+			{!! $errors->first('is_deduction', '<label class="control-label" for="is_deduction">:message</label>')!!}
+
+		</div>
+	</div>
+	<div class="form-group {{{ $errors->has('is_active') ? 'has-error' : '' }}}">
+		<label class="col-md-2 control-label" for="is_active">{!! Lang::get('adjustment.is_active') !!}</label>
+		<div class="col-md-10">
+			<input class="form-control" type="text" name="is_active" id="is_active" value="{{{ Input::old('is_active', isset($adjustment) ? $adjustment->is_active : null) }}}" />
+			{!! $errors->first('is_active', '<label class="control-label" for="is_active">:message</label>')!!}
+
+		</div>
+	</div>
+</div>
+
+

@@ -1,0 +1,201 @@
+<?php namespace App\Http\Controllers;
+
+use DB;
+use Illuminate\Http\Response;
+use App\Http\Controllers\BaseController;
+use App\Models\CurriculumCourse;
+use App\Models\Program;
+use App\Models\Curriculum;
+use App\Http\Requests\CurriculumCourseRequest;
+use App\Http\Requests\CurriculumCourseEditRequest;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\ReorderRequest;
+use Illuminate\Support\Facades\Auth;
+use Datatables;
+use Config;    
+use Hash;
+
+class CurriculumCourseController extends BaseController {
+   
+
+    /*
+    return a list of country in json format based on a term
+    **/
+    public function search(){
+      $term = Input::get('term');
+      $result = CurriculumCourse::where('curriculum_id','LIKE','%$term%')->get();
+      return Response::json($result);
+    }
+
+    public function dataJson(){
+      $result = CurriculumCourse::where('is_active',1)->get();
+      return response()->json($result);
+    }
+
+ /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+   public function index()
+    {
+        // Show the page
+        return view('curriculum_course.index');
+    }
+
+
+
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function getCreate() {
+        // Get all the available permissions
+  
+        // Show the page
+        $curriculum_list = Curriculum::orderBy('curriculum.program_id')->get();
+        $program_list = Program::orderBy('program.program_name')->get();
+        $action = 0;
+        return view('curriculum_course.create',compact('curriculum_list','action','program_list'));
+    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @return Response
+   */
+    public function postCreate(CurriculumCourseRequest $curriculum_course_request) {
+
+        $curriculum_course = new CurriculumCourse();
+        $curriculum_course -> curriculum_id = $curriculum_course_request->curriculum_id;
+        $curriculum_course -> semester_level_id = $curriculum_course_request->semester_level_id;
+        $curriculum_course -> classification_level_id = $curriculum_course_request->classification_level_id;
+        $curriculum_course -> curriculum_course_category_id = $curriculum_course_request->curriculum_course_category_id;
+        $curriculum_course -> term_type_id = $curriculum_course_request->term_type_id;
+        // $curriculum_course -> created_by_id = Auth::id();
+        $curriculum_course -> save();
+
+        $success = \Lang::get('curriculum_course.create_success').' : '.$curriculum_course->curriculum_id ; 
+        return redirect('curriculum_course/create')->withSuccess( $success);
+    }
+
+ /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function getEdit($id) {
+        $curriculum_course = CurriculumCourse::find($id);
+       //var_dump($its_customs_office);
+        return view('curriculum_course/edit',compact('curriculum_course'));
+      
+    }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+    public function postEdit(CurriculumCourseEditRequest $curriculum_course_edit_request, $id) {
+      
+        $curriculum_course = CurriculumCourse::find($id);
+        $curriculum_course -> curriculum_id = $curriculum_course_edit_request->curriculum_id;
+        $curriculum_course -> semester_level_id = $curriculum_course_edit_request->semester_level_id;
+        $curriculum_course -> classification_level_id = $curriculum_course_edit_request->classification_level_id;
+        $curriculum_course -> curriculum_course_category_id = $curriculum_course_edit_request->curriculum_course_category_id;
+        $curriculum_course -> term_type_id = $curriculum_course_edit_request->term_type_id;
+        // $curriculum_course -> updated_by_id = Auth::id();
+        $curriculum_course -> save();
+
+        return redirect('curriculum_course');
+    }
+
+  
+/**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+     
+
+    public function getDelete($id)
+     {
+        $curriculum_course = CurriculumCourse::find($id);
+        // Show the page
+        return view('curriculum_course/delete', compact('curriculum_course'));
+    }
+
+ /**
+     * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return Response
+     */
+    public function postDelete(DeleteRequest $request,$id)
+    {
+        $curriculum_course = CurriculumCourse::find($id);
+        $curriculum_course->delete();
+        return redirect('curriculum_course');
+    }
+/**
+     * Show a list of all the languages posts formatted for Datatables.
+     *
+     * @return Datatables JSON
+     */
+ public function data()
+    {
+       // $gen_language = GenLanguage::whereNull('gen_language.deleted_at')
+          $curriculum_course_list = CurriculumCourse::join('curriculum','curriculum_course.curriculum_id','=','curriculum.id')
+              ->join('program','curriculum.program_id','=','program.id')
+              ->join('term','curriculum.term_id','=','term.id')
+              ->join('curriculum_course_category','curriculum_course.curriculum_course_category_id','=','curriculum_course_category.id')
+              ->join('classification_level','curriculum_course.classification_level_id','=','classification_level.id')
+              ->join('term_type','curriculum_course.term_type_id','=','term_type.id')
+              ->select(array('curriculum_course.id','program.program_code','term.term_name','curriculum_course.semester_level_id','classification_level.classification_level_name',
+              'curriculum_course_category.curriculum_course_category_name','term_type.term_type_name',))
+               ->orderBy('curriculum_course.curriculum_id', 'ASC');
+
+              // ->select(array('curriculum_course.id',DB::raw('CONCAT(program.program_name, " ",term.term_name) AS curriculum'),'curriculum_course.semester_level_id','curriculum_course.classification_level_id',
+              //   'curriculum_course.curriculum_course_category_id','curriculum_course.term_type_id'))
+              // ->orderBy('curriculum_course.curriculum_id', 'ASC')
+              // ->lists('curriculum_course.id','curriculum','curriculum_course.semester_level_id','curriculum_course.classification_level_id','curriculum_course.curriculum_course_category_id','curriculum_course.term_type_id');
+
+           // ->select(array('gen_language.name', 'gen_language.lang_code',
+            //'_gen_language.icon as icon'));
+       // $gen_language_list = GenLanguage::all();  //successfully  returned data from db
+        //var_dump($gen_language_list);  //i am doing debugging procedure. to check if there is available dataa retreive from db
+
+        return Datatables::of($curriculum_course_list)
+            ->addColumn('actions', '<a href="{{{ URL::to(\'curriculum_course/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm" ><span class="glyphicon glyphicon-pencil"></span> {{ Lang::get("its/form.edit") }}</a>
+                    <a href="{{{ URL::to(\'curriculum_course/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span> {{ Lang::get("its/form.delete") }}</a>
+                    <input type="hidden" name="row" value="{{$id}}" id="row">')
+            ->removeColumn('id')
+            ->editColumn('program_code','{{$program_code."&nbsp;".$term_name}}')
+            ->removeColumn('term_name')
+            ->make();
+    }
+   /**
+     * Reorder items
+     *
+     * @param items list
+     * @return items from @param
+     */
+    public function getReorder(ReorderRequest $request) {
+        $list = $request->list;
+        $items = explode(",", $list);
+        $order = 1;                 
+        foreach ($items as $value) {
+            if ($value != '') {
+                CurriculumCourse::where('id', '=', $value) -> update(array('name' => $order));
+                $order++;
+            }
+        }
+        return $list;
+    }
+
+
+}
